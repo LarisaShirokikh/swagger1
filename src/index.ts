@@ -60,6 +60,17 @@ app.delete('/videos/:id',(req: Request, res: Response) => {
     res.send(404)
 })
 
+app.put('/videos/:videoId', (req: Request, res: Response) => {
+    const video = videos.find(v => v.id === +req.params.id)
+    if (video) {
+        video.title = req.body.title
+        res.send(video)
+
+    } else {
+        res.send(404)
+    }
+})
+
 
 
 
