@@ -2,6 +2,7 @@ import express, {Request, Response} from 'express'
 import cors from 'cors'
 const app = express()
 const port = process.env.PORT || 3000
+app.use(cors())
 
 
 
@@ -14,9 +15,9 @@ const videos = [
     {id: 5, title: 'About JS - 05', author: 'it-incubator.eu'},
 ]
 
-app.use(cors())
+
 app.get('/videos', (req: Request, res: Response) => {
-    res.send(videos)
+        res.send(videos)
 })
 
 app.post('/videos', (req: Request, res: Response) => {
@@ -26,14 +27,31 @@ app.post('/videos', (req: Request, res: Response) => {
         author: 'it-incubator.eu'
     }
     videos.push(newVideo)
-    res.send(newVideo)
+    res.send(200)
 })
 
 app.get('/videos/:videoId', (req: Request, res: Response) => {
-    let id = +req.params.videoId;
-    // FIND VIDEO AND RETURN IT
-    // IF VIDEO IS NOW EXISTS THEN RETURN 404 CODE
+       const video = videos.find(v => v.id === +req.params.id)
+       if (video) {
+           res.send(video)
+       } else {
+           res.send(404)
+       }
 })
+
+app.put('/videos/:id',(req: Request, res: Response) => {
+    // put your code here
+})
+
+app.delete('/videos/:id',(req: Request, res: Response) => {
+    const video = videos.find(v => v.id === +req.params.id)
+    if (video)
+    res.send(204)
+    } else {
+    res.send(404)
+})
+
+
 
 
 app.get('/', (req: Request, res: Response) => {
@@ -41,9 +59,6 @@ app.get('/', (req: Request, res: Response) => {
     res.send(helloMessage)
 })
 
-app.delete('/videos/:id',(req: Request, res: Response)=>{
-    // put your code here
-})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
