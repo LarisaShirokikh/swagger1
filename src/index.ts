@@ -40,15 +40,18 @@ app.get('/videos/:videoId', (req: Request, res: Response) => {
 })
 
 app.put('/videos/:id',(req: Request, res: Response) => {
-    // put your code here
+   if(req.query.title) {
+    res.send(videos.filter(v => v.title.indexOf(req.query.title) > -1))
+    } else {
+       res.send(videos)
+
+   }
 })
 
 app.delete('/videos/:id',(req: Request, res: Response) => {
     const video = videos.find(v => v.id === +req.params.id)
-    if (video)
+    return video
     res.send(204)
-    } else {
-    res.send(404)
 })
 
 
