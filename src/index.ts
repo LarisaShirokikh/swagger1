@@ -16,9 +16,6 @@ const videos = [
 ]
 
 
-app.get('/videos', (req: Request, res: Response) => {
-        res.send(videos)
-})
 
 app.post('/videos', (req: Request, res: Response) => {
     const newVideo = {
@@ -39,12 +36,12 @@ app.get('/videos/:videoId', (req: Request, res: Response) => {
        }
 })
 
-app.put('/videos/:id',(req: Request, res: Response) => {
+app.get('/videos/:id',(req: Request, res: Response) => {
    if(req.query.title) {
-    res.send(videos.filter(v => v.title.indexOf(req.query.title) > -1))
+       let searchString = req.query.title.toString()
+    res.send(videos.filter(v => v.title.indexOf(searchString) > -1))
     } else {
        res.send(videos)
-
    }
 })
 
