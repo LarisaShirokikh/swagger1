@@ -16,6 +16,8 @@ const videos = [
     {id: 5, title: 'About JS - 05', author: 'it-incubator.eu'},
 ]
 
+const parserMiddleware = bodyParser({})
+app.use(parserMiddleware)
 
 
 app.post('/videos', (req: Request, res: Response) => {
