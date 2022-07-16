@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express'
 import cors from 'cors'
+import bodyParser from "body-parser"
 const app = express()
 const port = process.env.PORT || 3000
 app.use(cors())
@@ -18,13 +19,14 @@ const videos = [
 
 
 app.post('/videos', (req: Request, res: Response) => {
-    const newVideo = {
-        id: +(new Date()),
-        title: req.body.title,
-        author: 'it-incubator.eu'
-    }
-    videos.push(newVideo)
-    res.send(200)
+     const newVideo = {
+         id: +(new Date()),
+         title: req.body.title,
+         author: 'it-incubator.eu'
+     }
+     videos.push(newVideo)
+    res.status(201).send(newVideo)
+
 })
 
 app.get('/videos/:videoId', (req: Request, res: Response) => {
