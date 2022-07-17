@@ -5,6 +5,11 @@ import {create} from "domain";
 
 export const videosRoute = Router({})
 
+videosRoute.get('/', (req: Request, res: Response) => {
+    let video = videosRepository.getVideos()
+    res.send(video)
+
+})
 
 videosRoute.post('/', (req: Request, res: Response) => {
     const newVideo = videosRepository.createVideo(req.body.title)
@@ -12,14 +17,14 @@ videosRoute.post('/', (req: Request, res: Response) => {
 
 })
 
-videosRoute.get('/', (req: Request, res: Response) => {
+videosRoute.get('/:id', (req: Request, res: Response) => {
     let video = videosRepository.getVideoById(req.params.id)
     if (video) {
         res.send(200)
     }
 })
 
-videosRoute.get('/:id', (req: Request, res: Response) => {
+videosRoute.get('/', (req: Request, res: Response) => {
     const foundVideo = videosRepository.findVideo(req.query.title?.toString());
     res.send(foundVideo)
 

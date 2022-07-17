@@ -17,6 +17,10 @@ export const videosRepository = {
         }
     },
 
+    getVideos(){
+        return videos
+    },
+
     findVideoById(id: string) {
         const video = videos.find(v => v.id === +id)
         return video
