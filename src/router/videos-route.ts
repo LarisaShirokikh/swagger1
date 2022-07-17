@@ -2,7 +2,7 @@ import {Request, Response, Router} from "express"
 import {videosRepository} from "../repositories/videos-repository";
 import {create} from "domain";
 import {body} from "express-validator";
-
+import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 
 
 export const videosRoute = Router({})
@@ -45,10 +45,10 @@ videosRoute.delete('/:id', (req: Request, res: Response) => {
     }
 })
 
-videosRoute.put('/:id', (req: Request, res: Response) => {
-    const video = videosRepository.createVideo(req.body.title)
-    if(video) {
-        res.send(video)
+videosRoute.put('/:id', titleValidation, inputValidationMiddleware, (req: Request, res: Response) => {
+    const video = videosRepository.updateVideoTitle(req.params.id, req.body.title);
+    if (video) {
+        res.send(204)
     } else {
         res.send(404)
     }

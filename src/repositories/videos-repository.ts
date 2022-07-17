@@ -42,7 +42,7 @@ export const videosRepository = {
     },
 
 
-    updateVideo(id: string, title: string) {
+    updateVideoTitle(id: string, title: string) {
         let video = videos.find(v => v.id === +id)
         if (video) {
             video.title = title
