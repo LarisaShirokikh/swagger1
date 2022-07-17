@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000
 
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
-app.use(cors())
+
 
 
 app.get('/', (req: Request, res: Response) => {
