@@ -1,9 +1,15 @@
 import {Request, Response, Router} from "express"
 import {videosRepository} from "../repositories/videos-repository";
 import {create} from "domain";
+import {body} from "express-validator";
+
 
 
 export const videosRoute = Router({})
+const titleValidation = body('title').trim().isLength({
+    min: 1,
+    max: 30
+}).withMessage('Title should be from 1 to 30 symbols');
 
 videosRoute.get('/', (req: Request, res: Response) => {
     let video = videosRepository.getVideos()
@@ -40,11 +46,11 @@ videosRoute.delete('/:id', (req: Request, res: Response) => {
 })
 
 videosRoute.put('/:id', (req: Request, res: Response) => {
-    const isUpdated = videosRepository.updateVideo(req.params.id, req.body.title)
-    if (isUpdated) {
-        const video = videosRepository.findVideoById(req.params.id)
-        res.send(204)
+    const video = videosRepository.createVideo(req.body.title)
+    if(video) {
+        res.send(video)
     } else {
         res.send(404)
     }
+
 })

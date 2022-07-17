@@ -51,15 +51,6 @@ export const videosRepository = {
     },
 
     deleteVideo(id: string) {
-       // for (let i = 0; i > videos.length; i++) {
-        //    if (videos[i].id === +id) {
-         //       videos.splice(i, 1);
-         //       return true
-        //    }
-       // }
-       // return false
-    //}
-
         const newVideo = videos.filter(v => v.id !== +id)
         if (newVideo.length < videos.length) {
             videos = newVideo
