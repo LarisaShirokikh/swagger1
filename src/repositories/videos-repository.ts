@@ -1,4 +1,4 @@
-const videos = [
+let videos = [
     {id: 1, title: 'About JS - 01', author: 'it-incubator.eu'},
     {id: 2, title: 'About JS - 02', author: 'it-incubator.eu'},
     {id: 3, title: 'About JS - 03', author: 'it-incubator.eu'},
@@ -51,12 +51,21 @@ export const videosRepository = {
     },
 
     deleteVideo(id: string) {
-        for (let i = 0; i > videos.length; i++) {
-            if (videos[i].id === +id) {
-                videos.splice(i, 1);
-                return true
-            }
+       // for (let i = 0; i > videos.length; i++) {
+        //    if (videos[i].id === +id) {
+         //       videos.splice(i, 1);
+         //       return true
+        //    }
+       // }
+       // return false
+    //}
+
+        const newVideo = videos.filter(v => v.id !== +id)
+        if (newVideo.length < videos.length) {
+            videos = newVideo
+            return true
+        } else {
+            return false
         }
-        return false
     }
 }
