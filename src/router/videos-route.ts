@@ -12,12 +12,10 @@ videosRoute.post('/', (req: Request, res: Response) => {
 
 })
 
-videosRoute.get('/:videoId', (req: Request, res: Response) => {
-    let video = videosRepository.getVideoById(+req.params.id)
+videosRoute.get('/', (req: Request, res: Response) => {
+    let video = videosRepository.getVideoById(req.params.id)
     if (video) {
-        res.send(video)
-    } else {
-        res.send(404)
+        res.send(200)
     }
 })
 
@@ -28,7 +26,7 @@ videosRoute.get('/:id', (req: Request, res: Response) => {
 })
 
 videosRoute.delete('/:id', (req: Request, res: Response) => {
-    const isDeleted = videosRepository.deleteVideo(+req.params.id)
+    const isDeleted = videosRepository.deleteVideo(req.params.id)
     if (isDeleted) {
         res.send(204)
     } else {
@@ -37,9 +35,9 @@ videosRoute.delete('/:id', (req: Request, res: Response) => {
 })
 
 videosRoute.put('/:id', (req: Request, res: Response) => {
-    const isUpdated = videosRepository.updateVideo(+req.params.id, req.body.title)
+    const isUpdated = videosRepository.updateVideo(req.params.id, req.body.title)
     if (isUpdated) {
-        const video = videosRepository.findVideoById(+req.params.id)
+        const video = videosRepository.findVideoById(req.params.id)
         res.send(video)
     } else {
         res.send(404)

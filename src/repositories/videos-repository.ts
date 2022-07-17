@@ -17,8 +17,8 @@ export const videosRepository = {
         }
     },
 
-    findVideoById(id: number) {
-        const video = videos.find(v => v.id === id)
+    findVideoById(id: string) {
+        const video = videos.find(v => v.id === +id)
         return video
     },
 
@@ -26,35 +26,31 @@ export const videosRepository = {
         const newVideo = {
             id: +(new Date()),
             title: title,
-            author: 'it-incubator.eu'
+            author: 'author'
         }
         videos.push(newVideo)
         return newVideo
     },
 
-    getVideoById(id: number) {
-        const video = videos.find(v => v.id === id)
-        return video
+    getVideoById(id: string) {
+        return  videos.find(v => v.id === +id)
+
     },
 
 
-    updateVideo(id: number, title: string) {
-        let video = videos.find(v => v.id === id)
+    updateVideo(id: string, title: string) {
+        let video = videos.find(v => v.id === +id)
         if (video) {
             video.title = title
-            return true
-
-        } else {
-            return false
+            return video
         }
     },
 
-    deleteVideo(id: number) {
+    deleteVideo(id: string) {
         for (let i = 0; i > videos.length; i++) {
-            if (videos[i].id === id) {
+            if (videos[i].id === +id) {
                 videos.splice(i, 1);
                 return true
-
             }
         }
         return false
