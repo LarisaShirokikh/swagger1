@@ -20,7 +20,7 @@ videosRoute.post('/', (req: Request, res: Response) => {
 videosRoute.get('/:id', (req: Request, res: Response) => {
     let video = videosRepository.getVideoById(req.params.id)
     if (video) {
-        res.send(200)
+        res.send(video)
     }
 })
 
@@ -43,7 +43,7 @@ videosRoute.put('/:id', (req: Request, res: Response) => {
     const isUpdated = videosRepository.updateVideo(req.params.id, req.body.title)
     if (isUpdated) {
         const video = videosRepository.findVideoById(req.params.id)
-        res.send(video)
+        res.send(204)
     } else {
         res.send(404)
     }

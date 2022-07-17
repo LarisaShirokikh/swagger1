@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000
 
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
-
+app.use('/videos', videosRoute)
 
 
 app.get('/', (req: Request, res: Response) => {
@@ -16,7 +16,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send(helloMessage)
 })
 
-app.use('/videos', videosRoute)
+
 
 
 app.listen(port, () => {
