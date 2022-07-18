@@ -14,7 +14,7 @@ app.use('/videos', videosRoute)
 
 
 app.get('/', (req: Request, res: Response) => {
-    let helloMessage = 'Hello World! Welcome! Oh, my God! It is great!'
+    let helloMessage = 'Hello World! Welcome! Oh, my God! '
     res.send(helloMessage)
 })
 
