@@ -45,7 +45,7 @@ export const videosRepository = {
 
 
     updateVideoTitle(id: string, title: string) {
-        let video = videos.find(v => v.id === +id !== undefined ? ( v.id === +id ) : "")
+        let video = videos.find(v => v.id === +id !== undefined ? videos.find(v => v.id === +id ) : "")
         if (video) {
             video.title = title
             return video
