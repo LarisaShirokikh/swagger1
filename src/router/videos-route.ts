@@ -22,7 +22,7 @@ videosRoute.get('/', (req: Request, res: Response) => {
 })
 
 videosRoute.post('/', titleValidation, inputValidationMiddleware,(req: Request, res: Response) => {
-    const newVideo = videosRepository.createVideo(req.body.title, req.query.id)
+    const newVideo = videosRepository.createVideo(req.body.title)
     res.status(201).send(newVideo)
 
 })
