@@ -6,18 +6,21 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 
 
 export const videosRoute = Router({})
+
 const titleValidation = body('title').trim().isLength({
     min: 1,
     max: 30
 }).withMessage('Title should be from 1 to 30 symbols');
 
 videosRoute.get('/', (req: Request, res: Response) => {
+    console.log("LOG!!")
     let video = videosRepository.getVideos()
     res.send(video)
 
 })
 
 videosRoute.post('/', titleValidation, inputValidationMiddleware,(req: Request, res: Response) => {
+    console.log('POST')
     const newVideo = videosRepository.createVideo(req.body.title)
     res.status(201).send(newVideo)
 
