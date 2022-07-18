@@ -1,3 +1,5 @@
+import * as QueryString from "querystring";
+
 let videos = [
     {id: 1, title: 'About JS - 01', author: 'it-incubator.eu'},
     {id: 2, title: 'About JS - 02', author: 'it-incubator.eu'},
@@ -26,7 +28,7 @@ export const videosRepository = {
         return video
     },
 
-    createVideo(title: string) {
+    createVideo(title: string, id: string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[] | undefined) {
         const newVideo = {
             id: +(new Date()),
             title: title,
