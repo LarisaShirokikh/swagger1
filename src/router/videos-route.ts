@@ -31,6 +31,8 @@ videosRoute.get('/:id', (req: Request, res: Response) => {
     let video = videosRepository.getVideoById(req.params.id)
     if (video) {
         res.send(video)
+    } else {
+        res.send(404)
     }
 })
 
