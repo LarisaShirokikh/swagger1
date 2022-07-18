@@ -54,7 +54,7 @@ videosRoute.put('/:id', titleValidation, inputValidationMiddleware, (req: Reques
     if (video) {
         res.send(204)
     } else {
-        res.send(400)
+        res.send(404)
     }
 
 })

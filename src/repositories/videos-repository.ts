@@ -49,6 +49,8 @@ export const videosRepository = {
         if (video) {
             video.title = title
             return video
+        } else {
+            return false
         }
     },
 
