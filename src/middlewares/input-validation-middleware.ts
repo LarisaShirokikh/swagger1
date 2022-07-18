@@ -9,8 +9,8 @@ export const inputValidationMiddleware = (req: Request, res: Response,
   return res.status(400).send({
       errorsMessages: [
           {
-              message: "string",
-              field: "string"
+              message: "not valid",
+              field: "title"
           }
       ]
 })
