@@ -2,7 +2,7 @@ import {Request, Response, Router} from "express"
 
 import  {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {titleValidation, urlValidation} from "../middlewares/title-validation";
+import {nameValidation, titleValidation, urlValidation} from "../middlewares/title-validation";
 import {postRepository} from "../repositories/post-repository";
 
 
@@ -16,7 +16,7 @@ postsRoute.get('/',(req: Request, res: Response) => {
 })
 
 postsRoute.post('/',
-    titleValidation,
+    nameValidation,
     inputValidationMiddleware,
     urlValidation,
     (req: Request, res: Response) => {
@@ -49,7 +49,7 @@ postsRoute.delete('/:id', (req: Request, res: Response) => {
 })
 
 postsRoute.put('/:id',
-    titleValidation,
+    nameValidation,
     inputValidationMiddleware,
     urlValidation,
     (req: Request, res: Response) => {
