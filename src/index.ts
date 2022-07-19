@@ -3,6 +3,7 @@ import cors from 'cors'
 import bodyParser from "body-parser"
 import {videosRoute} from "./router/videos-route";
 import {bloggersRoute} from "./router/bloggers-route";
+import {postsRoute} from "./router/posts-route";
 
 
 const app = express()
@@ -13,6 +14,7 @@ const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
 app.use('/videos', videosRoute)
 app.use('/bloggers', bloggersRoute)
+app.use('/posts', postsRoute)
 
 
 app.get('/', (req: Request, res: Response) => {

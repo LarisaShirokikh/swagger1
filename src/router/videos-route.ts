@@ -1,16 +1,13 @@
 import {Request, Response, Router} from "express"
 import {videosRepository} from "../repositories/videos-repository";
-import {create} from "domain";
+
 import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
+import {titleValidation} from "../middlewares/title-validation";
 
 
 export const videosRoute = Router({})
 
-const titleValidation = body('title').trim().isLength({
-    min: 5,
-    max: 30
-}).withMessage('Title should be from 5 to 30 symbols');
 
 
 
