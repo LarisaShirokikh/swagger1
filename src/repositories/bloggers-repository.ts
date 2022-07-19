@@ -33,6 +33,17 @@ export const bloggersRepository = {
         } else {
             return false
         }
+    },
+
+    updateBloggerByInputModel(id: string, name: string) {
+        let blogger = bloggers.find(b => b.id === +id)
+        if (blogger) {
+            blogger.name = name
+            return blogger
+        } else {
+            return false
+        }
+
     }
 }
 

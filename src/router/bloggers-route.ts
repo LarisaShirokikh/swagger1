@@ -43,3 +43,12 @@ bloggersRoute.delete('/:id', (req: Request, res: Response) => {
         res.send(404)
     }
 })
+
+bloggersRoute.put('/:id', nameValidation, inputValidationMiddleware, (req: Request, res: Response) => {
+    const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id, req.body.name);
+    if (blogger) {
+        res.send(204)
+    } else {
+        res.send(400)
+    }
+})
