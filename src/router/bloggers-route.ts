@@ -49,6 +49,6 @@ bloggersRoute.put('/:id', nameValidation, inputValidationMiddleware, (req: Reque
     if (blogger) {
         res.send(204)
     } else {
-        res.send(400)
+        res.send(404)
     }
 })
