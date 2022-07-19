@@ -15,7 +15,6 @@ const nameValidation = body('name').trim().isLength({
 }).withMessage('Title should be from 5 to 30 symbols');
 
 bloggersRoute.get('/', (req: Request, res: Response) => {
-    console.log("LOG!!")
     let blogger = bloggersRepository.getBloggers()
     res.send(blogger)
 
