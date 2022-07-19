@@ -17,8 +17,8 @@ postsRoute.get('/',(req: Request, res: Response) => {
 
 postsRoute.post('/',
     titleValidation,
-    inputValidationMiddleware,
     urlValidation,
+    inputValidationMiddleware,
     (req: Request, res: Response) => {
     const newPost = postRepository.createPost(req.body.title)
     res.status(201).send(newPost)
