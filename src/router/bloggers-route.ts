@@ -5,6 +5,8 @@ import {bloggersRepository} from "../repositories/bloggers-repository";
 
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {titleValidation} from "../middlewares/title-validation";
+import {postRepository} from "../repositories/post-repository";
+
 
 
 export const bloggersRoute = Router({});
@@ -14,6 +16,12 @@ export const bloggersRoute = Router({});
 bloggersRoute.get('/', (req: Request, res: Response) => {
     let blogger = bloggersRepository.getBloggers()
     res.send(blogger)
+
+})
+
+bloggersRoute.get('/', (req: Request, res: Response) => {
+    const foundBlogger = bloggersRepository.findBlogger(req.query.title?.toString());
+    res.send(foundBlogger)
 
 })
 
@@ -27,7 +35,7 @@ bloggersRoute.get('/:id', (req: Request, res: Response) => {
     if (blogger) {
         res.send(blogger)
     } else {
-        res.send(200)
+        res.send(404)
     }
 
 })

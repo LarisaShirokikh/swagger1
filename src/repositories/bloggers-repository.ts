@@ -7,26 +7,26 @@ let bloggers = [
 ]
 
 export const bloggersRepository = {
-   getBloggers() {
-      return bloggers
-   },
+    getBloggers() {
+        return bloggers
+    },
 
-   createBlogger(name: string) {
-       const newBlogger = {
-           id: +(new Date()),
-           name: name,
-           youtubeUrl: "https://someurl.com"
-       }
-       bloggers.push(newBlogger)
-       return newBlogger
-   },
+    createBlogger(name: string) {
+        const newBlogger = {
+            id: +(new Date()),
+            name: name,
+            youtubeUrl: "https://someurl.com"
+        }
+        bloggers.push(newBlogger)
+        return newBlogger
+    },
 
     getBloggerById(id: string) {
-       return bloggers.find(b => b.id === +id)
+        return bloggers.find(b => b.id === +id)
     },
 
     deleteBlogger(id: string) {
-       const delBlogger = bloggers.filter(b => b.id !== +id)
+        const delBlogger = bloggers.filter(b => b.id !== +id)
         if (delBlogger.length < bloggers.length) {
             bloggers = delBlogger
             return true
@@ -44,7 +44,17 @@ export const bloggersRepository = {
             return false
         }
 
+    },
+
+    findBlogger(name: string | null | undefined) {
+        if (name) {
+            let filteredBlogger = bloggers.filter(v => v.name.indexOf(name) > -1)
+            return filteredBlogger
+        } else {
+            return bloggers
+        }
     }
+
 }
 
 
