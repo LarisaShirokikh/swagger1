@@ -1,9 +1,9 @@
 let bloggers = [
-    {id: 1, name: 'Blogger - 01', youtubeUrl: 'it-incubator.eu'},
-    {id: 2, name: 'Blogger - 02', youtubeUrl: 'it-incubator.eu'},
-    {id: 3, name: 'Blogger - 03', youtubeUrl: 'it-incubator.eu'},
-    {id: 4, name: 'Blogger - 04', youtubeUrl: 'it-incubator.eu'},
-    {id: 5, name: 'Blogger - 05', youtubeUrl: 'it-incubator.eu'},
+    {id: 1, name: 'Blogger - 01', youtubeUrl: "https://someurl.com"},
+    {id: 2, name: 'Blogger - 02', youtubeUrl: "https://someurl.com"},
+    {id: 3, name: 'Blogger - 03', youtubeUrl: "https://someurl.com"},
+    {id: 4, name: 'Blogger - 04', youtubeUrl: "https://someurl.com"},
+    {id: 5, name: 'Blogger - 05', youtubeUrl: "https://someurl.com"},
 ]
 
 export const bloggersRepository = {
@@ -15,7 +15,7 @@ export const bloggersRepository = {
        const newBlogger = {
            id: +(new Date()),
            name: name,
-           youtubeUrl: 'it-incubator.eu'
+           youtubeUrl: "https://someurl.com"
        }
        bloggers.push(newBlogger)
        return newBlogger
