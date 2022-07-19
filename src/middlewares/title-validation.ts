@@ -8,13 +8,13 @@ export const titleValidation = body('title').trim().isLength({
 
 export const shortDescriptionValidation = body('shortDescription').trim().isLength({
     min: 5,
-    max: 15
-}).withMessage('shortDescription should be from 5 to 15 symbols');
+    max: 100
+}).withMessage('shortDescription should be from 5 to 100 symbols');
 
 export const contentValidation = body('content').trim().isLength({
     min: 5,
-    max: 15
-}).withMessage('content should be from 5 to 15 symbols');
+    max: 1000
+}).withMessage('content should be from 5 to 1000 symbols');
 
 export const nameValidation = body('name').trim().isLength({
     min: 5,
