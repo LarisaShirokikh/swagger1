@@ -19,7 +19,7 @@ bloggersRoute.get('/', (req: Request, res: Response) => {
 
 bloggersRoute.post('/',(req: Request, res: Response) => {
     let newBlogger = bloggersRepository.createBlogger(req.body.name)
-    res.status(204).send(newBlogger)
+    res.status(201).send(newBlogger)
 })
 
 bloggersRoute.get('/:id', (req: Request, res: Response) => {
@@ -27,7 +27,7 @@ bloggersRoute.get('/:id', (req: Request, res: Response) => {
     if (blogger) {
         res.send(blogger)
     } else {
-        res.send(404)
+        res.send(200)
     }
 
 })
