@@ -25,9 +25,26 @@ bloggersRoute.get('/', (req: Request, res: Response) => {
 
 })
 
-bloggersRoute.post('/',(req: Request, res: Response) => {
+bloggersRoute.post('/',
+    nameValidation,
+    urlValidation,
+    inputValidationMiddleware,
+    (req: Request, res: Response) => {
     let newBlogger = bloggersRepository.createBlogger(req.body.name)
     res.status(201).send(newBlogger)
+})
+
+bloggersRoute.put('/:id',
+    nameValidation,
+    urlValidation,
+    inputValidationMiddleware,
+    (req: Request, res: Response) => {
+    const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id, req.body.name);
+    if (blogger) {
+        res.send(204)
+    } else {
+        res.send(404)
+    }
 })
 
 bloggersRoute.get('/:id', (req: Request, res: Response) => {
@@ -49,11 +66,3 @@ bloggersRoute.delete('/:id', (req: Request, res: Response) => {
     }
 })
 
-bloggersRoute.put('/:id', nameValidation, urlValidation, inputValidationMiddleware, (req: Request, res: Response) => {
-    const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id, req.body.name);
-    if (blogger) {
-        res.send(204)
-    } else {
-        res.send(404)
-    }
-})
