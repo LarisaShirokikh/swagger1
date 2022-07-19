@@ -4,7 +4,7 @@ import {body} from "express-validator";
 import {bloggersRepository} from "../repositories/bloggers-repository";
 
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {titleValidation} from "../middlewares/title-validation";
+import {nameValidation, titleValidation, urlValidation} from "../middlewares/title-validation";
 import {postRepository} from "../repositories/post-repository";
 
 
@@ -49,7 +49,7 @@ bloggersRoute.delete('/:id', (req: Request, res: Response) => {
     }
 })
 
-bloggersRoute.put('/:id', titleValidation, inputValidationMiddleware, (req: Request, res: Response) => {
+bloggersRoute.put('/:id', nameValidation, urlValidation, inputValidationMiddleware, (req: Request, res: Response) => {
     const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id, req.body.name);
     if (blogger) {
         res.send(204)

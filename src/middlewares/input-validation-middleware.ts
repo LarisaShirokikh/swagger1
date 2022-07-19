@@ -6,13 +6,11 @@ export const inputValidationMiddleware = (req: Request, res: Response,
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-  return res.status(400).send({
-      errorsMessages: [
-          {
-              message: "not valid",
-              field: "title"
-          }
-      ]
+  return res.status(400).json({
+     errorsMessages: errors.array().map(error => ({
+         "message": error.msg,
+         "field": error.param
+     }))
 })
     } else {
         next()
