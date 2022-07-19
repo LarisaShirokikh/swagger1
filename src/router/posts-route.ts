@@ -7,6 +7,7 @@ import {postRepository} from "../repositories/post-repository";
 
 
 
+
 export const postsRoute = Router({})
 
 postsRoute.get('/',(req: Request, res: Response) => {
@@ -31,5 +32,24 @@ postsRoute.get('/:id', (req: Request, res: Response) => {
 postsRoute.get('/', (req: Request, res: Response) => {
     const foundPost = postRepository .findPost(req.query.title?.toString());
     res.send(foundPost)
+
+})
+
+postsRoute.delete('/:id', (req: Request, res: Response) => {
+    const isDeleted = postRepository.deletePost(req.params.id)
+    if (isDeleted) {
+        res.send(204)
+    } else {
+        res.send(404)
+    }
+})
+
+postsRoute.put('/:id', titleValidation, inputValidationMiddleware, (req: Request, res: Response) => {
+    const post = postRepository.updatePostTitle(req.params.id, req.body.title);
+    if (post) {
+        res.send(204)
+    } else {
+        res.send(404)
+    }
 
 })
