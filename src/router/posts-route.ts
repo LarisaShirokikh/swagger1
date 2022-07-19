@@ -16,7 +16,7 @@ postsRoute.get('/',(req: Request, res: Response) => {
 })
 
 postsRoute.post('/',
-    nameValidation,
+    titleValidation,
     inputValidationMiddleware,
     urlValidation,
     (req: Request, res: Response) => {
@@ -49,7 +49,7 @@ postsRoute.delete('/:id', (req: Request, res: Response) => {
 })
 
 postsRoute.put('/:id',
-    nameValidation,
+    titleValidation,
     inputValidationMiddleware,
     urlValidation,
     (req: Request, res: Response) => {
