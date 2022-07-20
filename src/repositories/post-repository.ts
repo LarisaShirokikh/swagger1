@@ -62,7 +62,7 @@ export const postRepository = {
         posts.push(post)
     },
 
-    getPostById(id: string) {
+    getPostById(id: string): PostType | undefined {
         return posts.find(p => p.id === +id)
 
     },
