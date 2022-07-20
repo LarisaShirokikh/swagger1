@@ -1,3 +1,4 @@
+import {bloggers, bloggersRepository} from "./bloggers-repository";
 
 let posts = [
     {id: 1, title: 'About JS - 01', bloggerName: "string", shortDescription: 'shortDescription', content: "string", bloggerId: 1},
@@ -13,17 +14,22 @@ export const postRepository = {
     },
 
 
-    createPost(title: string) {
-        const newPost = {
-            id: +(new Date()),
-            title: title,
-            bloggerName: "string",
-            shortDescription: 'shortDescription',
-            content: "string",
-            bloggerId: +(new Date())
+    createPost(title: string,
+               shortDescription: string,
+               content: string, id: number) {
+        let blogger = bloggersRepository.getBloggerById(id)
+        if (blogger) {
+            const newPost = {
+                id: +(new Date()),
+                title: title,
+                bloggerName: blogger.name!,
+                shortDescription: shortDescription,
+                content: content,
+                bloggerId: id
+            }
+            posts.push(newPost)
+            return newPost
         }
-        posts.push(newPost)
-        return newPost
     },
 
     getPostById(id: string) {

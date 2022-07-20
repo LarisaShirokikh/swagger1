@@ -48,7 +48,7 @@ bloggersRoute.put('/:id',
 })
 
 bloggersRoute.get('/:id', (req: Request, res: Response) => {
-    let blogger = bloggersRepository.getBloggerById(req.params.id)
+    let blogger = bloggersRepository.getBloggerById(+req.params.id)
     if (blogger) {
         res.send(blogger)
     } else {

@@ -27,7 +27,8 @@ postsRoute.post('/',
     contentValidation,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-    const newPost = postRepository.createPost(req.body.title)
+    const newPost = postRepository.createPost(req.body.title,
+        req.body.shortDescription, req.body.content, req.body.bloggerId)
     res.status(201).send(newPost)
 })
 

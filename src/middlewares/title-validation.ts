@@ -3,8 +3,8 @@ import {validationResult} from "express-validator";
 
 export const titleValidation = body('title').trim().isLength({
     min: 5,
-    max: 15
-}).withMessage('Title should be from 5 to 15 symbols');
+    max: 30
+}).withMessage('Title should be from 5 to 30 symbols');
 
 export const shortDescriptionValidation = body('shortDescription').trim().isLength({
     min: 5,

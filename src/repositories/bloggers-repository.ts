@@ -1,4 +1,4 @@
-let bloggers = [
+export let bloggers = [
     {id: 1, name: 'Blogger - 01', youtubeUrl: "https://someurl.com"},
     {id: 2, name: 'Blogger - 02', youtubeUrl: "https://someurl.com"},
     {id: 3, name: 'Blogger - 03', youtubeUrl: "https://someurl.com"},
@@ -21,8 +21,8 @@ export const bloggersRepository = {
         return newBlogger
     },
 
-    getBloggerById(id: string) {
-        return bloggers.find(b => b.id === +id)
+    getBloggerById(id: number) {
+        return bloggers.find(b => b.id === id)
     },
 
     deleteBlogger(id: string) {
