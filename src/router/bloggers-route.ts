@@ -4,7 +4,7 @@ import {body} from "express-validator";
 import {bloggersRepository} from "../repositories/bloggers-repository";
 
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {nameValidation, titleValidation, urlValidation} from "../middlewares/title-validation";
+import {contentValidation, nameValidation, titleValidation, urlValidation} from "../middlewares/title-validation";
 import {postRepository} from "../repositories/post-repository";
 
 
@@ -30,16 +30,17 @@ bloggersRoute.post('/',
     urlValidation,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-    let newBlogger = bloggersRepository.createBlogger(req.body.name)
+    let newBlogger = bloggersRepository.createBlogger(req.body.name, req.body.youtubeUrl)
     res.status(201).send(newBlogger)
 })
 
 bloggersRoute.put('/:id',
     nameValidation,
     urlValidation,
-    inputValidationMiddleware,
+    inputValidationMiddleware, contentValidation,
     (req: Request, res: Response) => {
-    const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id, req.body.name);
+    const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id,
+        req.body.name, req.body.content, req.body.youtubeUrl);
     if (blogger) {
         res.send(204)
     } else {

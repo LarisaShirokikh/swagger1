@@ -11,11 +11,11 @@ export const bloggersRepository = {
         return bloggers
     },
 
-    createBlogger(name: string) {
+    createBlogger(name: string, youtubeUrl: string) {
         const newBlogger = {
             id: +(new Date()),
             name: name,
-            youtubeUrl: "https://someurl.com"
+            youtubeUrl: youtubeUrl
         }
         bloggers.push(newBlogger)
         return newBlogger
@@ -35,7 +35,8 @@ export const bloggersRepository = {
         }
     },
 
-    updateBloggerByInputModel(id: string, name: string) {
+    updateBloggerByInputModel(id: string, name: string, shortDescription: string,
+                              content: string) {
         let blogger = bloggers.find(b => b.id === +id)
         if (blogger) {
             blogger.name = name

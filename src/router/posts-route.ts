@@ -32,6 +32,21 @@ postsRoute.post('/',
     res.status(201).send(newPost)
 })
 
+postsRoute.put('/:id',
+    titleValidation, shortDescriptionValidation,
+     contentValidation, inputValidationMiddleware,
+
+    (req: Request, res: Response) => {
+        const post = postRepository.updatePostTitle(req.body.title,
+            req.body.shortDescription, req.body.content, req.body.youtubeUrl)
+        if (post) {
+            res.send(204)
+        } else {
+            res.send(404)
+        }
+
+    })
+
 postsRoute.get('/:id', (req: Request, res: Response) => {
     let post = postRepository.getPostById(req.params.id)
     if (post) {
@@ -56,16 +71,3 @@ postsRoute.delete('/:id', (req: Request, res: Response) => {
     }
 })
 
-postsRoute.put('/:id',
-    titleValidation,
-    inputValidationMiddleware,
-    urlValidation,
-    (req: Request, res: Response) => {
-    const post = postRepository.updatePostTitle(req.params.id, req.body.title);
-    if (post) {
-        res.send(204)
-    } else {
-        res.send(404)
-    }
-
-})

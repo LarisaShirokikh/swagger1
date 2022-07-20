@@ -37,7 +37,9 @@ export const postRepository = {
 
     },
 
-    updatePostTitle(id: string, title: string) {
+    updatePostTitle(title: string,
+                    shortDescription: string,
+                    content: string, id: number) {
         let post = posts.find(p => p.id === +id)
         if (post) {
             post.title = title
