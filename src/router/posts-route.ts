@@ -9,7 +9,8 @@ import {
     titleValidation,
     urlValidation
 } from "../middlewares/title-validation";
-import {postRepository} from "../repositories/post-repository";
+import {postRepository, PostType} from "../repositories/post-repository";
+import {bloggersRepository} from "../repositories/bloggers-repository";
 
 
 
@@ -27,9 +28,21 @@ postsRoute.post('/',
     contentValidation,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-    const newPost = postRepository.createPost(req.body.title,
-        req.body.shortDescription, req.body.content, req.body.bloggerId)
-    res.status(201).send(newPost)
+    let blogger = bloggersRepository.getBloggerById(req.body.bloggerId)
+    if(!blogger) {
+        return res.status(400).send({errorsMessages: [{ message: 'Invalid bloggerId', field: "bloggerId" }]})
+    } else {
+        const newPost: PostType = {
+            id: +(new Date()),
+            title: req.body.title,
+            bloggerName: blogger.name,
+            shortDescription: req.body.shortDescription,
+            content: req.body.content,
+            bloggerId: req.body.bloggerId
+        }
+        postRepository.createPost(newPost)
+        res.status(201).send(newPost)
+    }
 })
 
 postsRoute.put('/:id',
