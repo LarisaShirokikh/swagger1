@@ -11,6 +11,7 @@ import {
 } from "../middlewares/title-validation";
 import {postRepository, PostType} from "../repositories/post-repository";
 import {bloggersRepository} from "../repositories/bloggers-repository";
+import {authMiddleware} from "../middlewares/auth-middleware";
 
 
 export const postsRoute = Router({})
@@ -21,6 +22,7 @@ postsRoute.get('/', (req: Request, res: Response) => {
 })
 
 postsRoute.post('/',
+    authMiddleware,
     titleValidation,
     shortDescriptionValidation,
     contentValidation,
