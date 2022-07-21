@@ -45,7 +45,7 @@ postsRoute.post('/',
         }
     })
 
-postsRoute.put('/:id',
+postsRoute.put('/:id',authMiddleware,
     titleValidation, shortDescriptionValidation,
     contentValidation, inputValidationMiddleware,
 
@@ -83,7 +83,7 @@ postsRoute.get('/', (req: Request, res: Response) => {
 
 })
 
-postsRoute.delete('/:id', (req: Request, res: Response) => {
+postsRoute.delete('/:id', authMiddleware,(req: Request, res: Response) => {
     const isDeleted = postRepository.deletePost(req.params.id)
     if (isDeleted) {
         res.send(204)

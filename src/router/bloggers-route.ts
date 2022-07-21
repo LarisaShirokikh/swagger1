@@ -37,6 +37,7 @@ bloggersRoute.post('/',
 })
 
 bloggersRoute.put('/:id',
+    authMiddleware,
     nameValidation,
     urlValidation,
     inputValidationMiddleware, contentValidation,
@@ -60,7 +61,7 @@ bloggersRoute.get('/:id', (req: Request, res: Response) => {
 
 })
 
-bloggersRoute.delete('/:id', (req: Request, res: Response) => {
+bloggersRoute.delete('/:id', authMiddleware,(req: Request, res: Response) => {
     const deleteBlogger = bloggersRepository.deleteBlogger(req.params.id)
     if (deleteBlogger) {
         res.send(204)
