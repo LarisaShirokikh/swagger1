@@ -6,6 +6,7 @@ import {bloggersRepository} from "../repositories/bloggers-repository";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {contentValidation, nameValidation, titleValidation, urlValidation} from "../middlewares/title-validation";
 import {postRepository} from "../repositories/post-repository";
+import {authMiddleware} from "../middlewares/auth-middleware";
 
 
 
@@ -28,7 +29,7 @@ bloggersRoute.get('/', (req: Request, res: Response) => {
 bloggersRoute.post('/',
     nameValidation,
     urlValidation,
-    inputValidationMiddleware,
+    inputValidationMiddleware, authMiddleware,
     (req: Request, res: Response) => {
     let newBlogger = bloggersRepository.createBlogger(req.body.name, req.body.youtubeUrl)
     res.status(201).send(newBlogger)
@@ -37,7 +38,7 @@ bloggersRoute.post('/',
 bloggersRoute.put('/:id',
     nameValidation,
     urlValidation,
-    inputValidationMiddleware, contentValidation,
+    inputValidationMiddleware, contentValidation, authMiddleware,
     (req: Request, res: Response) => {
     const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id,
         req.body.name, req.body.content, req.body.youtubeUrl);
@@ -58,7 +59,7 @@ bloggersRoute.get('/:id', (req: Request, res: Response) => {
 
 })
 
-bloggersRoute.delete('/:id', (req: Request, res: Response) => {
+bloggersRoute.delete('/:id', authMiddleware, (req: Request, res: Response) => {
     const deleteBlogger = bloggersRepository.deleteBlogger(req.params.id)
     if (deleteBlogger) {
         res.send(204)
