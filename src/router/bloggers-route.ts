@@ -29,7 +29,7 @@ bloggersRoute.get('/', (req: Request, res: Response) => {
 bloggersRoute.post('/',
     nameValidation,
     urlValidation,
-    inputValidationMiddleware, authMiddleware,
+    inputValidationMiddleware,
     (req: Request, res: Response) => {
     let newBlogger = bloggersRepository.createBlogger(req.body.name, req.body.youtubeUrl)
     res.status(201).send(newBlogger)
@@ -38,7 +38,7 @@ bloggersRoute.post('/',
 bloggersRoute.put('/:id',
     nameValidation,
     urlValidation,
-    inputValidationMiddleware, contentValidation, authMiddleware,
+    inputValidationMiddleware, contentValidation,
     (req: Request, res: Response) => {
     const blogger = bloggersRepository.updateBloggerByInputModel(req.params.id,
         req.body.name, req.body.content, req.body.youtubeUrl);
@@ -59,7 +59,7 @@ bloggersRoute.get('/:id', (req: Request, res: Response) => {
 
 })
 
-bloggersRoute.delete('/:id', authMiddleware, (req: Request, res: Response) => {
+bloggersRoute.delete('/:id', (req: Request, res: Response) => {
     const deleteBlogger = bloggersRepository.deleteBlogger(req.params.id)
     if (deleteBlogger) {
         res.send(204)
