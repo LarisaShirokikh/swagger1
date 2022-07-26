@@ -1,4 +1,4 @@
-import {bloggers, bloggersRepository} from "./bloggers-repository";
+import {bloggers, bloggersInMemoryRepository} from "./bloggers-in-memory-repository";
 
 export type PostType = {
     id: number,
@@ -58,11 +58,13 @@ export const postRepository = {
     },
 
 
-    createPost(post: PostType) {
-        posts.push(post)
+    async createPost(newPost: PostType): Promise<PostType> {
+
+        posts.push(newPost)
+        return newPost
     },
 
-    getPostById(id: string): PostType | undefined {
+     async getPostById(id: string): Promise<PostType | undefined> {
         return posts.find(p => p.id === +id)
 
     },
@@ -89,7 +91,7 @@ export const postRepository = {
         }
     },
 
-    findPost(title: string | null | undefined) {
+    async findPost(title: string | null | undefined) {
         if (title) {
 
             let filteredPosts = posts.filter(v => v.title.indexOf(title) > -1)

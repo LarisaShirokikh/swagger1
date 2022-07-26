@@ -10,7 +10,7 @@ import {
     urlValidation
 } from "../middlewares/title-validation";
 import {postRepository, PostType} from "../repositories/post-repository";
-import {bloggersRepository} from "../repositories/bloggers-repository";
+import {bloggersInMemoryRepository} from "../repositories/bloggers-in-memory-repository";
 import {authMiddleware} from "../middlewares/auth-middleware";
 
 
@@ -27,8 +27,8 @@ postsRoute.post('/',
     shortDescriptionValidation,
     contentValidation,
     inputValidationMiddleware,
-    (req: Request, res: Response) => {
-        let blogger = bloggersRepository.getBloggerById(req.body.bloggerId)
+    async (req: Request, res: Response) => {
+        let blogger = await bloggersInMemoryRepository.getBloggerById(req.body.bloggerId)
         if (!blogger) {
             return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
         } else {
@@ -40,17 +40,19 @@ postsRoute.post('/',
                 content: req.body.content,
                 bloggerId: req.body.bloggerId
             }
-            postRepository.createPost(newPost)
+            await postRepository.createPost(newPost)
             res.status(201).send(newPost)
         }
     })
 
-postsRoute.put('/:id',authMiddleware,
+
+
+postsRoute.put('/:id', authMiddleware,
     titleValidation, shortDescriptionValidation,
     contentValidation, inputValidationMiddleware,
 
-    (req: Request, res: Response) => {
-        const post = postRepository.getPostById(req.params.id)
+    async (req: Request, res: Response) => {
+        const post = await postRepository.getPostById(req.params.id)
         if (!post) {
             return res.send(404)
         }
@@ -68,8 +70,8 @@ postsRoute.put('/:id',authMiddleware,
         res.send(204)
     })
 
-postsRoute.get('/:id', (req: Request, res: Response) => {
-    let post = postRepository.getPostById(req.params.id)
+postsRoute.get('/:id', async (req: Request, res: Response) => {
+    let post = await postRepository.getPostById(req.params.id)
     if (post) {
         res.send(post)
     } else {
@@ -77,13 +79,13 @@ postsRoute.get('/:id', (req: Request, res: Response) => {
     }
 })
 
-postsRoute.get('/', (req: Request, res: Response) => {
-    const foundPost = postRepository.findPost(req.query.title?.toString());
+postsRoute.get('/', async (req: Request, res: Response) => {
+    const foundPost = await postRepository.findPost(req.query.title?.toString());
     res.send(foundPost)
 
 })
 
-postsRoute.delete('/:id', authMiddleware,(req: Request, res: Response) => {
+postsRoute.delete('/:id', authMiddleware, (req: Request, res: Response) => {
     const isDeleted = postRepository.deletePost(req.params.id)
     if (isDeleted) {
         res.send(204)

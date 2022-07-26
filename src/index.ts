@@ -4,6 +4,7 @@ import bodyParser from "body-parser"
 import {videosRoute} from "./router/videos-route";
 import {bloggersRoute} from "./router/bloggers-route";
 import {postsRoute} from "./router/posts-route";
+import {runDb} from "./repositories/db";
 
 
 const app = express()
@@ -22,10 +23,11 @@ app.get('/', (req: Request, res: Response) => {
     res.send(helloMessage)
 })
 
-
-
-
+const startApp = async () => {
+    await runDb()
+}
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
+startApp()
 
