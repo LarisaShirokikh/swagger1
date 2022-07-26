@@ -3,7 +3,23 @@ import {MongoClient} from "mongodb";
 const mongoUri =
     process.env.mongoURI || 'mongodb: //0.0.0.0:27017'
 
-export const client = new MongoClient(mongoUri);
+export let bloggers: BloggersType[]= [
+    {id: 1, name: 'Blogger - 01', youtubeUrl: "https://someurl.com"},
+    {id: 2, name: 'Blogger - 02', youtubeUrl: "https://someurl.com"},
+    {id: 3, name: 'Blogger - 03', youtubeUrl: "https://someurl.com"},
+    {id: 4, name: 'Blogger - 04', youtubeUrl: "https://someurl.com"},
+    {id: 5, name: 'Blogger - 05', youtubeUrl: "https://someurl.com"},
+]
+
+export type BloggersType  = {
+    id: number
+    name: string,
+    youtubeUrl: string,
+}
+
+const client = new MongoClient(mongoUri);
+const db = client.db("blog")
+export const bloggersCollection = db.collection<BloggersType>("bloggers")
 
 export async function runDb() {
     try {

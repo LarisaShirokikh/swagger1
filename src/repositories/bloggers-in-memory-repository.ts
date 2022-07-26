@@ -1,15 +1,6 @@
-export let bloggers: BloggersType[] = [
-    {id: 1, name: 'Blogger - 01', youtubeUrl: "https://someurl.com"},
-    {id: 2, name: 'Blogger - 02', youtubeUrl: "https://someurl.com"},
-    {id: 3, name: 'Blogger - 03', youtubeUrl: "https://someurl.com"},
-    {id: 4, name: 'Blogger - 04', youtubeUrl: "https://someurl.com"},
-    {id: 5, name: 'Blogger - 05', youtubeUrl: "https://someurl.com"},
-]
-export type BloggersType  = {
-        id: number,
-        name: string,
-        youtubeUrl: string,
-    }
+import {bloggers, BloggersType} from "./db";
+
+
 
 
 
@@ -34,8 +25,9 @@ export const bloggersInMemoryRepository = {
 
     async deleteBlogger(id: string) {
         const delBlogger = bloggers.filter(b => b.id !== +id)
+        let blogger;
         if (delBlogger.length < bloggers.length) {
-            bloggers = delBlogger
+            blogger = delBlogger
             return true
         } else {
             return false

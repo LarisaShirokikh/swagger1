@@ -1,59 +1,42 @@
-export let bloggers = [
-    {id: 1, name: 'Blogger - 01', youtubeUrl: "https://someurl.com"},
-    {id: 2, name: 'Blogger - 02', youtubeUrl: "https://someurl.com"},
-    {id: 3, name: 'Blogger - 03', youtubeUrl: "https://someurl.com"},
-    {id: 4, name: 'Blogger - 04', youtubeUrl: "https://someurl.com"},
-    {id: 5, name: 'Blogger - 05', youtubeUrl: "https://someurl.com"},
-]
+
+import {bloggersCollection, BloggersType} from "./db";
+
 
 export const bloggersInMemoryRepository = {
-    getBloggers() {
-        return bloggers
+    async getBloggers() {
+        return bloggersCollection
     },
 
-    createBlogger(name: string, youtubeUrl: string) {
-        const newBlogger = {
-            id: +(new Date()),
-            name: name,
-            youtubeUrl: youtubeUrl
-        }
-        bloggers.push(newBlogger)
+    async createBlogger(newBlogger: BloggersType) {
+        const result = await bloggersCollection.insertOne(newBlogger)
         return newBlogger
     },
 
-    getBloggerById(id: number) {
-        return bloggers.find(b => b.id === id)
+    async getBloggerById(id: BloggersType): Promise<BloggersType> {
+        let blogger: BloggersType = await bloggersCollection.insertOne({id})
+        return blogger
     },
 
-    deleteBlogger(id: string) {
-        const delBlogger = bloggers.filter(b => b.id !== +id)
-        if (delBlogger.length < bloggers.length) {
-            bloggers = delBlogger
-            return true
-        } else {
-            return false
-        }
+    async deleteBlogger(id: number) {
+        const result = await bloggersCollection.deleteOne({id: id})
+        return result.deletedCount === 1
     },
 
-    updateBloggerByInputModel(id: string, name: string, shortDescription: string,
+    async updateBlogger(id: number, name: string, shortDescription: string,
                               content: string) {
-        let blogger = bloggers.find(b => b.id === +id)
-        if (blogger) {
-            blogger.name = name
-            return blogger
-        } else {
-            return false
-        }
+        const result = await bloggersCollection.updateOne({id: id},
+            { $set: {name: name}})
+        return result.matchedCount === 1
 
     },
 
-    findBlogger(name: string | null | undefined) {
+    async findBlogger(name: string | null | undefined): Promise<BloggersType[]> {
+        const filter: any = {}
+
         if (name) {
-            let filteredBlogger = bloggers.filter(v => v.name.indexOf(name) > -1)
-            return filteredBlogger
-        } else {
-            return bloggers
+            filter.name = {$regex: name}
         }
+        return bloggersCollection.find(filter).toArray()
     }
 
 }
