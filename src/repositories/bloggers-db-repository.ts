@@ -12,8 +12,8 @@ export const bloggersInMemoryRepository = {
         return newBlogger
     },
 
-    async getBloggerById(id: BloggersType): Promise<BloggersType> {
-        let blogger: BloggersType = await bloggersCollection.insertOne({id})
+    async getBloggerById(id: number): Promise<BloggersType | null> {
+        let blogger = await bloggersCollection.findOne({id: id})
         return blogger
     },
 

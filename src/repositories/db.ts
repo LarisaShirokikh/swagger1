@@ -1,7 +1,7 @@
 import {MongoClient} from "mongodb";
 
 const mongoUri =
-    process.env.mongoURI || 'mongodb: //0.0.0.0:27017'
+    process.env.mongoURI || 'mongodb://0.0.0.0:27017'
 
 export let bloggers: BloggersType[]= [
     {id: 1, name: 'Blogger - 01', youtubeUrl: "https://someurl.com"},
