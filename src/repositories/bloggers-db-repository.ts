@@ -1,48 +1,50 @@
 
-import {bloggersCollection, BloggersType} from "./db";
+import {bloggers, bloggersCollection, BloggerType} from "./db";
+import {DeleteResult, ModifyResult, UpdateResult, WithId} from "mongodb";
+
 
 
 export const bloggersInMemoryRepository = {
-    async getBloggers() {
-        return bloggersCollection
+    async getBloggers(): Promise<BloggerType[]> {
+        return bloggersCollection.find().toArray()
     },
 
-    async createBlogger(newBlogger: BloggersType) {
-        const result = await bloggersCollection.insertOne(newBlogger)
+    async createBlogger(newBlogger: BloggerType): Promise<BloggerType> {
+
+        await bloggersCollection.insertOne(newBlogger)
         return newBlogger
     },
 
-    async getBloggerById(id: number): Promise<BloggersType | null> {
-        let blogger = await bloggersCollection.findOne({id: id})
-        return blogger
+    async getBloggerById(id: number): Promise<BloggerType | null> {
+        return bloggersCollection.findOne({id})
     },
 
-    async deleteBlogger(id: number) {
-        const result = await bloggersCollection.deleteOne({id: id})
-        return result.deletedCount === 1
+    async deleteBlogger(id: number): Promise<DeleteResult>  {
+       return bloggersCollection.deleteOne({ id })
     },
 
-    async updateBlogger(id: number, name: string, shortDescription: string,
-                              content: string) {
-        const result = await bloggersCollection.updateOne({id: id},
-            { $set: {name: name}})
-        return result.matchedCount === 1
 
+    async findBlogger(id: number): Promise<WithId<BloggerType> | null> {
+        return bloggersCollection.findOne({id})
     },
 
-    async findBlogger(name: string | null | undefined): Promise<BloggersType[]> {
-        const filter: any = {}
-
-        if (name) {
-            filter.name = {$regex: name}
-        }
-        return bloggersCollection.find(filter).toArray()
+    async updateBlogger(
+        id: number,
+        name: string,
+        youtubeUrl: string,
+    ): Promise<UpdateResult> {
+        return  bloggersCollection.updateOne(
+            { id },
+            {
+                $set: {
+                    name,
+                    youtubeUrl
+                }
+            }
+        )
     }
 
 }
-
-
-
 
 
 

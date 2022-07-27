@@ -1,43 +1,40 @@
 
 import {bloggersInMemoryRepository} from "../repositories/bloggers-db-repository";
-import {bloggersCollection, BloggersType} from "../repositories/db";
-import {bloggersRoute} from "../router/bloggers-route";
-
-
+import {bloggersCollection, BloggerType} from "../repositories/db";
+import {WithId} from "mongodb";
 
 
 export const bloggersService = {
     async getBloggers() {
-        return bloggersCollection
+        return bloggersInMemoryRepository.getBloggers()
     },
 
     async createBlogger(name: string, youtubeUrl: string) {
         const newBlogger = {
             id: +(new Date()),
             name: name,
-            youtubeUrl: youtubeUrl
+            youtubeUrl: youtubeUrl,
         }
-        const createdBlogger =  await bloggersCollection.insertOne(newBlogger)
-        return createdBlogger
+
+        return bloggersInMemoryRepository.createBlogger(newBlogger)
     },
 
-    async getBloggerById(id: number): Promise<BloggersType | null> {
+    async getBloggerById(id: number): Promise<BloggerType | null> {
          return bloggersInMemoryRepository.getBloggerById(id)
     },
 
-    async deleteBlogger(id: number){
-        return await bloggersInMemoryRepository.deleteBlogger(id)
+    async deleteBlogger(id: number): Promise<boolean> {
+        const deleteResult = await  bloggersInMemoryRepository.deleteBlogger(id)
+        return !!deleteResult.deletedCount
     },
 
-    async updateBlogger(id: number, name: string, shortDescription: string,
-                        content: string) {
-        return await bloggersInMemoryRepository.updateBlogger(id,
-            name, shortDescription, content)
-
+    async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
+        const updateResult =  await bloggersInMemoryRepository.updateBlogger(id, name, youtubeUrl)
+        return !!updateResult.modifiedCount
     },
 
-    async findBlogger(name: string | null | undefined): Promise<BloggersType[]> {
-        return bloggersInMemoryRepository.findBlogger(name)
+    async findBlogger(id: number): Promise<WithId<BloggerType> | null> {
+        return bloggersInMemoryRepository.findBlogger(id)
     }
 
 }
