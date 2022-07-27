@@ -9,7 +9,7 @@ export const bloggersService = {
         return bloggersInMemoryRepository.getBloggers()
     },
 
-    async createBlogger(name: string, youtubeUrl: string) {
+    async createBlogger(id: number, name: string, youtubeUrl: string) {
         const newBlogger = {
             id: +(new Date()),
             name: name,

@@ -33,7 +33,8 @@ bloggersRoute.post('/',
     urlValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        let newBlogger = await bloggersService.createBlogger(req.body.name, req.body.youtubeUrl)
+        let newBlogger = await bloggersService.createBlogger(req.body.id,
+            req.body.name, req.body.youtubeUrl)
         res.status(201).send(newBlogger)
     })
 
@@ -58,11 +59,7 @@ bloggersRoute.put('/:id',
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
     let blogger = await bloggersService.getBloggerById(+req.params.id)
     if (blogger) {
-        res.send({
-            id: blogger.id,
-            name: blogger.name,
-            youtubeUrl: blogger.youtubeUrl
-        })
+        res.send(200)
     } else {
         res.send(404)
     }
