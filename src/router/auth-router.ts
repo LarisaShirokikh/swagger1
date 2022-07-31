@@ -1,8 +1,8 @@
 import {NextFunction, Request, Response, Router} from "express";
 import {bloggersService} from "../domain/bloggers-service";
-import {jwtService} from "../application/jwt-service";
 
-/*export const authRouter = (req: Request, res: Response, next: NextFunction) => {
+
+export const authRouter = (req: Request, res: Response, next: NextFunction) => {
 
     const header = req.headers.authorization
     console.log('testAuth', header, 'Basic YWRtaW46cXdlcnR5')
@@ -12,11 +12,11 @@ import {jwtService} from "../application/jwt-service";
         next()
     }
 
-}*/
+}
 
-export const authRouter = Router({})
+//export const authRouter = Router({})
 
-authRouter.post('/login',
+/*authRouter.post('/login',
     async (req: Request, res: Response) => {
         const blogger = await bloggersService.checkCredentials(req.body.loginOrEmail, req.body.password)
         if (blogger) {
@@ -41,4 +41,4 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
     res.send(404)
 
-}
+}*/

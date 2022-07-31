@@ -1,4 +1,4 @@
-import {Router} from "express";
+/*import {Router} from "express";
 import {bloggers} from "../repositories/types";
 import {authMiddleware} from "./auth-router";
 
@@ -13,4 +13,4 @@ feedbacksRouter.post('/', authMiddleware,
 feedbacksRouter.get('/', async (req, res) => {
     const bloggers = await feedbaksService.allFeedbacks()
     res.send(bloggers)
-})
+})*/

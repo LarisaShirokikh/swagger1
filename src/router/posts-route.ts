@@ -1,4 +1,4 @@
-import {Request, Response, Router} from "express"
+/*import {Request, Response, Router} from "express"
 
 import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
@@ -92,5 +92,5 @@ postsRoute.delete('/:id', authRouter, (req: Request, res: Response) => {
     } else {
         res.send(404)
     }
-})
+})*/
 

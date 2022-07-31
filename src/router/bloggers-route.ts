@@ -5,7 +5,6 @@ import {contentValidation, nameValidation, urlValidation} from "../middlewares/t
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
 
-
 export const bloggersRoute = Router({});
 
 

@@ -2,7 +2,7 @@ import express, {Request, Response} from 'express'
 import bodyParser from "body-parser"
 import {videosRoute} from "./router/videos-route";
 import {bloggersRoute} from "./router/bloggers-route";
-import {postsRoute} from "./router/posts-route";
+//import {postsRoute} from "./router/posts-route";
 import {runDb} from "./settings"
 
 
@@ -13,7 +13,7 @@ const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
 app.use('/videos', videosRoute)
 app.use('/bloggers', bloggersRoute)
-app.use('/posts', postsRoute)
+//app.use('/posts', postsRoute)
 
 
 app.get('/', (req: Request, res: Response) => {
