@@ -10,8 +10,8 @@ export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
-    const PageNumber = req.query.PageNumber ? +req.query.PageNumber: 1
-    const PageSize = req.query.PageSize ? +req.query.PageSize: 10
+    const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
+    const PageSize = req.query.PageSize ? +req.query.PageSize : 10
     const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
     res.send(foundBlogger)
 
@@ -56,7 +56,7 @@ bloggersRoute.put('/:id',
                 req.body.name, req.body.youtubeUrl);
             res.send(isUpdated)
         }
-      res.send(404)
+        res.send(404)
     })
 
 bloggersRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
@@ -68,9 +68,9 @@ bloggersRoute.delete('/:id', authRouter, async (req: Request, res: Response) => 
     }
 })
 
-bloggersRoute.post('/',
+/*bloggersRoute.post('/',
     async (req: Request, res: Response) => {
         const newBlogger = await bloggersService.createBloggerPass(req.body.login,
             req.body.email, req.body.password)
         res.status(201).send(newBlogger)
-    })
+    }) */

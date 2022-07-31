@@ -1,8 +1,9 @@
 import {BloggerType} from "./types";
 import {bloggersCollection} from "../settings";
+import {bloggersRoute} from "../router/bloggers-route";
 
 
-export const bloggersDBRepository = {
+export const bloggersDbRepository = {
 
     async getBloggers(PageNumber: number, PageSize: number): Promise<BloggerType[]> {
         return await bloggersCollection.find({}).toArray()

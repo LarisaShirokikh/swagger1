@@ -1,32 +1,30 @@
 
-import {bloggersDBRepository} from "../repositories/bloggers-db-repository";
+import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType} from "../repositories/types";
-import {ObjectId, WithId} from "mongodb";
-import bcrypt from "bcrypt";
 
 
 export const bloggersService = {
 
     async getBloggersArray(PageNumber: number, PageSize: number): Promise<BloggerType[]> {
-        return bloggersDBRepository.getBloggers(PageNumber, PageSize)
+        return bloggersDbRepository.getBloggers(PageNumber, PageSize)
     },
 
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
-        return await bloggersDBRepository.createBlogger(name, youtubeUrl)
+        return await bloggersDbRepository.createBlogger(name, youtubeUrl)
     },
 
     async getBloggerById(id: number): Promise<BloggerType | null> {
-         return bloggersDBRepository.getBloggerById(id)
+         return bloggersDbRepository.getBloggerById(id)
     },
 
     async deleteBlogger(id: number): Promise<boolean> {
-        return await  bloggersDBRepository.deleteBlogger(id)
+        return await  bloggersDbRepository.deleteBlogger(id)
     },
 
     async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
-        return await bloggersDBRepository.updateBlogger(id, name, youtubeUrl)
+        return await bloggersDbRepository.updateBlogger(id, name, youtubeUrl)
 
-    },
+    }
 
   /*  async createBloggerPass(login: string, email: string, password: string): Promise<BloggerType> {
 
