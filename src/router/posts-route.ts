@@ -11,7 +11,7 @@ import {
 } from "../middlewares/title-validation";
 import {postRepository, PostType} from "../repositories/post-repository";
 import {bloggersInMemoryRepository} from "../repositories/bloggers-in-memory-repository";
-import {authMiddleware} from "../middlewares/auth-middleware";
+import {authRouter} from "./auth-router";
 
 
 export const postsRoute = Router({})
@@ -22,7 +22,7 @@ postsRoute.get('/', (req: Request, res: Response) => {
 })
 
 postsRoute.post('/',
-    authMiddleware,
+    authRouter,
     titleValidation,
     shortDescriptionValidation,
     contentValidation,
@@ -47,7 +47,7 @@ postsRoute.post('/',
 
 
 
-postsRoute.put('/:id', authMiddleware,
+postsRoute.put('/:id', authRouter,
     titleValidation, shortDescriptionValidation,
     contentValidation, inputValidationMiddleware,
 
@@ -85,7 +85,7 @@ postsRoute.get('/', async (req: Request, res: Response) => {
 
 })
 
-postsRoute.delete('/:id', authMiddleware, (req: Request, res: Response) => {
+postsRoute.delete('/:id', authRouter, (req: Request, res: Response) => {
     const isDeleted = postRepository.deletePost(req.params.id)
     if (isDeleted) {
         res.send(204)

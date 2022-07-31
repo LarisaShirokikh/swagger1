@@ -1,10 +1,10 @@
-import {bloggers, bloggersCollection, BloggerType} from "./db";
+import {bloggers, bloggersCollection, BloggerType} from "./types";
 
 
 
 export const bloggersInMemoryRepository = {
     async getBloggers(): Promise<BloggerType[]> {
-        return bloggersCollection.find().toArray()
+        return bloggers.find().toArray()
     },
 
     async createBlogger(newBlogger: BloggerType): Promise<BloggerType> {

@@ -1,48 +1,41 @@
-
-import {bloggers, bloggersCollection, BloggerType} from "./db";
-import {DeleteResult, ModifyResult, UpdateResult, WithId} from "mongodb";
-
+import {BloggerType} from "./types";
+import {bloggersCollection} from "../settings";
 
 
-export const bloggersInMemoryRepository = {
-    async getBloggers(): Promise<BloggerType[]> {
-        return bloggersCollection.find().toArray()
+export const bloggersDBRepository = {
+
+    async getBloggers(PageNumber: number, PageSize: number): Promise<BloggerType[]> {
+        return await bloggersCollection.find({}).toArray()
+
     },
 
-    async createBlogger(newBlogger: BloggerType): Promise<BloggerType> {
-
-        await bloggersCollection.insertOne(newBlogger)
+    async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
+        const newBlogger = {
+            id: +new Date(),
+            name,
+            youtubeUrl
+        }
+        const result = await bloggersCollection.insertOne(newBlogger)
         return newBlogger
     },
 
     async getBloggerById(id: number): Promise<BloggerType | null> {
-        return bloggersCollection.findOne({id})
+        return bloggersCollection.findOne({id: id})
     },
 
-    async deleteBlogger(id: number): Promise<DeleteResult>  {
-       return bloggersCollection.deleteOne({ id })
+    async deleteBlogger(id: number): Promise<boolean> {
+        const result = await bloggersCollection.deleteOne({id})
+        return result.deletedCount === 1
     },
 
-
-    async findBlogger(id: number): Promise<WithId<BloggerType> | null> {
-        return bloggersCollection.findOne({id})
+    async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
+        const result = await bloggersCollection.updateOne({id: id}, {$set: {name, youtubeUrl}})
+        return result.matchedCount === 1
     },
 
-    async updateBlogger(
-        id: number,
-        name: string,
-        youtubeUrl: string,
-    ): Promise<UpdateResult> {
-        return  bloggersCollection.updateOne(
-            { id },
-            {
-                $set: {
-                    name,
-                    youtubeUrl
-                }
-            }
-        )
-    }
+   // async findByLoginOrEmail(login: any, email: any): Promise<boolean> {
+     //   return
+
 
 }
 

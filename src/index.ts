@@ -1,15 +1,13 @@
 import express, {Request, Response} from 'express'
-import cors from 'cors'
 import bodyParser from "body-parser"
 import {videosRoute} from "./router/videos-route";
 import {bloggersRoute} from "./router/bloggers-route";
 import {postsRoute} from "./router/posts-route";
-import {runDb} from "./repositories/db";
+import {runDb} from "./settings"
 
 
 const app = express()
 const port = process.env.PORT || 3000
-app.use(cors())
 
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
