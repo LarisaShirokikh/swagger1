@@ -35,9 +35,13 @@ bloggersRoute.post('/',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        let newBlogger = await bloggersService.createBlogger(
+        let newBlogger = await bloggersService.createdBlogger(
             req.body.name, req.body.youtubeUrl)
-        res.status(201).send(newBlogger)
+        if (newBlogger) {
+            res.status(201).send(newBlogger)
+        } else {
+            res.status(400)
+        }
     })
 
 bloggersRoute.put('/:id',

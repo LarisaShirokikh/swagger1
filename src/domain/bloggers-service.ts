@@ -9,7 +9,7 @@ export const bloggersService = {
         return bloggersDbRepository.getBloggers(PageNumber, PageSize, SearchNameTerm)
     },
 
-    async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
+    async createdBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
         return await bloggersDbRepository.createBlogger(name, youtubeUrl)
     },
 
