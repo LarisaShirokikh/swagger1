@@ -5,8 +5,14 @@ import {bloggersRoute} from "../router/bloggers-route";
 
 export const bloggersDbRepository = {
 
-    async getBloggers(PageNumber: number, PageSize: number): Promise<BloggerType[]> {
+    async getBloggers(PageNumber: number, PageSize: number, SearchNameTerm: any): Promise<BloggerType[]> {
+        const paginationBlogger = {
+            pagesCount: SearchNameTerm,
+            page: PageNumber,
+            pageSize: PageSize,
+        }
         return await bloggersCollection.find({}).toArray()
+
 
     },
 

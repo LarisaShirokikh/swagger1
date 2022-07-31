@@ -1,5 +1,4 @@
 import {Request, Response, Router} from "express";
-
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {contentValidation, nameValidation, urlValidation} from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
@@ -9,9 +8,11 @@ export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
+    const SearchNameTerm = req.query.SearchNameTerm ? req.query.SearchNameTerm : null
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
-    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
+
+    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize, SearchNameTerm);
     res.send(foundBlogger)
 
 

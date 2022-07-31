@@ -5,8 +5,8 @@ import {BloggerType} from "../repositories/types";
 
 export const bloggersService = {
 
-    async getBloggersArray(PageNumber: number, PageSize: number): Promise<BloggerType[]> {
-        return bloggersDbRepository.getBloggers(PageNumber, PageSize)
+    async getBloggersArray(PageNumber: number, PageSize: number, SearchNameTerm: any): Promise<BloggerType[]> {
+        return bloggersDbRepository.getBloggers(PageNumber, PageSize, SearchNameTerm)
     },
 
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
