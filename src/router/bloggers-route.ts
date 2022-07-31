@@ -16,6 +16,7 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
     res.send(foundBlogger)
 
 
+
 })
 
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
