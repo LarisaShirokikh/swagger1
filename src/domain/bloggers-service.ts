@@ -1,6 +1,7 @@
 
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType} from "../repositories/types";
+import {ModifyResult} from "mongodb";
 
 
 export const bloggersService = {
@@ -18,7 +19,7 @@ export const bloggersService = {
     },
 
     async deleteBlogger(id: number): Promise<boolean> {
-        return await  bloggersDbRepository.deleteBlogger(id)
+        return await bloggersDbRepository.deleteBlogger(id)
     },
 
     async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {

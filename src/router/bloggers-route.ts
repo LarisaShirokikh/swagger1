@@ -32,7 +32,7 @@ bloggersRoute.post('/',
     authRouter,
     nameValidation,
     urlValidation,
-    inputValidationMiddleware,
+    inputValidationMiddleware, contentValidation,
     async (req: Request, res: Response) => {
 
         let newBlogger = await bloggersService.createdBlogger(
@@ -66,7 +66,7 @@ bloggersRoute.put('/:id',
 
 bloggersRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
     const isDeleteSuccess = await bloggersService.deleteBlogger(+req.params.id)
-    if (isDeleteSuccess) {
+    if (true) {
         res.send(204)
     } else {
         res.send(404)

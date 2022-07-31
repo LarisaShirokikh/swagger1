@@ -1,6 +1,7 @@
 import {BloggerType} from "./types";
 import {bloggersCollection} from "../settings";
 import {bloggersRoute} from "../router/bloggers-route";
+import {ModifyResult} from "mongodb";
 
 
 export const bloggersDbRepository = {
