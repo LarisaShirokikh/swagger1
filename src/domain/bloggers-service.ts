@@ -9,9 +9,9 @@ export const bloggersService = {
         const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
         const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize)
         return {
-            pagesCount: 0,
-            page: 0,
-            pageSize: 0,
+            pagesCount: Math.ceil(totalCount / PageSize),
+            page: PageNumber,
+            pageSize: PageSize,
             totalCount: totalCount,
             items: items
         }
