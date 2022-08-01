@@ -1,19 +1,26 @@
 import {BloggerType} from "./types";
 import {bloggersCollection} from "../settings";
-import {bloggersRoute} from "../router/bloggers-route";
-import {ModifyResult} from "mongodb";
 
 
 export const bloggersDbRepository = {
 
-    async getBloggers(PageNumber: number, PageSize: number, SearchNameTerm: any): Promise<BloggerType[]> {
-        const paginationBlogger = {
-            pagesCount: SearchNameTerm,
-            page: PageNumber,
-            pageSize: PageSize,
+    async getBloggers(PageNumber: number, PageSize: number, term?: string): Promise<number> {
+        let filter = {}
+        if (term) {
+            filter = {name: {$regex: term}}
         }
-        return await bloggersCollection.find({}).toArray()
+        const result = await bloggersCollection.find(filter).skip((PageNumber - 1) * PageSize).limit(PageSize)
+        return bloggersCollection.countDocuments(filter)
 
+    },
+
+    async getBloggersCount(PageNumber: number, PageSize: number, term?: string): Promise<number> {
+        let filter = {}
+        if (term) {
+            filter = {name: {$regex: term}}
+        }
+        const result = await bloggersCollection.find(filter).skip((PageNumber - 1) * PageSize).limit(PageSize)
+        return bloggersCollection.countDocuments(filter)
 
     },
 
@@ -24,11 +31,22 @@ export const bloggersDbRepository = {
             youtubeUrl
         }
         const result = await bloggersCollection.insertOne(newBlogger)
-        return newBlogger
+        result.insertedId
+        if (result.acknowledged) {
+            return {
+                name: newBlogger.name,
+                id: newBlogger.id,
+                youtubeUrl: newBlogger.youtubeUrl
+            }
+        }
+        return null
+
     },
 
     async getBloggerById(id: number): Promise<BloggerType | null> {
-        return bloggersCollection.findOne({id: id})
+        const gotBlogger = bloggersCollection.findOne({id: id})
+
+        return gotBlogger
     },
 
     async deleteBlogger(id: number): Promise<boolean> {
@@ -40,9 +58,6 @@ export const bloggersDbRepository = {
         const result = await bloggersCollection.updateOne({id: id}, {$set: {name, youtubeUrl}})
         return result.matchedCount === 1
     },
-
-   // async findByLoginOrEmail(login: any, email: any): Promise<boolean> {
-     //   return
 
 
 }

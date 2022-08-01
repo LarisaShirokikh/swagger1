@@ -36,6 +36,14 @@ export type BloggerType = {
     youtubeUrl: string,
 }
 
+export type Pagination<T> = {
+    page: number
+    pageSize: number
+    totalCount: number
+    pagesCount: number
+    items: T
+}
+
 
 
 

@@ -8,11 +8,11 @@ export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
-    const SearchNameTerm = req.query.SearchNameTerm ? req.query.SearchNameTerm : null
+    const Term = req.query.Term
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize, SearchNameTerm);
+    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
     res.send(foundBlogger)
 
 
@@ -22,7 +22,7 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
     const foundBlogger = await bloggersService.getBloggerById(+req.params.id)
     if (foundBlogger) {
-        res.send(foundBlogger)
+        res.status(200).send(foundBlogger)
     } else {
         res.send(404)
     }
@@ -40,7 +40,7 @@ bloggersRoute.post('/',
         if (newBlogger) {
             res.status(201).send(newBlogger)
         } else {
-            res.status(400)
+            res.status(500)
         }
     })
 
@@ -73,9 +73,4 @@ bloggersRoute.delete('/:id', authRouter, async (req: Request, res: Response) => 
     }
 })
 
-/*bloggersRoute.post('/',
-    async (req: Request, res: Response) => {
-        const newBlogger = await bloggersService.createBloggerPass(req.body.login,
-            req.body.email, req.body.password)
-        res.status(201).send(newBlogger)
-    }) */
+
