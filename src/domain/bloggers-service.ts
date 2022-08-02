@@ -1,11 +1,18 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType} from "../repositories/types";
+import {FindCursor, WithId} from "mongodb";
 
 
 export const bloggersService = {
 
     async getBloggersArray(PageNumber: number, PageSize: number):
-        Promise<{ pagesCount: number; pageSize: number; page: number; totalCount: number; items: number }> {
+        Promise<{
+        pagesCount: number;
+        pageSize: number;
+        page: number;
+        totalCount: number;
+        items: number }> {
+
         const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
         const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize)
         return {

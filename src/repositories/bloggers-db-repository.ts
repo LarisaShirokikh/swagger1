@@ -1,5 +1,6 @@
 import {BloggerType} from "./types";
 import {bloggersCollection} from "../settings";
+import {FindCursor, WithId} from "mongodb";
 
 
 export const bloggersDbRepository = {
@@ -15,12 +16,11 @@ export const bloggersDbRepository = {
 
     },
 
-    async getBloggersCount(PageNumber: number, PageSize: number, term?: string | string[]): Promise<number> {
+    async getBloggersCount(PageNumber: number,
+                           PageSize: number,
+                           term?: string | string[]): Promise<number> {
         let filter = {}
-        if (term) {
-            filter = {name: {$regex: term}}
-        }
-        await bloggersCollection.find(filter).limit(PageSize)
+        const result = await bloggersCollection.find(filter).skip(PageSize * PageNumber)
         return bloggersCollection.countDocuments(filter)
 
     },
