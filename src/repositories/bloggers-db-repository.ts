@@ -4,7 +4,7 @@ import {bloggersCollection} from "../settings";
 
 export const bloggersDbRepository = {
 
-    async getBloggers(PageNumber: number, PageSize: number, term?: string): Promise<number> {
+    async getBloggers(PageNumber: number, PageSize: number, term?: string | string[]): Promise<number> {
         let filter = {}
         if (term) {
             filter = {name: {$regex: term}}
@@ -14,12 +14,13 @@ export const bloggersDbRepository = {
 
     },
 
-    async getBloggersCount(PageNumber: number, PageSize: number, term?: string): Promise<number> {
+    async getBloggersCount(PageNumber: number, PageSize: number, term?: string | string[]): Promise<number> {
         let filter = {}
         if (term) {
             filter = {name: {$regex: term}}
         }
-        const result = await bloggersCollection.find(filter).skip((PageNumber - 1) * PageSize).limit(PageSize)
+        const result = await bloggersCollection.find(filter)
+            .skip((PageNumber - 1) * PageSize).limit(PageSize)
         return bloggersCollection.countDocuments(filter)
 
     },
@@ -45,7 +46,6 @@ export const bloggersDbRepository = {
 
     async getBloggerById(id: number): Promise<BloggerType | null> {
         const gotBlogger = bloggersCollection.findOne({id: id})
-
         return gotBlogger
     },
 
