@@ -1,8 +1,17 @@
 import {Request, Response, Router} from "express";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {contentValidation, nameValidation, urlValidation} from "../middlewares/title-validation";
+import {
+    contentValidation,
+    shortDescriptionValidationBloggersPosts,
+    titleValidationCreate, titleValidationBloggersPosts,
+    urlValidation, nameValidationCreate
+} from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
+import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
+import {PostType} from "../repositories/types";
+import {postDbRepository} from "../repositories/post-db-repository";
+import {postsRoute} from "./posts-route";
 
 export const bloggersRoute = Router({});
 
@@ -30,7 +39,7 @@ bloggersRoute.get('/:id', async (req: Request, res: Response) => {
 
 bloggersRoute.post('/',
     authRouter,
-    nameValidation,
+    nameValidationCreate,
     urlValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
@@ -45,7 +54,7 @@ bloggersRoute.post('/',
 
 bloggersRoute.put('/:id',
     authRouter,
-    nameValidation,
+    nameValidationCreate,
     urlValidation,
     contentValidation,
     inputValidationMiddleware,
@@ -74,3 +83,56 @@ bloggersRoute.delete('/:id', authRouter, async (req: Request, res: Response) => 
 })
 
 
+bloggersRoute.post('/bloggerId/posts',
+    authRouter,
+    titleValidationBloggersPosts,
+    shortDescriptionValidationBloggersPosts,
+    contentValidation,
+    inputValidationMiddleware,
+    async (req: Request, res: Response) => {
+
+        let blogger = await bloggersDbRepository.getBloggerById(req.body.bloggerId)
+        if (!blogger) {
+            return res.status(404).send()
+        } else {
+            const newPost: PostType = {
+                id: +(new Date()),
+                title: req.body.title,
+                bloggerName: blogger.name,
+                shortDescription: req.body.shortDescription,
+                content: req.body.content,
+                bloggerId: req.body.bloggerId
+            }
+            await postDbRepository.createPost(newPost)
+            res.status(201).send(newPost)
+        }
+    })
+
+bloggersRoute.get('/bloggerId/posts',
+    authRouter,
+    titleValidationBloggersPosts,
+    shortDescriptionValidationBloggersPosts,
+    contentValidation,
+    inputValidationMiddleware,
+    async (req: Request, res: Response) => {
+        const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
+        const PageSize = req.query.PageSize ? +req.query.PageSize : 10
+
+        const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
+        res.send(foundBlogger)
+        let blogger = await bloggersDbRepository.getBloggerById(req.body.bloggerId)
+        if (!blogger) {
+            return res.status(404).send()
+        } else {
+            const newPost: PostType = {
+                id: +(new Date()),
+                title: req.body.title,
+                shortDescription: req.body.shortDescription,
+                content: req.body.content,
+                bloggerId: req.body.bloggerId,
+                bloggerName: blogger.name
+            }
+            await postDbRepository.createPost(newPost)
+            res.status(200).send(newPost)
+        }
+    })

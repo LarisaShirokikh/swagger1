@@ -4,9 +4,9 @@ import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {
     contentValidation,
-    nameValidation,
+    nameValidationCreate,
     shortDescriptionValidation,
-    titleValidation,
+    titleValidationCreate,
     urlValidation
 } from "../middlewares/title-validation";
 import {PostType} from "../repositories/types";
@@ -24,7 +24,7 @@ postsRoute.get('/', (req: Request, res: Response) => {
 
 postsRoute.post('/',
     authRouter,
-    titleValidation,
+    titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
     inputValidationMiddleware,
@@ -49,7 +49,7 @@ postsRoute.post('/',
 
 
 postsRoute.put('/:id', authRouter,
-    titleValidation, shortDescriptionValidation,
+    titleValidationCreate, shortDescriptionValidation,
     contentValidation, inputValidationMiddleware,
 
     async (req: Request, res: Response) => {

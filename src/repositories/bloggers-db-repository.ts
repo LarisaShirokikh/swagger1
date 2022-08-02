@@ -11,7 +11,11 @@ export const bloggersDbRepository = {
         }
         const test = await bloggersCollection.find(filter)
             .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
-        return test
+        return test.map((b) => ({
+            id: b.id,
+            name: b.name,
+            youtubeUrl: b.youtubeUrl
+        }))
 
     },
 

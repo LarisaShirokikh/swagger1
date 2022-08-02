@@ -63,7 +63,6 @@ export const postDbRepository = {
 
 
     async createPost(newPost: PostType): Promise<PostType> {
-
         posts.push(newPost)
         return newPost
     },
