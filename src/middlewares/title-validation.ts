@@ -24,6 +24,6 @@ export const nameValidation = body('name').trim().isLength({
 export const urlValidation = body('youtubeUrl').trim().isURL().isLength({
     min: 5,
     max: 100,
-    //pattern: '^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$'
+    //pattern: ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
 
 }).withMessage('youtubeUrl should be from 5 to 100 symbols');

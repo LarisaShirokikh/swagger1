@@ -1,18 +1,17 @@
 import {BloggerType} from "./types";
 import {bloggersCollection} from "../settings";
-import {FindCursor, WithId} from "mongodb";
 
 
 export const bloggersDbRepository = {
 
-    async getBloggers(PageNumber: number, PageSize: number, term?: string | string[]): Promise<number> {
+    async getBloggers(PageNumber: number, PageSize: number, term?: string | string[]): Promise<BloggerType[]> {
         let filter = {}
         if (term) {
             filter = {name: {$regex: term}}
         }
-        await bloggersCollection.find(filter)
-            .skip((PageNumber - 1) * PageSize).limit(PageSize)
-        return bloggersCollection.countDocuments(filter)
+        const test = await bloggersCollection.find(filter)
+            .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
+        return test
 
     },
 
@@ -20,8 +19,10 @@ export const bloggersDbRepository = {
                            PageSize: number,
                            term?: string | string[]): Promise<number> {
         let filter = {}
-        const result = await bloggersCollection.find(filter).skip(PageSize * PageNumber)
-        return bloggersCollection.countDocuments(filter)
+            // const result = await bloggersCollection.find()
+        const test = bloggersCollection.countDocuments()
+        debugger
+        return test
 
     },
 
