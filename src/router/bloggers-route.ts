@@ -48,7 +48,7 @@ bloggersRoute.post('/',
         if (newBlogger) {
             res.status(201).send(newBlogger)
         } else {
-            res.status(500)
+            res.status(400)
         }
     })
 
@@ -56,12 +56,10 @@ bloggersRoute.put('/:id',
     authRouter,
     nameValidationCreate,
     urlValidation,
-    contentValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const isUpdateSuccess = await bloggersService.updateBlogger(
-            +req.params.id,
-            req.body.name, req.body.youtubeUrl
+        const isUpdateSuccess = await bloggersService
+            .updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl
         );
 
         if (isUpdateSuccess) {
@@ -73,7 +71,9 @@ bloggersRoute.put('/:id',
         res.send(404)
     })
 
-bloggersRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
+bloggersRoute.delete('/:id',
+    authRouter,
+    async (req: Request, res: Response) => {
     const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
     if (isDeleted) {
         res.send(204)
@@ -98,10 +98,10 @@ bloggersRoute.post('/bloggerId/posts',
             const newPost: PostType = {
                 id: +(new Date()),
                 title: req.body.title,
-                bloggerName: blogger.name,
                 shortDescription: req.body.shortDescription,
                 content: req.body.content,
-                bloggerId: req.body.bloggerId
+                bloggerId: req.body.bloggerId,
+                bloggerName: blogger.name
             }
             await postDbRepository.createPost(newPost)
             res.status(201).send(newPost)
@@ -109,18 +109,15 @@ bloggersRoute.post('/bloggerId/posts',
     })
 
 bloggersRoute.get('/bloggerId/posts',
-    authRouter,
-    titleValidationBloggersPosts,
-    shortDescriptionValidationBloggersPosts,
-    contentValidation,
-    inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
         const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-        const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
+        const foundBlogger = await bloggersService
+            .getBloggersArray(PageNumber, PageSize);
         res.send(foundBlogger)
-        let blogger = await bloggersDbRepository.getBloggerById(req.body.bloggerId)
+        let blogger = await bloggersDbRepository
+            .getBloggerById(req.body.bloggerId)
         if (!blogger) {
             return res.status(404).send()
         } else {
