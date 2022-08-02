@@ -22,7 +22,7 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
     const foundBlogger = await bloggersService.getBloggerById(+req.params.id)
     if (foundBlogger) {
-        res.status(200).send(foundBlogger)
+        res.status(201).send(foundBlogger)
     } else {
         res.send(404)
     }
@@ -32,7 +32,7 @@ bloggersRoute.post('/',
     authRouter,
     nameValidation,
     urlValidation,
-    inputValidationMiddleware, contentValidation,
+    inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
         let newBlogger = await bloggersService.createdBlogger(req.body.name, req.body.youtubeUrl)
@@ -47,7 +47,8 @@ bloggersRoute.put('/:id',
     authRouter,
     nameValidation,
     urlValidation,
-    inputValidationMiddleware, contentValidation,
+    contentValidation,
+    inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const isUpdateSuccess = await bloggersService.updateBlogger(
             +req.params.id,

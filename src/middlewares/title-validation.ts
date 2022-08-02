@@ -1,6 +1,7 @@
 import {body} from "express-validator";
 import {validationResult} from "express-validator";
 
+const regexp = new RegExp('^https://([a-zA-Z0-9_-]+\\.)+[a-zA-Z0-9_-]+(\\/[a-zA-Z0-9_-]+)*\\/?$')
 export const titleValidation = body('title').trim().isLength({
     min: 5,
     max: 30
@@ -21,9 +22,5 @@ export const nameValidation = body('name').trim().isLength({
     max: 15
 }).withMessage('Name should be from 5 to 15 symbols');
 
-export const urlValidation = body('youtubeUrl').trim().isURL().isLength({
-    min: 5,
-    max: 100,
-    //pattern: ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
-
-}).withMessage('youtubeUrl should be from 5 to 100 symbols');
+export const urlValidation = body('youtubeUrl').trim().matches(regexp)
+.withMessage('youtubeUrl should be is valid');
