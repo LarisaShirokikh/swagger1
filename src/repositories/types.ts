@@ -30,6 +30,49 @@ export const bloggersCollection: BloggerType[] = [
     },
 ]
 
+export let posts: PostType[] = [
+    {
+        id: 1,
+        title: 'About JS - 01',
+        bloggerName: "string",
+        shortDescription: 'shortDescription',
+        content: "string",
+        bloggerId: 1
+    },
+    {
+        id: 2,
+        title: 'About JS - 02',
+        bloggerName: "string",
+        shortDescription: 'shortDescription',
+        content: "string",
+        bloggerId: 2
+    },
+    {
+        id: 3,
+        title: 'About JS - 03',
+        bloggerName: "string",
+        shortDescription: 'shortDescription',
+        content: "string",
+        bloggerId: 3
+    },
+    {
+        id: 4,
+        title: 'About JS - 04',
+        bloggerName: "string",
+        shortDescription: 'shortDescription',
+        content: "string",
+        bloggerId: 4
+    },
+    {
+        id: 5,
+        title: 'About JS - 05',
+        bloggerName: "string",
+        shortDescription: 'shortDescription',
+        content: "string",
+        bloggerId: 5
+    },
+]
+
 export type BloggerType = {
     id: number,
     name: string
@@ -44,6 +87,13 @@ export type Pagination<T> = {
     items: T
 }
 
-
+export type PostType = {
+    id: number,
+    title: string,
+    bloggerName: string,
+    shortDescription: string,
+    content: string,
+    bloggerId: number
+}
 
 

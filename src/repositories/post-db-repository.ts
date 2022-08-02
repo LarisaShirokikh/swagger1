@@ -1,15 +1,15 @@
 
 
-export type PostType = {
+/*export type PostType = {
     id: number,
     title: string,
     bloggerName: string,
     shortDescription: string,
     content: string,
     bloggerId: number
-}
+}*/
 
-let posts: PostType[] = [
+/*let posts: PostType[] = [
     {
         id: 1,
         title: 'About JS - 01',
@@ -50,9 +50,13 @@ let posts: PostType[] = [
         content: "string",
         bloggerId: 5
     },
-]
+]*/
 
-export const postRepository = {
+import {PostType} from "./types";
+import {posts} from "./types"
+
+
+export const postDbRepository = {
     getPosts() {
         return posts
     },
@@ -84,7 +88,7 @@ export const postRepository = {
     deletePost(id: string) {
         const newVideo = posts.filter(p => p.id !== +id)
         if (newVideo.length < posts.length) {
-            posts = newVideo
+            let posts = newVideo
             return true
         } else {
             return false
