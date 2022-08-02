@@ -9,7 +9,8 @@ export const bloggersDbRepository = {
         if (term) {
             filter = {name: {$regex: term}}
         }
-        const result = await bloggersCollection.find(filter).skip((PageNumber - 1) * PageSize).limit(PageSize)
+        await bloggersCollection.find(filter)
+            .skip((PageNumber - 1) * PageSize).limit(PageSize)
         return bloggersCollection.countDocuments(filter)
 
     },
@@ -19,8 +20,7 @@ export const bloggersDbRepository = {
         if (term) {
             filter = {name: {$regex: term}}
         }
-        const result = await bloggersCollection.find(filter)
-            .skip((PageNumber - 1) * PageSize).limit(PageSize)
+        await bloggersCollection.find(filter).limit(PageSize)
         return bloggersCollection.countDocuments(filter)
 
     },

@@ -35,8 +35,7 @@ bloggersRoute.post('/',
     inputValidationMiddleware, contentValidation,
     async (req: Request, res: Response) => {
 
-        let newBlogger = await bloggersService.createdBlogger(
-            req.body.name, req.body.youtubeUrl)
+        let newBlogger = await bloggersService.createdBlogger(req.body.name, req.body.youtubeUrl)
         if (newBlogger) {
             res.status(201).send(newBlogger)
         } else {
@@ -65,8 +64,8 @@ bloggersRoute.put('/:id',
     })
 
 bloggersRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
-    const isDeleteSuccess = await bloggersService.deleteBlogger(+req.params.id)
-    if (true) {
+    const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
+    if (isDeleted) {
         res.send(204)
     } else {
         res.send(404)
