@@ -1,38 +1,41 @@
 import {PostType} from "../repositories/types";
 import {postDbRepository} from "../repositories/post-db-repository";
-import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 export const postsService = {
-
-    async getPostArray(PageNumber: number, PageSize: number):
-        Promise<{ pagesCount: number; pageSize: number; page: number; totalCount: number; items: { items: PostType[]; count: number } }> {
-
-        const items = await postDbRepository.getPosts(PageNumber, PageSize)
-        const totalCount = await postDbRepository.getPostsCount(PageNumber, PageSize)
-
-        return {
-            pagesCount: Math.ceil(totalCount / PageSize),
-            page: PageNumber,
-            pageSize: PageSize,
-            totalCount: totalCount,
-            items: items
+    async findPost(pageSize:number, pageNumber:number) {
+        return await postDbRepository.findPosts(pageSize, pageNumber )
+    },
+    async findPostById(id: number) {
+        return await postDbRepository.findPostById(id)
+    },
+    async createPost(id: number,
+                     title: string,
+                     shortDescription: string,
+                     content: string, bloggerId: number, bloggerName: string) {
+        const newPosts = {
+            id: +(new Date()),
+            title: title,
+            shortDescription: shortDescription,
+            content: content,
+            bloggerId: bloggerId,
+            bloggerName: bloggerName
         }
+        return await postDbRepository.createPost(newPosts)
+
     },
-
-    async createPost(newPost: PostType): Promise<PostType | null> {
-        return await postDbRepository.createPost(newPost)
+    async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number) {
+        return await postDbRepository.updatePost(id, title, shortDescription, content, bloggerId)
     },
-
-    async getPostById(id: number): Promise<PostType | null> {
-        return postDbRepository.getPostById(id)
+    async deletePost(id: number) {
+        return await postDbRepository.deletePosts(id)
     },
-
-    async deletePost(id: number): Promise<boolean> {
-        return await postDbRepository.deletePost(id)
+    async getCount() {
+        return await postDbRepository.getCount()
     },
-
-    async updatePost(updatedPost: PostType): Promise<boolean> {
-        return await postDbRepository.updatePost(updatedPost)
-    }
-
+    async findBloggersPost(pageSize:number, pageNumber:number,bloggerId:number) {
+        return await postDbRepository.findBloggersPost(pageSize, pageNumber, bloggerId)
+    },
+    async getCountBloggerId(bloggerId: number) {
+        return await postDbRepository.getCountBloggerId(bloggerId)
+    },
 }

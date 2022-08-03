@@ -115,7 +115,7 @@ bloggersRoute.get('/:bloggerId/posts',
             return res.status(404).send()
         }
 
-        const posts = await postsService.getPostArray(PageNumber, PageSize)
+        const posts = await postsService.findPost(PageNumber, PageSize)
 
         res.status(200).send(posts)
 
