@@ -42,15 +42,13 @@ postsRoute.post('/',
             shortDescription: req.body.shortDescription,
             content: req.body.content,
             bloggerId: blogger.id,
-            bloggerName: blogger.name,
+            bloggerName: blogger.name
         }
 
         const createdPost = await postsService.createPost(newPost)
 
         if (createdPost) {
             res.status(201).send(createdPost)
-        } else {
-            res.status(500).send('Something went wrong!')
         }
     })
 
@@ -101,9 +99,11 @@ postsRoute.put('/:id',
 postsRoute.delete('/:id',
     authRouter,
     async (req: Request, res: Response) => {
-        const isDeleted = await postDbRepository.deletePost(+req.params.id)
+        const isDeleted = await postsService.deletePost(+req.params.id)
         if (isDeleted) {
             res.send(204)
+        } else {
+            res.send(404)
         }
     })
 
