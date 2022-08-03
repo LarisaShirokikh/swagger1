@@ -25,7 +25,6 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
     res.send(foundBlogger)
 
 
-
 })
 
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
@@ -60,7 +59,7 @@ bloggersRoute.put('/:id',
     async (req: Request, res: Response) => {
         const isUpdateSuccess = await bloggersService
             .updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl
-        );
+            );
 
         if (isUpdateSuccess) {
             const isUpdated = await bloggersService.updateBlogger(
@@ -74,13 +73,13 @@ bloggersRoute.put('/:id',
 bloggersRoute.delete('/:id',
     authRouter,
     async (req: Request, res: Response) => {
-    const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
-    if (isDeleted) {
-        res.send(204)
-    } else {
-        res.send(404)
-    }
-})
+        const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
+        if (isDeleted) {
+            res.send(204)
+        } else {
+            res.send(404)
+        }
+    })
 
 
 bloggersRoute.post('/bloggerId/posts',
@@ -103,32 +102,25 @@ bloggersRoute.post('/bloggerId/posts',
                 bloggerId: req.body.bloggerId,
                 bloggerName: blogger.name
             }
-            await postsService.createdPost(newPost)
+            await postsService.createPost(newPost)
             res.status(201).send(newPost)
         }
     })
 
-bloggersRoute.get('/bloggerId/posts',
+bloggersRoute.get('/:bloggerId/posts',
     async (req: Request, res: Response) => {
+
         const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
         const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-        const foundBlogger = await bloggersService
-            .getBloggersArray(PageNumber, PageSize);
-        res.send(foundBlogger)
+
         let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
             return res.status(404).send()
-        } else {
-            const newPost: Promise<PostType[]> = {
-                id: req.body.id,
-                title: req.body.title,
-                shortDescription: req.body.shortDescription,
-                content: req.body.content,
-                bloggerId: req.body.bloggerId,
-                bloggerName: req.body.bloggerName
-            }
-            await postsService.createdPost(newPost)
-            res.status(200).send(newPost)
         }
+
+        const posts = await postsService.getPostArray(PageNumber, PageSize, { bloggerId: blogger.id })
+
+        res.status(200).send(posts)
+
     })

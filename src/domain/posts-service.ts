@@ -3,7 +3,7 @@ import {postDbRepository} from "../repositories/post-db-repository";
 
 export const postsService = {
 
-    async getPostArray(PageNumber: number, PageSize: number):
+    async getPostArray(PageNumber: number, PageSize: number, filters?: Partial<PostType>):
         Promise<{
             pagesCount: number;
             pageSize: number;
@@ -11,41 +11,31 @@ export const postsService = {
             totalCount: number;
             items: PostType[] }> {
 
-        const items = await postDbRepository.getPosts(PageNumber, PageSize)
-        const totalCount = await postDbRepository.getPostCount(PageNumber, PageSize)
+        const {items, count} = await postDbRepository.getPosts(PageNumber, PageSize, filters)
+
         return {
-            pagesCount: Math.ceil(totalCount / PageSize),
+            pagesCount: Math.ceil(count / PageSize),
             page: PageNumber,
             pageSize: PageSize,
-            totalCount: totalCount,
-            items: items
+            totalCount: count,
+            items
         }
     },
 
-    async createdPost(title: string,
-    shortDescription: string,
-    content: string,
-    bloggerId: number): Promise<PostType> {
-        return await postDbRepository.createPost(title,
-            shortDescription,
-            content,
-            bloggerId)
+    async createPost(newPost: PostType): Promise<PostType | null> {
+        return await postDbRepository.createPost(newPost)
     },
 
-    async getPostById(id: string): Promise<PostType | null | undefined> {
-        return postDbRepository.getPostByIdById(id)
+    async getPostById(id: number): Promise<PostType | null> {
+        return postDbRepository.getPostById(id)
     },
 
     async deletePost(id: number): Promise<boolean> {
         return await postDbRepository.deletePost(id)
     },
 
-    async updatePost(title: string, shortDescription: string,
-                     content: string,
-                     bloggerId: number): Promise<boolean> {
-        return await postDbRepository.updatePost(title,
-            shortDescription, content, bloggerId)
-
+    async updatePost(updatedPost: PostType): Promise<boolean> {
+        return await postDbRepository.updatePost(updatedPost)
     }
 
 }
