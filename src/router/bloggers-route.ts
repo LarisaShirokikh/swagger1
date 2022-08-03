@@ -94,7 +94,7 @@ bloggersRoute.post('/bloggerId/posts',
         if (!blogger) {
             return res.status(404).send()
         } else {
-            const newPost: PostType = {
+            const newPost = {
                 id: +(new Date()),
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,

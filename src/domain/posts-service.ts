@@ -8,19 +8,8 @@ export const postsService = {
     async findPostById(id: number) {
         return await postDbRepository.findPostById(id)
     },
-    async createPost(id: number,
-                     title: string,
-                     shortDescription: string,
-                     content: string, bloggerId: number, bloggerName: string) {
-        const newPosts = {
-            id: +(new Date()),
-            title: title,
-            shortDescription: shortDescription,
-            content: content,
-            bloggerId: bloggerId,
-            bloggerName: bloggerName
-        }
-        return await postDbRepository.createPost(newPosts)
+    async createPost(newPost: PostType) {
+        return await postDbRepository.createPost(newPost)
 
     },
     async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number) {
