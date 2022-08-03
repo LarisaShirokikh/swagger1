@@ -35,6 +35,10 @@ export const bloggersService = {
     async updateBlogger(name: string, youtubeUrl: string): Promise<boolean> {
         return await bloggersDbRepository.updateBlogger(name, youtubeUrl)
 
+    },
+
+    async findBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
+        return await bloggersDbRepository.findBlogger(name, youtubeUrl)
     }
 
 }

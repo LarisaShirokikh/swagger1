@@ -79,6 +79,10 @@ export const bloggersDbRepository = {
 
     async getCount() {
         return await bloggersCollection.countDocuments({name: {}})
+    },
+
+    async findBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
+        return await  bloggersCollection.findOne({name: name, youtubeUrl: youtubeUrl})
     }
 }
 
