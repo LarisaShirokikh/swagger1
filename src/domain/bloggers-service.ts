@@ -4,7 +4,7 @@ import {BloggerType} from "../repositories/types";
 
 export const bloggersService = {
 
-    async getBloggersArray(PageNumber: number, PageSize: number):
+    async getBloggersArray(PageNumber: number, PageSize: number, SearchNameTerm: string):
         Promise<{
         pagesCount: number;
         pageSize: number;
@@ -12,8 +12,8 @@ export const bloggersService = {
         totalCount: number;
         items: BloggerType[] }> {
 
-        const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
-        const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize)
+        const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize, SearchNameTerm)
+        const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize, SearchNameTerm)
         return {
             pagesCount: Math.ceil(totalCount / PageSize),
             page: PageNumber,

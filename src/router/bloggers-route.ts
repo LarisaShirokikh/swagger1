@@ -8,20 +8,18 @@ import {
 } from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
-import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {PostType} from "../repositories/types";
-import {postDbRepository} from "../repositories/post-db-repository";
 import {postsService} from "../domain/posts-service";
 
 export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
-    const Term = req.query.Term
+    const SearchNameTerm = toString(req.query.SearchNameTerm)
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
+    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize, SearchNameTerm);
     res.send(foundBlogger)
 
 
