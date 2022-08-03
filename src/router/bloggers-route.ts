@@ -56,14 +56,11 @@ bloggersRoute.put('/:id',
     urlValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const isUpdateSuccess = await bloggersService
-            .updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl
+        const isUpdateSuccess = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl
             );
 
         if (isUpdateSuccess) {
-            const isUpdated = await bloggersService.updateBlogger(
-                +req.params.id,
-                req.body.name, req.body.youtubeUrl);
+            const isUpdated = await bloggersService.updateBlogger( req.body.id, req.body.name, req.body.youtubeUrl);
             res.send(isUpdated)
         }
         res.send(400)

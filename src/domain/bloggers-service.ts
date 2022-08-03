@@ -33,7 +33,7 @@ export const bloggersService = {
     },
 
     async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
-        return await bloggersDbRepository.updateBlogger(id, name, youtubeUrl)
+        return await bloggersDbRepository.updateBlogger(name, youtubeUrl)
 
     }
 

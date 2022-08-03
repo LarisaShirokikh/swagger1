@@ -68,10 +68,10 @@ export const bloggersDbRepository = {
         return result.deletedCount === 1
     },
 
-    async updateBlogger(id: number,
+    async updateBlogger(
                         name: string,
                         youtubeUrl: string): Promise<boolean> {
-        const result = await bloggersCollection.updateOne({id: id},
+        const result = await bloggersCollection.updateOne({name: name},
             {$set: {name, youtubeUrl}})
         return result.matchedCount === 1
     },
