@@ -56,12 +56,12 @@ bloggersRoute.put('/:id',
     urlValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const isUpdateSuccess = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl
+        const isUpdateSuccess = await bloggersService.updateBlogger(req.body.name, req.body.youtubeUrl
         );
 
         if (isUpdateSuccess) {
-            const isUpdated = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl);
-            res.send(isUpdated)
+            const isUpdated = await bloggersService.updateBlogger(req.body.name, req.body.youtubeUrl);
+            res.sendStatus(204).send("No content")
         }
         res.send(400)
     })
@@ -112,7 +112,7 @@ bloggersRoute.get('/:bloggerId/posts',
 
         let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
-            return res.status(404).send()
+            return res.status(401).send()
         }
 
         const posts = await postsService.findPost(PageNumber, PageSize)

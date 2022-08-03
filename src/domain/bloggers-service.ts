@@ -32,7 +32,7 @@ export const bloggersService = {
         return await bloggersDbRepository.deleteBlogger(id)
     },
 
-    async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
+    async updateBlogger(name: string, youtubeUrl: string): Promise<boolean> {
         return await bloggersDbRepository.updateBlogger(name, youtubeUrl)
 
     }
