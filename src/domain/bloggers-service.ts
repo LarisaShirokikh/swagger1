@@ -1,24 +1,21 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType} from "../repositories/types";
+import * as QueryString from "querystring";
 
 
 export const bloggersService = {
 
     async getBloggersArray(PageNumber: number, PageSize: number, SearchNameTerm: string):
-        Promise<{
-        pagesCount: number;
-        pageSize: number;
-        page: number;
-        totalCount: number;
-        items: BloggerType[] }> {
+        Promise<{ pagesCount: number; pageSize: number; page: number; totalCount: number; items: BloggerType[] }> {
 
         const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize, SearchNameTerm)
         const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize, SearchNameTerm)
+        const getCount = await bloggersDbRepository.getCount(SearchNameTerm)
         return {
             pagesCount: Math.ceil(totalCount / PageSize),
             page: PageNumber,
             pageSize: PageSize,
-            totalCount: totalCount,
+            totalCount: getCount,
             items: items
         }
     },

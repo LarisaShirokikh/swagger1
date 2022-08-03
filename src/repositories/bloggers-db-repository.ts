@@ -77,6 +77,9 @@ export const bloggersDbRepository = {
     },
 
 
+    async getCount(SearchNameTerm: string) {
+        return await bloggersCollection.countDocuments({name: {$regex: SearchNameTerm}})
+    }
 }
 
 

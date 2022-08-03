@@ -15,7 +15,7 @@ export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
-    const SearchNameTerm = toString(req.query.SearchNameTerm)
+    const SearchNameTerm = req.query.SearchNameTerm
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
@@ -66,7 +66,7 @@ bloggersRoute.put('/:id',
                 req.body.name, req.body.youtubeUrl);
             res.send(isUpdated)
         }
-        res.send(404)
+        res.send(400)
     })
 
 bloggersRoute.delete('/:id',
