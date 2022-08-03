@@ -1,5 +1,5 @@
 import {MongoClient} from "mongodb";
-import {BloggerType} from "./repositories/types";
+import {BloggerType, PostType} from "./repositories/types";
 
 
 
@@ -7,12 +7,13 @@ export const mongoUri =
     process.env.mongoURI || 'mongodb://0.0.0.0:27017'
 export const settings = {
 
-    MONGO_URI: process.env.mongoURI || "mongodb://0.0.0.0:27017/?maxPoolSize=20&w=majority",
-    JWT_SECRET: process.env.JWT_SECRET || '123'
+
 }
 const client = new MongoClient(mongoUri);
 const db = client.db("blog")
+
 export const bloggersCollection = db.collection<BloggerType>("bloggers")
+export const postsCollection = db.collection<PostType>("posts")
 
 export async function runDb() {
     try {

@@ -30,7 +30,8 @@ export const bloggersCollection: BloggerType[] = [
     },
 ]
 
-export let posts: PostType[] = [
+
+export let postsCollection: PostType[] | null = [
     {
         id: 1,
         title: 'About JS - 01',
@@ -90,10 +91,10 @@ export type Pagination<T> = {
 export type PostType = {
     id: number,
     title: string,
-    bloggerName: string,
     shortDescription: string,
     content: string,
-    bloggerId: number
+    bloggerId: number,
+
 }
 
 

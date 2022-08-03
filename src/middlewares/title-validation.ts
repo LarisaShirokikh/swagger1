@@ -36,3 +36,4 @@ export const urlValidation = body('youtubeUrl').trim().isLength({
     max: 100
 }).matches(regexp)
 .withMessage('youtubeUrl should be is valid');
+

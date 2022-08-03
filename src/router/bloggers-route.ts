@@ -3,7 +3,7 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {
     contentValidation,
     shortDescriptionValidationBloggersPosts,
-    titleValidationCreate, titleValidationBloggersPosts,
+    titleValidationBloggersPosts,
     urlValidation, nameValidationCreate
 } from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
@@ -11,7 +11,7 @@ import {bloggersService} from "../domain/bloggers-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {PostType} from "../repositories/types";
 import {postDbRepository} from "../repositories/post-db-repository";
-import {postsRoute} from "./posts-route";
+import {postsService} from "../domain/posts-service";
 
 export const bloggersRoute = Router({});
 
@@ -91,7 +91,7 @@ bloggersRoute.post('/bloggerId/posts',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        let blogger = await bloggersDbRepository.getBloggerById(req.body.bloggerId)
+        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
             return res.status(404).send()
         } else {
@@ -103,7 +103,7 @@ bloggersRoute.post('/bloggerId/posts',
                 bloggerId: req.body.bloggerId,
                 bloggerName: blogger.name
             }
-            await postDbRepository.createPost(newPost)
+            await postsService.createdPost(newPost)
             res.status(201).send(newPost)
         }
     })
@@ -116,20 +116,19 @@ bloggersRoute.get('/bloggerId/posts',
         const foundBlogger = await bloggersService
             .getBloggersArray(PageNumber, PageSize);
         res.send(foundBlogger)
-        let blogger = await bloggersDbRepository
-            .getBloggerById(req.body.bloggerId)
+        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
             return res.status(404).send()
         } else {
-            const newPost: PostType = {
-                id: +(new Date()),
+            const newPost: Promise<PostType[]> = {
+                id: req.body.id,
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,
                 content: req.body.content,
                 bloggerId: req.body.bloggerId,
-                bloggerName: blogger.name
+                bloggerName: req.body.bloggerName
             }
-            await postDbRepository.createPost(newPost)
+            await postsService.createdPost(newPost)
             res.status(200).send(newPost)
         }
     })

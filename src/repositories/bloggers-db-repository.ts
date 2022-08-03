@@ -24,13 +24,15 @@ export const bloggersDbRepository = {
                            term?: string | string[]): Promise<number> {
         let filter = {}
             // const result = await bloggersCollection.find()
-        const test = bloggersCollection.countDocuments()
+        const test = await bloggersCollection.countDocuments()
         debugger
         return test
 
     },
 
-    async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
+    async createBlogger(name: string,
+                        youtubeUrl: string
+    ): Promise<BloggerType | null> {
         const newBlogger = {
             id: +new Date(),
             name,
