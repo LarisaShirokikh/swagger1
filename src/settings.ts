@@ -4,7 +4,7 @@ import {BloggerType, PostType} from "./repositories/types";
 
 
 export const mongoUri =
-    process.env.mongoURI || 'mongodb://0.0.0.0:27017'
+    process.env.mongoURI || "mongodb+srv://admin:admin@cluster0.9zvor.mongodb.net/bloggersList?retryWrites=true&w=majority"
 export const settings = {
 
 
