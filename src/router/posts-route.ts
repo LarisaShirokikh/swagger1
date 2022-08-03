@@ -39,13 +39,14 @@ postsRoute.post('/', authRouter,
         if (!blogger) {
             return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
         } else {
-            const newPost = await postsService.createPost(
-                +req.params.id,
-                req.body.title,
-                req.body.shortDescription,
-                req.body.content,
-                req.body.bloggerId,
-                req.body.bloggerName)
+            const newPost = {
+                id: req.body.id,
+                title: req.body.title,
+                shortDescription: req.body.shortDescription,
+                content: req.body.content,
+                bloggerId: req.body.bloggerId
+
+            }
 
             res.status(201).send(newPost)
         }
