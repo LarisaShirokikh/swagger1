@@ -45,8 +45,12 @@ bloggersRoute.post('/',
         if (newBlogger) {
             res.status(201).send(newBlogger)
         } else {
-            res.sendStatus(400).send({ errorsMessages: [{ message: "String",
-                    field: "shortDescription" }, { message: "String", field: "title" }] })
+            res.sendStatus(400).send({
+                errorsMessages: [{
+                    message: "String",
+                    field: "shortDescription"
+                }, {message: "String", field: "title"}]
+            })
         }
     })
 
@@ -57,10 +61,10 @@ bloggersRoute.put('/:id',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const isUpdateSuccess = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl
-            );
+        );
 
         if (isUpdateSuccess) {
-            const isUpdated = await bloggersService.updateBlogger( req.body.id, req.body.name, req.body.youtubeUrl);
+            const isUpdated = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl);
             res.send(isUpdated)
         }
         res.send(400)

@@ -23,7 +23,7 @@ postsRoute.get('/', async (req: Request, res: Response) => {
     const findPost = await postsService.findPost(pageSize, pageNumber)
     const getCount = await postsService.getCount()
     res.send({
-        "pagesCount": Math.ceil(getCount/ pageSize),
+        "pagesCount": Math.ceil(getCount / pageSize),
         "page": pageNumber,
         "pageSize": pageSize,
         "totalCount": getCount,
@@ -35,20 +35,21 @@ postsRoute.post('/', authRouter,
     shortDescriptionValidation,
     contentValidation, inputValidationMiddleware, async (req: Request, res: Response) => {
 
-    let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
-    if (!blogger) {
-        return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
-    } else {
-        const newPost = await postsService.createPost(
-            +req.params.id,
-            req.body.title,
-            req.body.shortDescription,
-            req.body.content,
-            req.body.bloggerId)
+        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
+        if (!blogger) {
+            return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
+        } else {
+            const newPost = await postsService.createPost(
+                +req.params.id,
+                req.body.title,
+                req.body.shortDescription,
+                req.body.content,
+                req.body.bloggerId,
+                req.body.bloggerName)
 
-        res.status(201).send(newPost)
-    }
-})
+            res.status(201).send(newPost)
+        }
+    })
 postsRoute.get('/:id', async (req: Request, res: Response) => {
     const post = await postsService.findPostById(+req.params.id)
 
@@ -64,24 +65,24 @@ postsRoute.put('/:id', authRouter,
     contentValidation,
     inputValidationMiddleware, async (req: Request, res: Response) => {
 
-    let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
-    if (!blogger) {
-        return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
-    } else {
-        const isUpdate = await postsService.updatePost(+req.params.id,
-            req.body.title,
-            req.body.shortDescription,
-            req.body.content,
-            req.body.bloggerId)
-        if (isUpdate) {
-            const post = await postsService.findPostById(+req.params.id)
-            res.status(204).send({post})
+        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
+        if (!blogger) {
+            return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
         } else {
-            res.send(404)
+            const isUpdate = await postsService.updatePost(+req.params.id,
+                req.body.title,
+                req.body.shortDescription,
+                req.body.content,
+                req.body.bloggerId)
+            if (isUpdate) {
+                const post = await postsService.findPostById(+req.params.id)
+                res.status(204).send({post})
+            } else {
+                res.send(404)
+            }
         }
-    }
 
-})
+    })
 postsRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
     const isDeleted = await postsService.deletePost(+req.params.id)
     if (isDeleted) {
