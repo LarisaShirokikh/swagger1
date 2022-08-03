@@ -5,14 +5,14 @@ import * as QueryString from "querystring";
 
 export const bloggersService = {
 
-    async getBloggersArray(PageNumber: number, PageSize: number, SearchNameTerm: string):
+    async getBloggersArray(PageNumber: number, PageSize: number):
         Promise<{ pagesCount: number; pageSize: number; page: number; totalCount: number; items: BloggerType[] }> {
 
-        const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize, SearchNameTerm)
-        const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize, SearchNameTerm)
-        const getCount = await bloggersDbRepository.getCount(SearchNameTerm)
+        const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
+        const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize)
+        const getCount = await bloggersDbRepository.getCount()
         return {
-            pagesCount: Math.ceil(totalCount / PageSize),
+            pagesCount: Math.ceil(getCount / PageSize),
             page: PageNumber,
             pageSize: PageSize,
             totalCount: getCount,

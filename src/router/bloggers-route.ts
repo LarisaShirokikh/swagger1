@@ -19,7 +19,7 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize, SearchNameTerm);
+    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
     res.send(foundBlogger)
 
 
