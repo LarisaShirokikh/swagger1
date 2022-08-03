@@ -1,5 +1,5 @@
 import {PostType} from "./types";
-import {postsCollection} from "../settings";
+import {bloggersCollection, postsCollection} from "../settings";
 import {bloggersService} from "../domain/bloggers-service";
 import {Filter} from "mongodb";
 import {postsService} from "../domain/posts-service";
@@ -80,5 +80,15 @@ export const postDbRepository = {
         return result.modifiedCount === 1
     },
 
+    async getPostsCount(PageNumber: number,
+                           PageSize: number,
+                           term?: string | string[]): Promise<number> {
+        let filter = {}
+        // const result = await bloggersCollection.find()
+        const test = await postsCollection.countDocuments()
+        debugger
+        return test
+
+    },
 
 }
