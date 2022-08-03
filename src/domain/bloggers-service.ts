@@ -15,7 +15,7 @@ export const bloggersService = {
             pagesCount: Math.ceil(totalCount / PageSize),
             page: PageNumber,
             pageSize: PageSize,
-            totalCount: getCount,
+            totalCount: totalCount,
             items: items
         }
     },
