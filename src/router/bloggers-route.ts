@@ -45,12 +45,8 @@ bloggersRoute.post('/',
         if (newBlogger) {
             res.status(201).send(newBlogger)
         } else {
-            res.sendStatus(400).send({
-                errorsMessages: [{
-                    message: "String",
-                    field: "shortDescription"
-                }, {message: "String", field: "title"}]
-            })
+            res.sendStatus(400)
+
         }
     })
 

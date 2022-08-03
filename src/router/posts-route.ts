@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express"
 
-import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
+import {inputValidationMiddleware, inputValidationPost} from "../middlewares/input-validation-middleware";
 import {
     contentValidation,
     shortDescriptionValidation,
@@ -33,7 +33,7 @@ postsRoute.get('/', async (req: Request, res: Response) => {
 postsRoute.post('/', authRouter,
     titleValidationCreate,
     shortDescriptionValidation,
-    contentValidation, inputValidationMiddleware, async (req: Request, res: Response) => {
+    contentValidation, inputValidationPost, async (req: Request, res: Response) => {
 
         let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
@@ -64,7 +64,7 @@ postsRoute.put('/:id', authRouter,
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
-    inputValidationMiddleware, async (req: Request, res: Response) => {
+    inputValidationPost, async (req: Request, res: Response) => {
 
         let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
