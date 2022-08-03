@@ -32,7 +32,8 @@ postsRoute.post('/',
     async (req: Request, res: Response) => {
         let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
-            return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
+            return res.status(400).send({ errorsMessages: [{ message: "String",
+                    field: "youtubeUrl" }, { message: "String", field: "name" }] })
         }
 
         const newPost: PostType = {
@@ -77,7 +78,7 @@ postsRoute.put('/:id',
         }
 
         if (post.bloggerId !== req.body.bloggerId) {
-            return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
+            return res.status(400).send({errorsMessages:[{message:"youtubeUrl should be is valid",field:"youtubeUrl"}]})
         }
 
         const updatedPost: PostType = {
