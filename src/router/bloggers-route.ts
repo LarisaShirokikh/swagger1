@@ -1,8 +1,6 @@
 import {Request, Response, Router} from "express";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {
-    contentValidation,
-    shortDescriptionValidationBloggersPosts,
+import {contentValidation, shortDescriptionValidationBloggersPosts,
     titleValidationBloggersPosts,
     urlValidation, nameValidationCreate
 } from "../middlewares/title-validation";

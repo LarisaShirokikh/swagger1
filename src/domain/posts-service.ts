@@ -12,6 +12,7 @@ export const postsService = {
         return await postDbRepository.createPost(newPost)
 
     },
+
     async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number) {
         return await postDbRepository.updatePost(id, title, shortDescription, content, bloggerId)
     },

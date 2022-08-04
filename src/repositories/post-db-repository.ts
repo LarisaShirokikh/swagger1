@@ -13,6 +13,7 @@ export const postDbRepository = {
     async findPostById(id: number) {
         return await postsCollection.findOne({id: id})
     },
+
     async createPost(newPost: PostType) {
         await postsCollection.insertOne(newPost)
         const {id, title, shortDescription, content, bloggerId, bloggerName} = newPost

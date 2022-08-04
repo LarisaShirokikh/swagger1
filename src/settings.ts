@@ -8,6 +8,7 @@ export const mongoUri =
 export const settings = {
 
 
+
 }
 const client = new MongoClient(mongoUri);
 const db = client.db("blog")

@@ -1,9 +1,9 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType} from "../repositories/types";
-import * as QueryString from "querystring";
 
 
 export const bloggersService = {
+
 
     async getBloggersArray(PageNumber: number, PageSize: number):
         Promise<{ pagesCount: number; pageSize: number; page: number; totalCount: number; items: BloggerType[] }> {

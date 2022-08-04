@@ -14,6 +14,7 @@ import {bloggersService} from "../domain/bloggers-service";
 
 export const postsRoute = Router({})
 
+
 postsRoute.get('/', async (req: Request, res: Response) => {
 
     const pageSize: number = Number(req.query.PageSize) || 10
@@ -40,6 +41,7 @@ postsRoute.post('/', authRouter,
             return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
         } else {
             const newPost = {
+
                 id: req.body.id,
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,
