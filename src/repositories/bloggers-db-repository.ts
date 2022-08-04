@@ -5,7 +5,9 @@ import {bloggersCollection, postsCollection} from "../settings";
 export const bloggersDbRepository = {
 
 
-    async getBloggers(PageNumber: number, PageSize: number, term?: string | string[]): Promise<BloggerType[]> {
+    async getBloggers(PageNumber: number,
+                      PageSize: number,
+                      term?: string | string[]): Promise<BloggerType[]> {
         let filter = {}
         if (term) {
             filter = {name: {$regex: term}}

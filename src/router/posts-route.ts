@@ -17,7 +17,7 @@ export const postsRoute = Router({})
 
 
 postsRoute.get('/', async (req: Request, res: Response) => {
-    const SearchNameTerm = req.query.SearchNameTerm
+
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 

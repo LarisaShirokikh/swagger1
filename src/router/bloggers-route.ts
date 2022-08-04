@@ -20,9 +20,8 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
     const foundBlogger = await bloggersService.getBloggersArray(PageNumber,
         PageSize, SearchNameTermStringOrUndefined);
     res.send(foundBlogger)
-
-
 })
+
 
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
     const foundBlogger = await bloggersService.getBloggerById(+req.params.id)

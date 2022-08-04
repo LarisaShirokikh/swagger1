@@ -98,8 +98,12 @@ export const postDbRepository = {
                        PageSize: number,
                        term?: string | string[]): Promise<number> {
         let filter = {}
-        const test = await bloggersCollection.countDocuments()
-        return test
+        if (term) {
+            filter = {name: {$regex: term}}
+        }
+            const test = await bloggersCollection.countDocuments()
+            return test
+
     },
 
     async getCount() {

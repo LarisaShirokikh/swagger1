@@ -10,9 +10,8 @@ export const postsService = {
 
         const items = await postDbRepository.getPosts(PageNumber, PageSize)
         const totalCount = await postDbRepository.getPostCount(PageNumber, PageSize)
-        const getCount = await postDbRepository.getCount()
         return {
-            pagesCount: Math.ceil(getCount / PageSize),
+            pagesCount: Math.ceil(totalCount / PageSize),
             page: PageNumber,
             pageSize: PageSize,
             totalCount: totalCount,
