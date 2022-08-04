@@ -9,6 +9,7 @@ import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
 import {PostType} from "../repositories/types";
 import {postsService} from "../domain/posts-service";
+import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 export const bloggersRoute = Router({});
 
@@ -107,23 +108,22 @@ bloggersRoute.get('/:bloggerId/posts',
         const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
         const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-        const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
-        return foundBlogger
-
         let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
             res.sendStatus(404)
         }
-        const allPost = {
-            id: +(new Date()),
-            title: req.body.title,
-            shortDescription: req.body.shortDescription,
-            content: req.body.content,
-            bloggerId: req.body.bloggerId,
-            bloggerName: "blogger"
+        const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
+        const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize)
+        const getCount = await bloggersDbRepository.getCount()
+        return {
+            pagesCount: Math.ceil(totalCount / PageSize),
+            page: PageNumber,
+            pageSize: PageSize,
+            totalCount: totalCount,
+            items: items
         }
         //const newPostBlogger = await postsService.createPost(newPost)
-        res.sendStatus(200).send(allPost)
+        res.sendStatus(200)
 
 
     })
