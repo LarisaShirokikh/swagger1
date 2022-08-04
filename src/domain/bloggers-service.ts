@@ -37,7 +37,7 @@ export const bloggersService = {
 
     },
 
-    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<BloggerType | null> {
+    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<BloggerType | null | undefined> {
         return await bloggersDbRepository.findBlogger(id, name, youtubeUrl)
     }
 

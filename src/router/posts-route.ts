@@ -41,7 +41,6 @@ postsRoute.post('/', authRouter,
             return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
         } else {
             const newPost = {
-
                 id: req.body.id,
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,
