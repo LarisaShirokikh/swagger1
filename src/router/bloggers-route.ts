@@ -1,6 +1,7 @@
 import {Request, Response, Router} from "express";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {contentValidation, shortDescriptionValidationBloggersPosts,
+import {
+    contentValidation, shortDescriptionValidationBloggersPosts,
     titleValidationBloggersPosts,
     urlValidation, nameValidationCreate
 } from "../middlewares/title-validation";
@@ -54,17 +55,16 @@ bloggersRoute.put('/:id',
     urlValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const isFind = await bloggersService.findBlogger(req.body.id, req.body.name, req.body.youtubeUrl
-        );
-
-        if (!isFind) {
-            res.sendStatus(400)
-        } else {
+        const isFind = await bloggersService.findBlogger(req.body.id);
+        if (isFind) {
             await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
-            res.sendStatus(204)
+            res.sendStatus(200)
         }
-        res.send(400)
+        res.sendStatus(204)
+
+
     })
+
 
 bloggersRoute.delete('/:id',
     authRouter,
