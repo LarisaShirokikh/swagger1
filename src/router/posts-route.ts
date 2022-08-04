@@ -70,6 +70,7 @@ postsRoute.put('/:id', authRouter,
                 res.status(204).send({post})
             } else {
                 res.send(404)
+
             }
         }
 
