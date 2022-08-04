@@ -32,13 +32,13 @@ export const bloggersService = {
         return await bloggersDbRepository.deleteBlogger(id)
     },
 
-    async updateBlogger(name: string, youtubeUrl: string): Promise<boolean> {
-        return await bloggersDbRepository.updateBlogger(name, youtubeUrl)
+    async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
+        return await bloggersDbRepository.updateBlogger(id, name, youtubeUrl)
 
     },
 
-    async findBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
-        return await bloggersDbRepository.findBlogger(name, youtubeUrl)
+    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<BloggerType | null> {
+        return await bloggersDbRepository.findBlogger(id, name, youtubeUrl)
     }
 
 }

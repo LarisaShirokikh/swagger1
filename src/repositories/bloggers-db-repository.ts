@@ -68,10 +68,10 @@ export const bloggersDbRepository = {
         return result.deletedCount === 1
     },
 
-    async updateBlogger(
+    async updateBlogger(id: number,
                         name: string,
                         youtubeUrl: string): Promise<boolean> {
-        const result = await bloggersCollection.updateOne({name: name},
+        const result = await bloggersCollection.updateOne({id: id},
             {$set: {name, youtubeUrl}})
         return result.matchedCount === 1
     },
@@ -81,8 +81,8 @@ export const bloggersDbRepository = {
         return await bloggersCollection.countDocuments({name: {}})
     },
 
-    async findBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
-        return await  bloggersCollection.findOne({name: name, youtubeUrl: youtubeUrl})
+    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<BloggerType | null> {
+        return await  bloggersCollection.findOne({id: id, name: name, youtubeUrl: youtubeUrl})
     }
 }
 
