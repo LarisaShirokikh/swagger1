@@ -20,13 +20,13 @@ export const bloggersDbRepository = {
 
     },
 
-    async getBloggersCount(PageNumber: number,
-                           PageSize: number,
-                           term?: string | string[]): Promise<number> {
+    async getBloggersCount(term?: string | string[]): Promise<number> {
         let filter = {}
-        // const result = await bloggersCollection.find()
-        const test = await bloggersCollection.countDocuments()
-        debugger
+        if (term) {
+            filter = {name: {$regex: term}}
+
+        }
+        const test = await bloggersCollection.countDocuments(filter)
         return test
 
     },
@@ -87,7 +87,6 @@ export const bloggersDbRepository = {
             return blogger
         }
     },
-
 
 
 }

@@ -1,14 +1,11 @@
 import {Request, Response, Router} from "express";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {
-    contentValidation, shortDescriptionValidationBloggersPosts,
+import {contentValidation, shortDescriptionValidationBloggersPosts,
     titleValidationBloggersPosts,
     urlValidation, nameValidationCreate
 } from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
-import {PostType} from "../repositories/types";
-import {postsService} from "../domain/posts-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 export const bloggersRoute = Router({});
@@ -16,10 +13,12 @@ export const bloggersRoute = Router({});
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
     const SearchNameTerm = req.query.SearchNameTerm
+    const SearchNameTermStringOrUndefined = typeof SearchNameTerm
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-    const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
+    const foundBlogger = await bloggersService.getBloggersArray(PageNumber,
+        PageSize, SearchNameTermStringOrUndefined);
     res.send(foundBlogger)
 
 
@@ -61,9 +60,6 @@ bloggersRoute.put('/:id',
             await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
             res.sendStatus(200)
         }
-        res.sendStatus(204)
-
-
     })
 
 
@@ -72,9 +68,9 @@ bloggersRoute.delete('/:id',
     async (req: Request, res: Response) => {
         const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
         if (isDeleted) {
-            res.send(204)
+            res.sendStatus(204)
         } else {
-            res.send(404)
+            res.sendStatus(404)
         }
     })
 
@@ -113,7 +109,7 @@ bloggersRoute.get('/:bloggerId/posts',
             res.sendStatus(404)
         }
         const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
-        const totalCount = await bloggersDbRepository.getBloggersCount(PageNumber, PageSize)
+        const totalCount = await bloggersDbRepository.getBloggersCount()
         const getCount = await bloggersDbRepository.getCount()
         return {
             pagesCount: Math.ceil(totalCount / PageSize),
