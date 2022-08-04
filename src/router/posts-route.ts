@@ -10,57 +10,46 @@ import {PostType} from "../repositories/types";
 import {authRouter} from "./auth-router";
 import {postsService} from "../domain/posts-service";
 import {bloggersService} from "../domain/bloggers-service";
+import {bloggersRoute} from "./bloggers-route";
 
 
 export const postsRoute = Router({})
 
 
 postsRoute.get('/', async (req: Request, res: Response) => {
+    const SearchNameTerm = req.query.SearchNameTerm
+    const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
+    const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-    const pageSize: number = Number(req.query.PageSize) || 10
-    const pageNumber: number = Number(req.query.PageNumber) || 1
+    const foundPost = await postsService.getPostsArray(PageNumber, PageSize);
+    res.send(foundPost)
 
-
-    const findPost = await postsService.findPost(pageSize, pageNumber)
-    const getCount = await postsService.getCount()
-    res.send({
-        "pagesCount": Math.ceil(getCount / pageSize),
-        "page": pageNumber,
-        "pageSize": pageSize,
-        "totalCount": getCount,
-        "items": findPost
-    })
 })
-postsRoute.post('/', authRouter,
+
+//не трогать!!!
+postsRoute.post('/',
+    authRouter,
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation, inputValidationPost, async (req: Request, res: Response) => {
-
-        let blogger = await bloggersService.findBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
-        if (!blogger) {
-            return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
-        } else {
-            const newPost = {
-                id: req.body.id,
-                title: req.body.title,
-                shortDescription: req.body.shortDescription,
-                content: req.body.content,
-                bloggerId: req.body.bloggerId
-
-            }
-
-            res.status(201).send(newPost)
+        let newPost = await postsService.createPost(req.body.title,
+            req.body.shortDescription, req.body.content, req.body.bloggerId)
+        if (!newPost) {
+            res.status(400)
         }
+        res.status(201).send(newPost)
     })
+// ************************************************************
+
 postsRoute.get('/:id', async (req: Request, res: Response) => {
     const post = await postsService.findPostById(+req.params.id)
-
     if (post) {
-        res.send(post)
-    } else {
-        res.send(404)
+        res.status(200).send(post)
     }
+    res.status(404)
 })
+
+
 postsRoute.put('/:id', authRouter,
     titleValidationCreate,
     shortDescriptionValidation,

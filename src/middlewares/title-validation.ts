@@ -18,9 +18,9 @@ export const shortDescriptionValidationBloggersPosts = body('shortDescription').
 }).withMessage('shortDescription should be from 5 to 100 symbols');
 
 export const shortDescriptionValidation = body('shortDescription').trim().isLength({
-    min: 5,
+
     max: 100
-}).withMessage('shortDescription should be from 5 to 100 symbols');
+}).withMessage('shortDescription should be from 0 to 100 symbols');
 
 export const contentValidation = body('content').trim().isLength({
 
@@ -28,7 +28,6 @@ export const contentValidation = body('content').trim().isLength({
 }).withMessage('content should be max to 1000 symbols');
 
 export const nameValidationCreate = body('name').trim().isLength({
-
     max: 15
 }).withMessage('Name should be from 0 to 15 symbols');
 

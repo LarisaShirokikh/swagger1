@@ -35,7 +35,7 @@ export const bloggersDbRepository = {
                         youtubeUrl: string
     ): Promise<BloggerType | null> {
         const newBlogger = {
-            id: +new Date(),
+            id: +(new Date()),
             name,
             youtubeUrl
         }

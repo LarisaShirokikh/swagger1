@@ -1,26 +1,80 @@
-import {PostType} from "./types";
+import {BloggerType, PostType} from "./types";
 import {bloggersCollection, postsCollection} from "../settings";
 import {bloggersService} from "../domain/bloggers-service";
-import {Filter} from "mongodb";
+import {Filter, WithId} from "mongodb";
 import {postsService} from "../domain/posts-service";
 
 
 export const postDbRepository = {
-    async findPosts(pageSize:number, pageNumber:number) {
-        return await postsCollection
-            .find({}).skip((pageNumber-1)*pageSize).limit(pageSize).toArray()
+
+
+    async getPosts(PageNumber: number, PageSize: number, term?: string | string[]): Promise<PostType[]> {
+        let filter = {}
+        if (term) {
+            filter = {name: {$regex: term}}
+        }
+        const test = await postsCollection.find(filter)
+            .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
+        return test.map((p) => ({
+            id: p.id,
+            title: p.title,
+            shortDescription: p.shortDescription,
+            content: p.content,
+            bloggerId: p.bloggerId,
+            bloggerName: p.bloggerName
+        }))
+
     },
-    async findPostById(id: number) {
-        return await postsCollection.findOne({id: id})
+    async findPosts(pageSize: number, pageNumber: number) {
+        return await postsCollection
+            .find({}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
     },
 
-    async createPost(newPost: PostType) {
-        await postsCollection.insertOne(newPost)
-        const {id, title, shortDescription, content, bloggerId, bloggerName} = newPost
-        return {
-            id, title, shortDescription, content, bloggerId, bloggerName
+    async findPostById(id: number): Promise<PostType | null> {
+        const post = await postsCollection.findOne({id: id})
+        if (post) {
+            return {
+                id: post.id,
+                title: post.title,
+                shortDescription: post.shortDescription,
+                content: post.content,
+                bloggerId: post.bloggerId,
+                bloggerName: post.bloggerName
+            }
         }
+        return null
     },
+// don't touch!!!!
+    async createPost(title: string,
+                     shortDescription: string,
+                     content: string,
+                     bloggerId: number): Promise<PostType | undefined | null> {
+        const post = {
+            id: +(new Date()),
+            title,
+            shortDescription,
+            content,
+            bloggerId,
+            bloggerName: "Ann"
+        }
+        const result = await postsCollection.insertOne(post)
+        result.insertedId
+        if (result.acknowledged) {
+            return {
+                id: post.id,
+                title: post.title,
+                shortDescription: post.shortDescription,
+                content: post.content,
+                bloggerId: post.bloggerId,
+                bloggerName: post.bloggerName
+
+            }
+        }
+        return null
+    },
+
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number) {
         const result = await postsCollection.updateOne({id: id}, {
             $set: {
@@ -33,15 +87,26 @@ export const postDbRepository = {
         return result.matchedCount === 1
     },
     async deletePosts(id: number) {
-
-        const result = await postsCollection.deleteOne({id: id})
-        return result.deletedCount === 1
+        const result = await postsCollection.findOne({id})
+        if (result) {
+            await postsCollection.deleteOne({id})
+            return true
+        }
     },
+
+    async getPostCount(PageNumber: number,
+                       PageSize: number,
+                       term?: string | string[]): Promise<number> {
+        let filter = {}
+        const test = await bloggersCollection.countDocuments()
+        return test
+    },
+
     async getCount() {
         return await postsCollection.count({})
     },
-    async findBloggersPost(pageSize:number, pageNumber:number, bloggerId: number){
-        return await postsCollection.find({bloggerId: bloggerId}).skip((pageNumber-1)*pageSize).limit(pageSize).toArray()
+    async findBloggersPost(pageSize: number, pageNumber: number, bloggerId: number) {
+        return await postsCollection.find({bloggerId: bloggerId}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
     },
     async getCountBloggerId(bloggerId: number) {
         return await postsCollection.count({bloggerId: bloggerId})

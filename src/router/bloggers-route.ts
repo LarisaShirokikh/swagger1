@@ -98,7 +98,7 @@ bloggersRoute.post('/bloggerId/posts',
                 bloggerId: req.body.bloggerId,
                 bloggerName: blogger.name
             }
-            await postsService.createPost(newPost)
+            await postsService.createPost(newPost: )
             res.status(201).send(newPost)
         }
     })
