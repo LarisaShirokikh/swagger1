@@ -24,8 +24,8 @@ export const bloggersService = {
         return await bloggersDbRepository.createBlogger(name, youtubeUrl)
     },
 
-    async getBloggerById(id: number): Promise<BloggerType | null> {
-        return bloggersDbRepository.getBloggerById(id)
+    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
+        return bloggersDbRepository.getBloggerById(bloggerId)
     },
 
     async deleteBlogger(id: number): Promise<boolean> {

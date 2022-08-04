@@ -1,5 +1,5 @@
-import {BloggerType} from "./types";
-import {bloggersCollection} from "../settings";
+import {BloggerType, PostType} from "./types";
+import {bloggersCollection, postsCollection} from "../settings";
 
 
 export const bloggersDbRepository = {
@@ -24,7 +24,7 @@ export const bloggersDbRepository = {
                            PageSize: number,
                            term?: string | string[]): Promise<number> {
         let filter = {}
-            // const result = await bloggersCollection.find()
+        // const result = await bloggersCollection.find()
         const test = await bloggersCollection.countDocuments()
         debugger
         return test
@@ -52,14 +52,13 @@ export const bloggersDbRepository = {
 
     },
 
-    async getBloggerById(id: number): Promise<BloggerType | null> {
-        const newBlogger = await bloggersCollection.findOne({id: id})
+    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
+        const newBlogger = await bloggersCollection.findOne({bloggerId: bloggerId})
         if (newBlogger) {
             return {
                 id: newBlogger.id,
                 name: newBlogger.name,
                 youtubeUrl: newBlogger.youtubeUrl,
-
             }
         }
         return null
@@ -78,17 +77,17 @@ export const bloggersDbRepository = {
     },
 
 
-
     async getCount() {
         return await bloggersCollection.countDocuments({name: {}})
     },
 
     async findBlogger(id: number): Promise<BloggerType | null | undefined> {
-        const blogger = await  bloggersCollection.findOne({id: id})
+        const blogger = await bloggersCollection.findOne({id: id})
         if (blogger) {
             return blogger
         }
     },
+
 
 
 }

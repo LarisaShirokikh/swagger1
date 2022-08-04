@@ -78,7 +78,7 @@ bloggersRoute.delete('/:id',
     })
 
 
-bloggersRoute.post('/bloggerId/posts',
+bloggersRoute.post('/:bloggerId/posts',
     authRouter,
     titleValidationBloggersPosts,
     shortDescriptionValidationBloggersPosts,
@@ -98,25 +98,32 @@ bloggersRoute.post('/bloggerId/posts',
                 bloggerId: req.body.bloggerId,
                 bloggerName: blogger.name
             }
-            //const newPostBlogger = await postsService.createPost(newPost)
-            res.status(201)
+            res.status(201).send(newPost)
         }
     })
 
 bloggersRoute.get('/:bloggerId/posts',
     async (req: Request, res: Response) => {
-
         const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
         const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
+        const foundBlogger = await bloggersService.getBloggersArray(PageNumber, PageSize);
+        return foundBlogger
 
         let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
         if (!blogger) {
-            return res.status(401).send()
+            res.sendStatus(404)
         }
+        const allPost = {
+            id: +(new Date()),
+            title: req.body.title,
+            shortDescription: req.body.shortDescription,
+            content: req.body.content,
+            bloggerId: req.body.bloggerId,
+            bloggerName: "blogger"
+        }
+        //const newPostBlogger = await postsService.createPost(newPost)
+        res.sendStatus(200).send(allPost)
 
-        const posts = await postsService.findPost(PageNumber, PageSize)
-
-        res.status(200).send(posts)
 
     })
