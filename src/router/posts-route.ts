@@ -36,7 +36,7 @@ postsRoute.post('/', authRouter,
     shortDescriptionValidation,
     contentValidation, inputValidationPost, async (req: Request, res: Response) => {
 
-        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
+        let blogger = await bloggersService.findBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
         if (!blogger) {
             return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
         } else {

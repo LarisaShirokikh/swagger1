@@ -58,7 +58,8 @@ export const bloggersDbRepository = {
             return {
                 id: newBlogger.id,
                 name: newBlogger.name,
-                youtubeUrl: newBlogger.youtubeUrl
+                youtubeUrl: newBlogger.youtubeUrl,
+
             }
         }
         return null
@@ -82,8 +83,11 @@ export const bloggersDbRepository = {
         return await bloggersCollection.countDocuments({name: {}})
     },
 
-    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<BloggerType | null> {
-        return await  bloggersCollection.findOne({id: id, name: name, youtubeUrl: youtubeUrl})
+    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<BloggerType | null | undefined> {
+        const blogger = await  bloggersCollection.findOne({id: id, name: name, youtubeUrl: youtubeUrl})
+        if (blogger) {
+            return blogger
+        }
     }
 }
 
