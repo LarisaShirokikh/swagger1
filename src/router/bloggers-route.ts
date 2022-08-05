@@ -59,7 +59,7 @@ bloggersRoute.put('/:id',
         if (!isFind) {
             res.status(404)
         } else {
-            const test = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
+            const test = await bloggersService.updateBlogger(+req.params.id, req.body.name, req.body.youtubeUrl)
             res.status(204).send("done")
         }
     })
@@ -70,9 +70,9 @@ bloggersRoute.delete('/:id',
     async (req: Request, res: Response) => {
         const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
         if (isDeleted) {
-            res.status(204)
+            res.send(204)
         } else {
-            res.sendStatus(404)
+            res.send(404)
         }
     })
 
