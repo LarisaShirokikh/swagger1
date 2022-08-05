@@ -28,6 +28,7 @@ export const contentValidation = body('content').trim().isLength({
 });
 
 export const nameValidationCreate = body('name').trim().isLength({
+    min: 4,
     max: 15
 });
 
