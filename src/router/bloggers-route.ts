@@ -8,21 +8,19 @@ import {
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {postsService} from "../domain/posts-service";
-import {postDbRepository} from "../repositories/post-db-repository";
 
 export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
-    const SearchNameTerm = req.query.SearchNameTerm
-    const SearchNameTermStringOrUndefined = typeof SearchNameTerm
+    const SearchNameTerm = req.query.SearchNameTerm?.toString()
+
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
     const foundBlogger = await bloggersService.getBloggersArray(PageNumber,
-        PageSize, SearchNameTermStringOrUndefined);
-    res.send(foundBlogger)
+        PageSize, SearchNameTerm);
+    res.status(200).send(foundBlogger)
 })
 
 
@@ -116,7 +114,6 @@ bloggersRoute.get('/:bloggerId/posts',
             totalCount: totalCount,
             items: items
         }
-        //const newPostBlogger = await postsService.createPost(newPost)
         res.sendStatus(200)
 
 

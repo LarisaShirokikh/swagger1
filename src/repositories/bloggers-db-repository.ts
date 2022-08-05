@@ -1,6 +1,5 @@
-import {BloggerType, PostType} from "./types";
-import {bloggersCollection, postsCollection} from "../settings";
-import {EnhancedOmit, InferIdType} from "mongodb";
+import {BloggerType} from "./types";
+import {bloggersCollection} from "../settings";
 
 
 export const bloggersDbRepository = {
@@ -20,8 +19,7 @@ export const bloggersDbRepository = {
             id: b.id,
             youtubeUrl: b.youtubeUrl
         }))
-
-    },
+},
 
     async getBloggersCount(term?: string | string[]): Promise<number> {
         let filter = {}

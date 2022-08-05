@@ -3,6 +3,7 @@ import {bloggersCollection, postsCollection} from "../settings";
 import {bloggersService} from "../domain/bloggers-service";
 import {Filter, WithId} from "mongodb";
 import {postsService} from "../domain/posts-service";
+import {bloggersDbRepository} from "./bloggers-db-repository";
 
 
 export const postDbRepository = {
@@ -20,27 +21,20 @@ export const postDbRepository = {
     },
 
 
-    async getPosts(PageNumber: number, PageSize: number, term?: string | string[]): Promise<PostType[]> {
+    async getPostsArray(PageNumber: number, PageSize: number): Promise<PostType[]> {
         let filter = {}
-        if (term) {
-            filter = {name: {$regex: term}}
-        }
         const test = await postsCollection.find(filter)
             .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
-        return test.map((p) => ({
-            id: p.id,
-            title: p.title,
-            shortDescription: p.shortDescription,
-            content: p.content,
-            bloggerId: p.bloggerId,
-            bloggerName: p.bloggerName
+        return test.map((b) => ({
+            id: b.id,
+            title: b.title,
+            shortDescription: b.shortDescription,
+            content: b.content,
+            bloggerId: b.bloggerId,
+            bloggerName: b.bloggerName
         }))
+    },
 
-    },
-    async findPosts(pageSize: number, pageNumber: number) {
-        return await postsCollection
-            .find({}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
-    },
 
     async findPostById(id: number): Promise<PostType | null> {
         const post = await postsCollection.findOne({id: id})
@@ -104,8 +98,8 @@ export const postDbRepository = {
     },
 
     async deletePosts(id: number): Promise<boolean> {
-         const result =  await postsCollection.deleteOne({id})
-            return result.deletedCount === 1
+        const result = await postsCollection.deleteOne({id})
+        return result.deletedCount === 1
 
     },
 
@@ -116,8 +110,8 @@ export const postDbRepository = {
         if (term) {
             filter = {name: {$regex: term}}
         }
-            const test = await bloggersCollection.countDocuments()
-            return test
+        const test = await bloggersCollection.countDocuments()
+        return test
 
     },
 

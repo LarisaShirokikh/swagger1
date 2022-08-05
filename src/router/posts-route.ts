@@ -21,8 +21,9 @@ postsRoute.get('/', async (req: Request, res: Response) => {
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-    const foundPost = await postsService.getPostsArray(PageNumber, PageSize);
-    res.send(foundPost)
+    const foundPost = await postsService.getPostsArray(PageNumber, PageSize)
+
+    res.status(200).send(foundPost)
 
 })
 
