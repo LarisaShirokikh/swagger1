@@ -24,8 +24,8 @@ export const bloggersService = {
         return await bloggersDbRepository.createBlogger(name, youtubeUrl)
     },
 
-    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
-        return bloggersDbRepository.getBloggerById(bloggerId)
+    async getBloggerById(id: number): Promise<number | undefined> {
+        return bloggersDbRepository.getBloggerById(id)
     },
 
 

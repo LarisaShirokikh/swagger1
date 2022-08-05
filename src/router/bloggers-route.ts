@@ -85,7 +85,7 @@ bloggersRoute.post('/:bloggerId/posts',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
+        let blogger = await bloggersService.getBloggerById(req.body.id)
         if (!blogger) {
             return res.status(404)
         } else {
@@ -95,7 +95,7 @@ bloggersRoute.post('/:bloggerId/posts',
                 shortDescription: req.body.shortDescription,
                 content: req.body.content,
                 bloggerId: req.body.bloggerId,
-                bloggerName: blogger.name
+                bloggerName: "Tom"
             }
             res.status(201).send(newPost)
         }

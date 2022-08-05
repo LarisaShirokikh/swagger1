@@ -55,16 +55,9 @@ export const bloggersDbRepository = {
 
     },
 
-    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
-        const newBlogger = await bloggersCollection.findOne({bloggerId: bloggerId})
-        if (newBlogger) {
-            return {
-                id: newBlogger.id,
-                name: newBlogger.name,
-                youtubeUrl: newBlogger.youtubeUrl,
-            }
-        }
-        return null
+    async getBloggerById(id: number): Promise<number | undefined> {
+        const result = await bloggersCollection.findOne({id: id})
+        return result?.id
     },
 
     async deleteBlogger(id: number): Promise<boolean> {
