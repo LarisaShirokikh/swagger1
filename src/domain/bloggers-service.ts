@@ -1,5 +1,5 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {BloggerType, Pagination} from "../repositories/types";
+import {BloggerType, Pagination, PostType} from "../repositories/types";
 
 
 export const bloggersService = {
@@ -24,8 +24,16 @@ export const bloggersService = {
         return await bloggersDbRepository.createBlogger(name, youtubeUrl)
     },
 
-    async getBloggerById(id: number): Promise<number | undefined> {
-        return bloggersDbRepository.getBloggerById(id)
+    async createPost(title: string,
+                     shortDescription: string,
+                     content: string): Promise<{
+        bloggerName: string;
+        id: number;
+        shortDescription: string;
+        title: string;
+        content: string;
+        bloggerId: string }> {
+        return await bloggersDbRepository.createPost(title, shortDescription, content)
     },
 
 

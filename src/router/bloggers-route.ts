@@ -8,6 +8,8 @@ import {
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
+import {postsService} from "../domain/posts-service";
+import {postDbRepository} from "../repositories/post-db-repository";
 
 export const bloggersRoute = Router({});
 
@@ -85,20 +87,14 @@ bloggersRoute.post('/:bloggerId/posts',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        let blogger = await bloggersService.getBloggerById(req.body.id)
+        let blogger = await bloggersService.findBlogger(+req.params.id)
         if (!blogger) {
-            return res.status(404)
+            res.status(404)
         } else {
-            const newPost = {
-                id: +(new Date()),
-                title: req.body.title,
-                shortDescription: req.body.shortDescription,
-                content: req.body.content,
-                bloggerId: req.body.bloggerId,
-                bloggerName: "Tom"
-            }
+            const newPost = await bloggersService.createPost(req.body.title,
+                req.body.shortDescription, req.body.content)
             res.status(201).send(newPost)
-        }
+            }
     })
 
 bloggersRoute.get('/:bloggerId/posts',
@@ -106,7 +102,7 @@ bloggersRoute.get('/:bloggerId/posts',
         const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
         const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
+        let blogger = await bloggersService.findBlogger(req.body.id)
         if (!blogger) {
             res.sendStatus(404)
         }

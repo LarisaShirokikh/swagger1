@@ -55,10 +55,7 @@ export const bloggersDbRepository = {
 
     },
 
-    async getBloggerById(id: number): Promise<number | undefined> {
-        const result = await bloggersCollection.findOne({id: id})
-        return result?.id
-    },
+
 
     async deleteBlogger(id: number): Promise<boolean> {
         const result = await bloggersCollection.deleteOne({id})
@@ -78,9 +75,9 @@ export const bloggersDbRepository = {
     },
 
     async findBlogger(id: number): Promise<BloggerType | null | undefined> {
-        let blogger= await bloggersCollection.findOne({id: id})
+        let blogger = await bloggersCollection.findOne({id: id})
         if (blogger) {
-            return  {
+            return {
                 id: blogger.id,
                 name: blogger.name,
                 youtubeUrl: blogger.youtubeUrl
@@ -89,8 +86,26 @@ export const bloggersDbRepository = {
     },
 
 
-
-
+    async createPost(title: string,
+                     shortDescription: string,
+                     content: string): Promise<{
+        bloggerName: string;
+        id: number;
+        shortDescription: string;
+        title: string;
+        content: string;
+        bloggerId: string
+    }> {
+        const newBloggersPost = {
+            id: +(new Date()),
+            title,
+            shortDescription,
+            content,
+            bloggerId: "1",
+            bloggerName: "TOM"
+        }
+        return newBloggersPost
+    }
 }
 
 
