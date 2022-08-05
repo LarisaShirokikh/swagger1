@@ -1,5 +1,6 @@
 import {BloggerType, PostType} from "./types";
 import {bloggersCollection, postsCollection} from "../settings";
+import {EnhancedOmit, InferIdType} from "mongodb";
 
 
 export const bloggersDbRepository = {
@@ -84,9 +85,13 @@ export const bloggersDbRepository = {
     },
 
     async findBlogger(id: number): Promise<BloggerType | null | undefined> {
-        const blogger = await bloggersCollection.findOne({id: id})
+        let blogger= await bloggersCollection.findOne({id: id})
         if (blogger) {
-            return blogger
+            return  {
+                id: blogger.id,
+                name: blogger.name,
+                youtubeUrl: blogger.youtubeUrl
+            }
         }
     },
 
