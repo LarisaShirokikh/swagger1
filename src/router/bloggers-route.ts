@@ -1,6 +1,7 @@
 import {Request, Response, Router} from "express";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {contentValidation, shortDescriptionValidationBloggersPosts,
+import {
+    contentValidation, shortDescriptionValidationBloggersPosts,
     titleValidationBloggersPosts,
     urlValidation, nameValidationCreate
 } from "../middlewares/title-validation";
@@ -55,9 +56,11 @@ bloggersRoute.put('/:id',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const isFind = await bloggersService.findBlogger(req.body.id);
-        if (isFind) {
-            await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
-            res.sendStatus(200)
+        if (!isFind) {
+            res.status(404)
+        } else {
+            const test = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
+            res.status(204).send("done")
         }
     })
 
@@ -67,7 +70,7 @@ bloggersRoute.delete('/:id',
     async (req: Request, res: Response) => {
         const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
         if (isDeleted) {
-            res.sendStatus(204)
+            res.status(204)
         } else {
             res.sendStatus(404)
         }

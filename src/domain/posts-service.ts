@@ -20,8 +20,8 @@ export const postsService = {
     },
 
 
-    async findPost(pageSize:number, pageNumber:number) {
-        return await postDbRepository.findPosts(pageSize, pageNumber )
+    async findPost(id: number) {
+        return await postDbRepository.findPost(id)
     },
 
     async findPostById(id: number) {

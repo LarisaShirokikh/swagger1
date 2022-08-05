@@ -56,22 +56,14 @@ postsRoute.put('/:id', authRouter,
     contentValidation,
     inputValidationPost, async (req: Request, res: Response) => {
 
-        let blogger = await bloggersService.getBloggerById(req.body.bloggerId)
-        if (!blogger) {
-            return res.status(400).send({errorsMessages: [{message: 'Invalid bloggerId', field: "bloggerId"}]})
+        const isFind = await postsService.findPost(req.body.id)
+        if (!isFind) {
+            res.status(404)
         } else {
-            const isUpdate = await postsService.updatePost(+req.params.id,
-                req.body.title,
-                req.body.shortDescription,
-                req.body.content,
-                req.body.bloggerId)
-            if (isUpdate) {
-                const post = await postsService.findPostById(+req.params.id)
-                res.status(204).send({post})
-            } else {
-                res.send(404)
-
-            }
+            const test = await postsService.updatePost(
+                req.body.id, req.body.title,
+                req.body.shortDescription, req.body.content, req.body.bloggerId)
+            res.status(204).send("done")
         }
 
     })
