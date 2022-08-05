@@ -1,5 +1,5 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {BloggerType, Pagination, PostType} from "../repositories/types";
+import {BloggerType, Pagination} from "../repositories/types";
 
 
 export const bloggersService = {
@@ -9,7 +9,7 @@ export const bloggersService = {
         Promise<Pagination<BloggerType[]>> {
 
         const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
-        const totalCount = await bloggersDbRepository.getBloggersCount(SearchNameTerm)
+        const totalCount = await bloggersDbRepository.getCount()
 
         return {
             pagesCount: Math.ceil(totalCount / PageSize),

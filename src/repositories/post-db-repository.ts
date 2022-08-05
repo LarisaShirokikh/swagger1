@@ -1,4 +1,4 @@
-import {BloggerType, PostType} from "./types";
+import {BloggerType, Pagination, PostType} from "./types";
 import {bloggersCollection, postsCollection} from "../settings";
 import {bloggersService} from "../domain/bloggers-service";
 import {Filter, WithId} from "mongodb";
@@ -21,7 +21,7 @@ export const postDbRepository = {
     },
 
 
-    async getPostsArray(PageNumber: number, PageSize: number): Promise<PostType[]> {
+    async getPosts(PageNumber: number, PageSize: number): Promise<PostType[]> {
         let filter = {}
         const test = await postsCollection.find(filter)
             .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
@@ -103,17 +103,6 @@ export const postDbRepository = {
 
     },
 
-    async getPostCount(PageNumber: number,
-                       PageSize: number,
-                       term?: string | string[]): Promise<number> {
-        let filter = {}
-        if (term) {
-            filter = {name: {$regex: term}}
-        }
-        const test = await bloggersCollection.countDocuments()
-        return test
-
-    },
 
     async getCount() {
         return await postsCollection.count({})

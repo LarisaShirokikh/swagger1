@@ -1,12 +1,12 @@
-import {BloggerType, PostType} from "../repositories/types";
+import {BloggerType, Pagination, PostType} from "../repositories/types";
 import {postDbRepository} from "../repositories/post-db-repository";
-import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 export const postsService = {
 
-    async getPostsArray(PageNumber: number, PageSize: number) {
-        const items = await postDbRepository.getCount()
-        const totalCount = await postDbRepository.getPostCount(PageNumber,PageSize)
+    async getPostsArray(PageNumber: number,
+                        PageSize: number): Promise<Pagination<PostType[]>> {
+        const items = await postDbRepository.getPosts(PageNumber, PageSize)
+        const totalCount = await postDbRepository.getCount()
         return {
             pagesCount: Math.ceil(totalCount / PageSize),
             page: PageNumber,

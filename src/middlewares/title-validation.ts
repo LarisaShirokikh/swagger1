@@ -13,6 +13,7 @@ export const titleValidationCreate = body('title').trim().isLength({
     max: 30
 });
 
+
 export const shortDescriptionValidationBloggersPosts = body('shortDescription').trim().isLength({
     max: 100
 });
@@ -28,7 +29,7 @@ export const contentValidation = body('content').trim().isLength({
 });
 
 export const nameValidationCreate = body('name').trim().isLength({
-    min: 3,
+
     max: 15
 });
 

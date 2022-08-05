@@ -19,7 +19,11 @@ export const bloggersDbRepository = {
             id: b.id,
             youtubeUrl: b.youtubeUrl
         }))
+
+
 },
+
+
 
     async getBloggersCount(term?: string | string[]): Promise<number> {
         let filter = {}
@@ -69,7 +73,7 @@ export const bloggersDbRepository = {
 
 
     async getCount() {
-        return await bloggersCollection.countDocuments({name: {}})
+        return await bloggersCollection.count({})
     },
 
     async findBlogger(id: number): Promise<BloggerType | null | undefined> {

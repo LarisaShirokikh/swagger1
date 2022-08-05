@@ -44,7 +44,7 @@ bloggersRoute.post('/',
         if (newBlogger) {
             res.status(201).send(newBlogger)
         } else {
-            res.sendStatus(400)
+            res.status(400)
 
         }
     })
