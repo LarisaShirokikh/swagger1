@@ -24,7 +24,7 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
 
 
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
-    const foundBlogger = await bloggersService.getBloggerById(+req.params.id)
+    const foundBlogger = await bloggersService.findBlogger(+req.params.id)
     if (foundBlogger) {
         res.status(200).send(foundBlogger)
     } else {

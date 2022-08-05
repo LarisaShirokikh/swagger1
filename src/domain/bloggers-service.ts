@@ -28,6 +28,7 @@ export const bloggersService = {
         return bloggersDbRepository.getBloggerById(bloggerId)
     },
 
+
     async deleteBlogger(id: number): Promise<boolean> {
         return await bloggersDbRepository.deleteBlogger(id)
     },
