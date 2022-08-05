@@ -57,16 +57,16 @@ postsRoute.put('/:id', authRouter,
     inputValidationPost, async (req: Request, res: Response) => {
 
         const isFind = await postsService.findPost(req.body.id)
-        if (!isFind) {
-            res.status(404)
-        } else {
+        if (isFind) {
             const test = await postsService.updatePost(
                 +req.params.id, req.body.title,
                 req.body.shortDescription, req.body.content, req.body.bloggerId)
             res.status(204).send("done")
         }
+        res.status(404)
 
     })
+
 postsRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
     const isDeleted = await postsService.deletePost(+req.params.id)
     if (isDeleted) {
