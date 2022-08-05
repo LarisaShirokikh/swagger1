@@ -9,7 +9,7 @@ export const inputValidationMiddleware = (req: Request,
     console.log(errors)
     if (!errors.isEmpty()) {
         return res.status(400).json({
-            errorsMessages: errors.array({onlyFirstError: true}).map(error => ({
+            errorsMessages: errors.array({onlyFirstError: false}).map(error => ({
                 "message": error.msg,
                 "field": error.param
             }))
