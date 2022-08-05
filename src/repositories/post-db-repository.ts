@@ -87,23 +87,26 @@ export const postDbRepository = {
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number) {
+    async updatePost(id: number,
+                     title: string,
+                     shortDescription: string,
+                     content: string,
+                     bloggerId: number): Promise<boolean> {
         const result = await postsCollection.updateOne({id: id}, {
             $set: {
-                title: title,
-                shortDescription: shortDescription,
-                content: content,
-                bloggerId: bloggerId,
+                title,
+                shortDescription,
+                content,
+                bloggerId,
             }
         })
         return result.matchedCount === 1
     },
-    async deletePosts(id: number) {
-        const result = await postsCollection.findOne({id})
-        if (result) {
-            await postsCollection.deleteOne({id})
-            return true
-        }
+
+    async deletePosts(id: number): Promise<boolean> {
+         const result =  await postsCollection.deleteOne({id})
+            return result.deletedCount === 1
+
     },
 
     async getPostCount(PageNumber: number,
