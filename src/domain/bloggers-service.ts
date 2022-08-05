@@ -1,5 +1,6 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType, Pagination} from "../repositories/types";
+import {postsCollection} from "../settings";
 
 
 export const bloggersService = {
@@ -48,7 +49,11 @@ export const bloggersService = {
 
     async findBlogger(id: number): Promise<BloggerType | null | undefined> {
         return await bloggersDbRepository.findBlogger(id)
-    }
+    },
+
+    async getCountBloggerId(bloggerId: number) {
+        return await bloggersDbRepository.getCountBloggerId(bloggerId)
+    },
 
 }
 

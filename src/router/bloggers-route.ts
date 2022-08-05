@@ -1,9 +1,8 @@
 import {Request, Response, Router} from "express";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {
-    contentValidation, shortDescriptionValidationBloggersPosts,
-    titleValidationBloggersPosts,
-    urlValidation, nameValidationCreate
+    contentValidation, titleValidationBloggersPosts,
+    urlValidation, nameValidationCreate, shortDescriptionValidation
 } from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
@@ -80,12 +79,12 @@ bloggersRoute.delete('/:id',
 bloggersRoute.post('/:bloggerId/posts',
     authRouter,
     titleValidationBloggersPosts,
-    shortDescriptionValidationBloggersPosts,
+    shortDescriptionValidation,
     contentValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        let blogger = await bloggersService.findBlogger(+req.params.id)
+        let blogger = await bloggersService.getCountBloggerId(req.body.bloggerId)
         if (!blogger) {
             res.status(404)
         } else {

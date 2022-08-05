@@ -14,10 +14,6 @@ export const titleValidationCreate = body('title').trim().isLength({
 });
 
 
-export const shortDescriptionValidationBloggersPosts = body('shortDescription').trim().isLength({
-    max: 100
-});
-
 export const shortDescriptionValidation = body('shortDescription').trim().isLength({
 
     max: 100

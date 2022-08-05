@@ -1,5 +1,5 @@
 import {BloggerType} from "./types";
-import {bloggersCollection} from "../settings";
+import {bloggersCollection, postsCollection} from "../settings";
 
 
 export const bloggersDbRepository = {
@@ -107,7 +107,11 @@ export const bloggersDbRepository = {
             bloggerName: "TOM"
         }
         return newBloggersPost
-    }
+    },
+
+    async getCountBloggerId(bloggerId: number) {
+        return await postsCollection.count({bloggerId: bloggerId})
+    },
 }
 
 
