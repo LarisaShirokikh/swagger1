@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import {validationResult} from "express-validator";
 
+
 export const inputValidationMiddleware = (req: Request,
                                           res: Response, next: NextFunction) => {
 
@@ -9,7 +10,7 @@ export const inputValidationMiddleware = (req: Request,
     if (!errors.isEmpty()) {
         return res.status(400).json({
             errorsMessages: errors.array({onlyFirstError: true}).map(error => ({
-                "message": error.msg,
+                "message": error.param,
                 "field": error.param
             }))
         })
@@ -25,8 +26,8 @@ export const inputValidationPost = (req: Request, res: Response,
     if (!errors.isEmpty()) {
         return res.status(400).json({
             errorsMessages: errors.array({onlyFirstError: true}).map(error => ({
-                "message": error.msg,
-                "field": error.param
+                "message": error.value,
+                "field": error.value
             }))
         })
     } else {
