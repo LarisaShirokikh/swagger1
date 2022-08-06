@@ -56,7 +56,7 @@ bloggersRoute.put('/:id',
     async (req: Request, res: Response) => {
         const blogger = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl);
         if (blogger) {
-            res.sendStatus(204)
+            res.status(204)
         }
         res.sendStatus(404)
     })
@@ -99,7 +99,7 @@ bloggersRoute.get('/:bloggerId/posts',
 
         let blogger = await bloggersService.getBlogger(req.body.id)
         if (!blogger) {
-            res.sendStatus(404)
+            res.status(404)
         }
         const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
         const totalCount = await bloggersDbRepository.getBloggersCount()
