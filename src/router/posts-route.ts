@@ -24,6 +24,7 @@ postsRoute.get('/', async (req: Request, res: Response) => {
     const foundPost = await postsService.getPostsArray(PageNumber, PageSize)
 
     res.status(200).send(foundPost)
+    return
 
 })
 
@@ -36,7 +37,8 @@ postsRoute.post('/',
         let newPost = await postsService.createPost(req.body.title,
             req.body.shortDescription, req.body.content, req.body.bloggerId)
         if (!newPost) {
-            res.status(400)
+            res.status(400).json
+            return
         }
         res.status(201).send(newPost)
     })
@@ -46,6 +48,7 @@ postsRoute.get('/:id', async (req: Request, res: Response) => {
     const post = await postsService.findPostById(+req.params.id)
     if (post) {
         res.status(200).send(post)
+        return
     }
 
 })
@@ -63,8 +66,9 @@ postsRoute.put('/:id', authRouter,
                 +req.params.id, req.body.title,
                 req.body.shortDescription, req.body.content, req.body.bloggerId)
             res.status(204).send("done")
+            return
         }
-        res.status(404)
+        res.sendStatus(404)
 
     })
 
@@ -74,5 +78,6 @@ postsRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
         res.send(204)
     } else {
         res.send(404)
+        return
     }
 })
