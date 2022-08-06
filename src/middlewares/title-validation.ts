@@ -29,9 +29,6 @@ export const nameValidationCreate = body('name').trim().isLength({
     max: 15
 });
 
-export const urlValidation = body('youtubeUrl').trim().isLength({
-
-    max: 100
-}).matches(regexp)
+export const urlValidation = body('youtubeUrl').trim().isLength({max: 100}).matches(regexp)
 
 
