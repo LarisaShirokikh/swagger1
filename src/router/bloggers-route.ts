@@ -24,7 +24,7 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
 
 
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
-    const foundBlogger = await bloggersService.findBlogger(+req.params.id)
+    const foundBlogger = await bloggersService.getBlogger(+req.params.id)
     if (foundBlogger) {
         res.status(200).send(foundBlogger)
     } else {
@@ -54,13 +54,11 @@ bloggersRoute.put('/:id',
     urlValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const isFind = await bloggersService.findBlogger(req.body.id);
-        if (!isFind) {
-            res.status(404)
-        } else {
-            const test = await bloggersService.updateBlogger(+req.params.id, req.body.name, req.body.youtubeUrl)
-            res.status(204).send("done")
+        const blogger = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl);
+        if (blogger) {
+            res.status(204)
         }
+        res.status(404)
     })
 
 
@@ -91,7 +89,7 @@ bloggersRoute.post('/:bloggerId/posts',
             const newPost = await bloggersService.createPost(req.body.title,
                 req.body.shortDescription, req.body.content)
             res.status(201).send(newPost)
-            }
+        }
     })
 
 bloggersRoute.get('/:bloggerId/posts',
@@ -99,7 +97,7 @@ bloggersRoute.get('/:bloggerId/posts',
         const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
         const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-        let blogger = await bloggersService.findBlogger(req.body.id)
+        let blogger = await bloggersService.getBlogger(req.body.id)
         if (!blogger) {
             res.sendStatus(404)
         }

@@ -43,17 +43,21 @@ export const bloggersService = {
     },
 
     async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
-        return await bloggersDbRepository.updateBlogger(id, name, youtubeUrl)
+        return await bloggersDbRepository.updateBloggerOne(id, name, youtubeUrl)
 
     },
 
-    async findBlogger(id: number): Promise<BloggerType | null | undefined> {
+    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
         return await bloggersDbRepository.findBlogger(id)
     },
 
     async getCountBloggerId(bloggerId: number) {
         return await bloggersDbRepository.getCountBloggerId(bloggerId)
     },
+
+    async getBlogger(id: number): Promise<BloggerType | null> {
+        return await bloggersDbRepository.getBlogger(id)
+    }
 
 }
 

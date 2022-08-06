@@ -1,7 +1,7 @@
 import {body} from "express-validator";
 import {validationResult} from "express-validator";
 
-const regexp = new RegExp('^https://([a-zA-Z0-9_-]+\\.)+[a-zA-Z0-9_-]+(\\/[a-zA-Z0-9_-]+)*\\/?$')
+const regexp = new RegExp('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$')
 
 export const titleValidationCreate = body('title').trim().isLength({
     max: 100
