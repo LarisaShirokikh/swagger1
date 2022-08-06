@@ -57,9 +57,12 @@ bloggersRoute.put('/:id',
         const blogger = await bloggersService.findBlogger(req.body.id, req.body.name, req.body.youtubeUrl);
         if (blogger) {
             const newBlogger = await bloggersService.updateBlogger(req.body.id, req.body.name, req.body.youtubeUrl)
-            res.status(204)
+            res.status(204).json()
+            return
         }
-        res.status(404)
+
+        res.status(404).json()
+
     })
 
 
