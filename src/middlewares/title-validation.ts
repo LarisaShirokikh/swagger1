@@ -5,18 +5,19 @@ import {validationResult} from "express-validator";
 const regexp = new RegExp('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$')
 
 export const titleValidationCreate = body('title').trim().isLength({
-    max: 100
+    max: 29
 });
 
 
 
  export const titleValidationBloggersPosts = body('title').trim().isLength({
-    max: 30
+     min: 5,
+    max: 29
 });
 
 
 export const shortDescriptionValidation = body('shortDescription').trim().isLength({
-
+    min: 5,
     max: 100
 });
 
