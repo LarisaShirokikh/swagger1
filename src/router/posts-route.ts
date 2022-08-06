@@ -49,6 +49,8 @@ postsRoute.get('/:id', async (req: Request, res: Response) => {
     if (post) {
         res.status(200).send(post)
         return
+    } else {
+        res.sendStatus(404)
     }
 
 })
