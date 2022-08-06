@@ -21,8 +21,7 @@ export const bloggersDbRepository = {
         }))
 
 
-},
-
+    },
 
 
     async getBloggersCount(term?: string | string[]): Promise<number> {
@@ -58,7 +57,6 @@ export const bloggersDbRepository = {
     },
 
 
-
     async deleteBlogger(id: number): Promise<boolean> {
         const result = await bloggersCollection.deleteOne({id})
         return result.deletedCount === 1
@@ -78,13 +76,13 @@ export const bloggersDbRepository = {
 
     async findBlogger(id: number): Promise<boolean> {
         const findBlogger = await bloggersCollection.findOne({id: id})
-      return true
+        return true
 
     },
 
     async updateBloggerOne(id: number, name: string, youtubeUrl: string): Promise<boolean> {
         const result = await bloggersCollection.updateOne({id},
-            { $set: {name: name, youtubeUrl: youtubeUrl }})
+            {$set: {name: name, youtubeUrl: youtubeUrl}})
         return result.modifiedCount === 1
 
     },
@@ -116,10 +114,16 @@ export const bloggersDbRepository = {
     },
 
     async getBlogger(id: number) {
-        return await bloggersCollection.findOne({id: id})
+        const newBlogger = await bloggersCollection.findOne({id: id})
+        if (newBlogger) {
+            return {
+                name: newBlogger.name,
+                id: newBlogger.id,
+                youtubeUrl: newBlogger.youtubeUrl
+            }
+        }
     }
 }
-
 
 
 

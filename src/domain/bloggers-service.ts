@@ -55,7 +55,7 @@ export const bloggersService = {
         return await bloggersDbRepository.getCountBloggerId(bloggerId)
     },
 
-    async getBlogger(id: number): Promise<BloggerType | null> {
+    async getBlogger(id: number): Promise<BloggerType | null | undefined> {
         return await bloggersDbRepository.getBlogger(id)
     }
 
