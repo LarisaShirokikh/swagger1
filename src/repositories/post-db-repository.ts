@@ -11,12 +11,7 @@ export const postDbRepository = {
     async findPost(id: number) {
         let post = await postsCollection.findOne({id: id})
         if (post) {
-            return {
-                title: post.title,
-                shortDescription: post.shortDescription,
-                content: post.content,
-                bloggerId: post.bloggerId
-            }
+            return post
         }
     },
 
