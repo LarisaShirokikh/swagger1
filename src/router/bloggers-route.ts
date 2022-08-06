@@ -20,6 +20,7 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
     const foundBlogger = await bloggersService.getBloggersArray(PageNumber,
         PageSize, SearchNameTerm);
     res.status(200).send(foundBlogger)
+    return
 })
 
 
@@ -29,6 +30,7 @@ bloggersRoute.get('/:id', async (req: Request, res: Response) => {
         res.send(foundBlogger)
     } else {
         res.sendStatus(404)
+        return
     }
 })
 
@@ -44,6 +46,7 @@ bloggersRoute.post('/',
             res.status(201).send(newBlogger)
         } else {
             res.status(400)
+            return
 
         }
     })
@@ -72,6 +75,7 @@ bloggersRoute.delete('/:id',
         const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
         if (isDeleted) {
             res.send(204)
+            return
         }
     })
 
@@ -91,6 +95,7 @@ bloggersRoute.post('/:bloggerId/posts',
             const newPost = await bloggersService.createPost(req.body.title,
                 req.body.shortDescription, req.body.content)
             res.status(201).send(newPost)
+            return
         }
     })
 
@@ -102,6 +107,7 @@ bloggersRoute.get('/:bloggerId/posts',
         let blogger = await bloggersService.getBlogger(req.body.id)
         if (!blogger) {
             res.status(404)
+            return
         }
         const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
         const totalCount = await bloggersDbRepository.getBloggersCount()
