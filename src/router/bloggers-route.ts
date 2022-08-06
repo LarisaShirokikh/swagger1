@@ -41,9 +41,9 @@ bloggersRoute.post('/',
 
         let newBlogger = await bloggersService.createdBlogger(req.body.name, req.body.youtubeUrl)
         if (newBlogger) {
-            res.sendStatus(201).send(newBlogger)
+            res.status(201).send(newBlogger)
         } else {
-            res.sendStatus(400)
+            res.status(400)
 
         }
     })
@@ -58,7 +58,7 @@ bloggersRoute.put('/:id',
         if (blogger) {
             res.status(204)
         }
-        res.sendStatus(404)
+        res.status(404)
     })
 
 
@@ -67,9 +67,9 @@ bloggersRoute.delete('/:id',
     async (req: Request, res: Response) => {
         const isDeleted = await bloggersService.deleteBlogger(+req.params.id)
         if (isDeleted) {
-            res.sendStatus(204)
+            res.status(204)
         } else {
-            res.sendStatus(404)
+            res.status(404)
         }
     })
 
@@ -84,11 +84,11 @@ bloggersRoute.post('/:bloggerId/posts',
 
         let blogger = await bloggersService.getCountBloggerId(req.body.bloggerId)
         if (!blogger) {
-            res.sendStatus(404)
+            res.status(404)
         } else {
             const newPost = await bloggersService.createPost(req.body.title,
                 req.body.shortDescription, req.body.content)
-            res.sendStatus(201).send(newPost)
+            res.status(201).send(newPost)
         }
     })
 
@@ -111,7 +111,7 @@ bloggersRoute.get('/:bloggerId/posts',
             totalCount: totalCount,
             items: items
         }
-        res.sendStatus(200)
+        res.status(200)
 
 
     })
