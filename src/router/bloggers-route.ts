@@ -7,6 +7,7 @@ import {
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
+import {postsService} from "../domain/posts-service";
 
 export const bloggersRoute = Router({});
 
@@ -90,13 +91,13 @@ bloggersRoute.post('/:bloggerId/posts',
 
         let blogger = await bloggersService.getCountBloggerId(req.body.bloggerId)
         if (!blogger) {
-            res.status(404)
-        } else {
-            const newPost = await bloggersService.createPost(req.body.title,
-                req.body.shortDescription, req.body.content)
-            res.status(201).send(newPost)
+            res.sendStatus(404)
             return
         }
+            const newPost = await bloggersService.createPostId(req.body.title, req.body.shortDescription, req.body.content)
+            res.sendStatus(201).json(newPost)
+
+
     })
 
 bloggersRoute.get('/:bloggerId/posts',

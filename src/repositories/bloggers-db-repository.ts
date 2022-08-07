@@ -1,4 +1,4 @@
-import {BloggerType} from "./types";
+import {BloggerType, PostType} from "./types";
 import {bloggersCollection, postsCollection} from "../settings";
 
 
@@ -88,30 +88,37 @@ export const bloggersDbRepository = {
     },
 
 
-    async createPost(title: string,
+    async createPostId(title: string,
                      shortDescription: string,
-                     content: string): Promise<{
-        bloggerName: string;
-        id: number;
-        shortDescription: string;
-        title: string;
-        content: string;
-        bloggerId: string
-    }> {
-        const newBloggersPost = {
+                     content: string): Promise<PostType | undefined | null> {
+        const post = {
             id: +(new Date()),
             title,
             shortDescription,
             content,
-            bloggerId: "1",
-            bloggerName: "TOM"
+            bloggerId: 1,
+            bloggerName: "Ann"
         }
-        return newBloggersPost
+        const result = await postsCollection.insertOne(post)
+        result.insertedId
+        if (result.acknowledged) {
+            return {
+                id: post.id,
+                title: post.title,
+                shortDescription: post.shortDescription,
+                content: post.content,
+                bloggerId: post.bloggerId,
+                bloggerName: post.bloggerName
+
+            }
+        }
+        return null
     },
 
     async getCountBloggerId(bloggerId: number) {
         return await postsCollection.count({bloggerId: bloggerId})
     },
+
 
     async getBlogger(id: number) {
         const newBlogger = await bloggersCollection.findOne({id: id})
