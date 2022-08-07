@@ -19,10 +19,8 @@ export const postsRoute = Router({})
 
 postsRoute.get('/', async (req: Request, res: Response) => {
 
-    const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
-    const PageSize = req.query.PageSize ? +req.query.PageSize : 10
-
-    const foundPost = await postsService.getPostsArray(PageNumber, PageSize)
+// @ts-ignore
+    const foundPost = await postsService.getPostsArray(req.query.PageNumber, req.query.PageSize)
 
     res.status(200).send(foundPost)
     return
@@ -39,10 +37,11 @@ postsRoute.post('/',
         let newPost = await postsService.createPost(req.body.title,
             req.body.shortDescription, req.body.content, req.body.bloggerId)
         if (!newPost) {
-            res.status(400).json
+            res.status(400)
             return
         }
         res.status(201).send(newPost)
+        return
     })
 // ************************************************************
 
@@ -53,6 +52,7 @@ postsRoute.get('/:postId', async (req: Request, res: Response) => {
         return
     } else {
         res.sendStatus(404)
+        return
     }
 
 })
@@ -75,7 +75,7 @@ postsRoute.put('/:id', authRouter,
                 req.body.content,
                 req.body.bloggerId)
             if (test) {
-                const bloggerPost = await postsService.findPost(+req.params.id)
+                const bloggerPost = await postsService.findPostById(+req.params.id)
                 res.status(204).send(bloggerPost);
             }
             res.send(404)

@@ -64,10 +64,11 @@ export const postDbRepository = {
 
     },
 // don't touch!!!!
-    async createPost(title: string, shortDescription: string, content: string, bloggerId: number): Promise<PostType | undefined | null> {
-// @ts-ignore
-        const result = await postsCollection.insertOne(title, shortDescription, content, bloggerId)
-        const post = await postsCollection.find({bloggerId: bloggerId}, {projection: {_id: 0}}).toArray()
+    async createPost(newPost: PostType): Promise<PostType | undefined | null> {
+
+        const result = await postsCollection.insertOne(newPost)
+        const post = await postsCollection.find({id: newPost.id}, {projection: {_id: 0}}).toArray()
+        // @ts-ignore
         return post[0]
     },
 

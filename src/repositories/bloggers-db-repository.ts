@@ -141,6 +141,11 @@ const result = {
 return result
 
 },
+
+    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
+        const blogger: BloggerType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
+        return blogger;
+    },
 }
 
 
