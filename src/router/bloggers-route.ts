@@ -100,6 +100,7 @@ bloggersRoute.post('/:bloggerId/posts',
 
     })
 
+
 bloggersRoute.get('/:bloggerId/posts',
     async (req: Request, res: Response) => {
         const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1

@@ -55,7 +55,6 @@ postsRoute.get('/:id', async (req: Request, res: Response) => {
 
 })
 
-
 postsRoute.put('/:id', authRouter,
     titleValidationCreate,
     shortDescriptionValidation,

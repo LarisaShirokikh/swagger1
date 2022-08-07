@@ -74,7 +74,6 @@ export const postDbRepository = {
         return null
     },
 
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     async updatePost(id: number,
                      title: string,

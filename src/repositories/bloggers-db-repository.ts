@@ -115,6 +115,7 @@ export const bloggersDbRepository = {
         return null
     },
 
+
     async getCountBloggerId(bloggerId: number) {
         return await postsCollection.count({bloggerId: bloggerId})
     },
