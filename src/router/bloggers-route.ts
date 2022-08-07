@@ -91,15 +91,18 @@ bloggersRoute.post('/:bloggerId/posts',
         let blogger = await bloggersService.getCountBloggerId(+req.params.bloggerId)
         if (!blogger) {
             res.status(404)
+            return
         } else {
 
             const newPost = await bloggersService.createPostByBlogger(+req.params.bloggerId,
                 req.body.title, req.body.shortDescription, req.body.content)
-            res.sendStatus(201).json(newPost)
+
             if (newPost) {
                 res.status(201).send(newPost)
+                return
             }
             res.status(400)
+            return
         }
 
     })
