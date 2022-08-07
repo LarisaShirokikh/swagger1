@@ -71,7 +71,6 @@ export const postDbRepository = {
         return post[0]
     },
 
-
     async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number): Promise<boolean> {
         const result = await postsCollection.updateOne({id: id}, {
             $set: {

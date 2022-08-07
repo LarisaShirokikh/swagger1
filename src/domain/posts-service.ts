@@ -13,7 +13,6 @@ export const postsService = {
         items: WithId<PostType>[] }> {
         return await postDbRepository.getPosts(PageNumber, PageSize)
 
-
     },
 
     async findPost(id: number) {

@@ -101,6 +101,7 @@ bloggersRoute.post('/:bloggerId/posts',
                 res.status(201).send(newPost)
                 return
             }
+
             res.status(400)
             return
         }

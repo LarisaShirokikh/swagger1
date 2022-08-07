@@ -29,6 +29,7 @@ postsRoute.get('/', async (req: Request, res: Response) => {
 
 })
 
+
 //не трогать!!!
 postsRoute.post('/',
     authRouter,
