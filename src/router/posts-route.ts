@@ -11,6 +11,7 @@ import {authRouter} from "./auth-router";
 import {postsService} from "../domain/posts-service";
 import {bloggersService} from "../domain/bloggers-service";
 import {bloggersRoute} from "./bloggers-route";
+import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 
 export const postsRoute = Router({})
@@ -61,18 +62,21 @@ postsRoute.put('/:id', authRouter,
     contentValidation,
     inputValidationPost, async (req: Request, res: Response) => {
 
-        const isFind = await postsService.findPost(req.body.id)
-        if (!isFind) {
+        const blogger = await bloggersDbRepository.getBlogger(req.body.id)
+        if (!blogger) {
             res.sendStatus(404)
         } else {
             const test = await postsService.updatePost(
-                req.body.id,
+                +req.params.id,
                 req.body.title,
                 req.body.shortDescription,
                 req.body.content,
                 req.body.bloggerId)
-            res.sendStatus(204)
-            return
+            if (test) {
+                const bloggerPost = await postsService.findPost(+req.params.id)
+                res.status(204).send(bloggerPost);
+            }
+            res.send(404)
         }
     })
 
