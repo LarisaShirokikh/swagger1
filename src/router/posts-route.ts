@@ -66,6 +66,7 @@ postsRoute.put('/:id', authRouter,
         if (!blogger) {
             res.sendStatus(404)
         } else {
+
             const test = await postsService.updatePost(
                 +req.params.id,
                 req.body.title,

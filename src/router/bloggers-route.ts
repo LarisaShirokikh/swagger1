@@ -92,6 +92,7 @@ bloggersRoute.post('/:bloggerId/posts',
         if (!blogger) {
             res.status(404)
         } else {
+
             const newPost = await bloggersService.createPostByBlogger(+req.params.bloggerId,
                 req.body.title, req.body.shortDescription, req.body.content)
             res.sendStatus(201).json(newPost)

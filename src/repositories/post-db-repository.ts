@@ -58,6 +58,7 @@ export const postDbRepository = {
             bloggerId,
             bloggerName: "Ann"
         }
+
         const result = await postsCollection.insertOne(post)
         result.insertedId
         if (result.acknowledged) {

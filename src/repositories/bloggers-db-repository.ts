@@ -114,6 +114,7 @@ export const bloggersDbRepository = {
 
     async createBloggerByPost(newBlogger: { bloggerName: string;
         id: number; shortDescription: string; title: string; content: string; bloggerId: number }): Promise<BloggerType> {
+        // @ts-ignore
         const result = await bloggersCollection.insertOne(newBlogger)
         const post = await bloggersCollection.find({id: newBlogger.id}, {projection: {_id: 0}}).toArray()
         return post[0];
