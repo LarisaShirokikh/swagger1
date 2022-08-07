@@ -80,6 +80,7 @@ export const bloggersDbRepository = {
         const findBlogger = await bloggersCollection.findOne({id: id})
         return true
 
+
     },
 
     async updateBloggerOne(id: number, name: string, youtubeUrl: string): Promise<boolean> {
