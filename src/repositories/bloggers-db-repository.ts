@@ -82,7 +82,7 @@ export const bloggersDbRepository = {
 
     async updateBloggerOne(id: number, name: string, youtubeUrl: string): Promise<boolean> {
         const result = await bloggersCollection.updateOne({id},
-            {$set: {name: name, youtubeUrl: youtubeUrl}})
+            {$rename: {name: name, youtubeUrl: youtubeUrl}})
         return result.modifiedCount === 1
 
     },
