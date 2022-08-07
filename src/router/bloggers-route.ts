@@ -6,14 +6,13 @@ import {
 } from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
-import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {postsService} from "../domain/posts-service";
 
 export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/', async (req: Request, res: Response) => {
-    const SearchNameTerm = req.query.SearchNameTerm?.toString()
+    // @ts-ignore
+    const SearchNameTerm = req.query.SearchNameTerm.toString()
 
     const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
     const PageSize = req.query.PageSize ? +req.query.PageSize : 10
@@ -21,12 +20,12 @@ bloggersRoute.get('/', async (req: Request, res: Response) => {
     const foundBlogger = await bloggersService.getBloggersArray(PageNumber,
         PageSize, SearchNameTerm);
     res.status(200).send(foundBlogger)
-    return
+
 })
 
 
 bloggersRoute.get('/:id', async (req: Request, res: Response) => {
-    const foundBlogger = await bloggersService.getBlogger(+req.params.id)
+    const foundBlogger = await bloggersService.getBlogger(req.body.id)
     if (foundBlogger) {
         res.send(foundBlogger)
     } else {
@@ -89,39 +88,33 @@ bloggersRoute.post('/:bloggerId/posts',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        let blogger = await bloggersService.getCountBloggerId(req.body.bloggerId)
+        let blogger = await bloggersService.getCountBloggerId(+req.params.bloggerId)
         if (!blogger) {
-            res.sendStatus(404)
-            return
-        }
-            const newPost = await bloggersService.createPostId(req.body.title, req.body.shortDescription, req.body.content)
+            res.status(404)
+        } else {
+            const newPost = await bloggersService.createPostByBlogger(+req.params.bloggerId,
+                req.body.title, req.body.shortDescription, req.body.content)
             res.sendStatus(201).json(newPost)
-
+            if (newPost) {
+                res.status(201).send(newPost)
+            }
+            res.status(400)
+        }
 
     })
 
 
 bloggersRoute.get('/:bloggerId/posts',
     async (req: Request, res: Response) => {
-        const PageNumber = req.query.PageNumber ? +req.query.PageNumber : 1
-        const PageSize = req.query.PageSize ? +req.query.PageSize : 10
 
-        let blogger = await bloggersService.getBlogger(req.body.id)
+        let blogger = await bloggersService.getCountBloggerId(+req.params.bloggerId)
         if (!blogger) {
             res.status(404)
-            return
         }
-        const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize)
-        const totalCount = await bloggersDbRepository.getBloggersCount()
-        const getCount = await bloggersDbRepository.getCount()
-        return {
-            pagesCount: Math.ceil(totalCount / PageSize),
-            page: PageNumber,
-            pageSize: PageSize,
-            totalCount: totalCount,
-            items: items
-        }
-        res.status(200)
+        // @ts-ignore
+        const posts = await bloggersService.getPostForBlogger(+req.params.bloggerId, req.query.PageNumber, req.query.PageSize);
+        res.status(200).send(posts);
+
 
 
     })

@@ -1,5 +1,7 @@
-import {BloggerType, PostType} from "./types";
+import {BloggerType, Pagination, PostType} from "./types";
 import {bloggersCollection, postsCollection} from "../settings";
+import {postDbRepository} from "./post-db-repository";
+import {bloggersService} from "../domain/bloggers-service";
 
 
 export const bloggersDbRepository = {
@@ -7,10 +9,10 @@ export const bloggersDbRepository = {
 
     async getBloggers(PageNumber: number,
                       PageSize: number,
-                      term?: string | string[]): Promise<BloggerType[]> {
+                      SearchNameTerm: string | string[]): Promise<BloggerType[]> {
         let filter = {}
-        if (term) {
-            filter = {name: {$regex: term}}
+        if (SearchNameTerm) {
+            filter = {name: {$regex: SearchNameTerm}}
         }
         const test = await bloggersCollection.find(filter)
             .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
@@ -24,10 +26,10 @@ export const bloggersDbRepository = {
     },
 
 
-    async getBloggersCount(term?: string | string[]): Promise<number> {
+    async getBloggersCount(SearchNameTerm: string | string[]): Promise<number> {
         let filter = {}
-        if (term) {
-            filter = {name: {$regex: term}}
+        if (SearchNameTerm) {
+            filter = {name: {$regex: SearchNameTerm}}
 
         }
         const test = await bloggersCollection.countDocuments(filter)
@@ -88,36 +90,14 @@ export const bloggersDbRepository = {
     },
 
 
-    async createPostId(title: string,
-                     shortDescription: string,
-                     content: string): Promise<PostType | undefined | null> {
-        const post = {
-            id: +(new Date()),
-            title,
-            shortDescription,
-            content,
-            bloggerId: 1,
-            bloggerName: "Ann"
-        }
-        const result = await postsCollection.insertOne(post)
-        result.insertedId
-        if (result.acknowledged) {
-            return {
-                id: post.id,
-                title: post.title,
-                shortDescription: post.shortDescription,
-                content: post.content,
-                bloggerId: post.bloggerId,
-                bloggerName: post.bloggerName
-
-            }
-        }
-        return null
-    },
-
-
     async getCountBloggerId(bloggerId: number) {
-        return await postsCollection.count({bloggerId: bloggerId})
+        const blogger = await postsCollection.findOne({bloggerId: bloggerId}, {projection: {_id: 0}})
+        return blogger
+        if (blogger) {
+            return true
+        }
+        return false
+
     },
 
 
@@ -130,7 +110,41 @@ export const bloggersDbRepository = {
                 youtubeUrl: newBlogger.youtubeUrl
             }
         }
-    }
+    },
+
+    async createBloggerByPost(newBlogger: { bloggerName: string;
+        id: number; shortDescription: string; title: string; content: string; bloggerId: number }): Promise<BloggerType> {
+        const result = await bloggersCollection.insertOne(newBlogger)
+        const post = await bloggersCollection.find({id: newBlogger.id}, {projection: {_id: 0}}).toArray()
+        return post[0];
+    },
+
+    async getBloggerByIdForPost(bloggerId: number): Promise<BloggerType | null> {
+        const blogger: BloggerType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
+        return blogger;
+    },
+
+        async getPostForBlogger(bloggerId: number,
+                                PageNumber: number,
+                                PageSize: number): Promise<Pagination<PostType>> {
+
+    const postsCount = await postsCollection.count({bloggerId})
+    const pagesCount = Math.ceil(postsCount / PageSize)
+    const posts: PostType[] | PostType = await postsCollection.find({bloggerId},
+        {projection: {_id: 0}}).skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
+
+const result = {
+    pagesCount: pagesCount,
+    page: PageNumber,
+    PageSize,
+    totalCount: postsCount,
+    items: posts
+}
+
+// @ts-ignore
+return result
+
+},
 }
 
 

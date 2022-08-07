@@ -22,7 +22,7 @@ export const shortDescriptionValidation = body('shortDescription').trim().isLeng
 });
 
 export const contentValidation = body('content').trim().isLength({
-    min: 6,
+
     max: 1000
 });
 
