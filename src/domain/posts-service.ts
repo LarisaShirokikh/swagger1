@@ -1,19 +1,17 @@
 import {BloggerType, Pagination, PostType} from "../repositories/types";
 import {postDbRepository} from "../repositories/post-db-repository";
+import {WithId} from "mongodb";
 
 export const postsService = {
 
     async getPostsArray(PageNumber: number,
-                        PageSize: number): Promise<Pagination<PostType[]>> {
-        const items = await postDbRepository.getPosts(PageNumber, PageSize)
-        const totalCount = await postDbRepository.getCount()
-        return {
-            pagesCount: Math.ceil(totalCount / PageSize),
-            page: PageNumber,
-            pageSize: PageSize,
-            totalCount: totalCount,
-            items: items
-        }
+                        PageSize: number): Promise<{
+        pagesCount: number;
+        PageSize: number;
+        page: number;
+        totalCount: number;
+        items: WithId<PostType>[] }> {
+        return await postDbRepository.getPosts(PageNumber, PageSize)
 
 
     },
@@ -22,8 +20,8 @@ export const postsService = {
         return await postDbRepository.findPost(id)
     },
 
-    async findPostById(id: number) {
-        return await postDbRepository.findPostById(id)
+    async findPostById(postId: number) {
+        return await postDbRepository.findPostById(postId)
     },
 
     async createPost(title: string, shortDescription: string, content: string, bloggerId: number) {

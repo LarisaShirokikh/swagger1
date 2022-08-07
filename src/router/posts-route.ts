@@ -45,7 +45,7 @@ postsRoute.post('/',
     })
 // ************************************************************
 
-postsRoute.get('/:id', async (req: Request, res: Response) => {
+postsRoute.get('/:postId', async (req: Request, res: Response) => {
     const post = await postsService.findPostById(+req.params.id)
     if (post) {
         res.status(200).send(post)
