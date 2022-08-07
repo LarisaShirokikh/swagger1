@@ -2,7 +2,9 @@ import {body} from "express-validator";
 import {validationResult} from "express-validator";
 
 
-const regexp = new RegExp('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$')
+const regexp = new RegExp("^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$")
+                                 //^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
+
 
 export const titleValidationCreate = body('title').trim().isLength({
     min: 1,
@@ -32,7 +34,10 @@ export const nameValidationCreate = body('name').trim().isLength({
     max: 15
 });
 
-export const urlValidation = body('youtubeUrl').trim().isLength({max: 100}).matches(regexp)
+export const urlValidation = body('youtubeUrl').trim().isLength({
+    min: 1,
+    max: 100
+}).matches(regexp)
 
 
 

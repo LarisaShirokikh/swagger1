@@ -3,8 +3,8 @@ import {BloggerType, PostType} from "./repositories/types";
 
 
 
-export const mongoUri =
-    process.env.mongoURI || "mongodb+srv://admin:admin@cluster0.9zvor.mongodb.net/bloggersList?retryWrites=true&w=majority"
+export const mongoUri = "mongodb+srv://LoraDB:p-fkFTpRiB5r6h6@cluster0.zszv3.mongodb.net/test"
+
 export const settings = {
 
 
@@ -12,6 +12,7 @@ export const settings = {
 }
 const client = new MongoClient(mongoUri);
 const db = client.db("blog")
+
 
 export const bloggersCollection = db.collection<BloggerType>("bloggers")
 export const postsCollection = db.collection<PostType>("posts")

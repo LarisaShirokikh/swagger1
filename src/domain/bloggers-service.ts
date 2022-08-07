@@ -7,20 +7,12 @@ import {postDbRepository} from "../repositories/post-db-repository";
 export const bloggersService = {
 
 
-    async getBloggersArray(PageNumber: number, PageSize: number, SearchNameTerm: string):
+    async getBloggersArray(PageNumber: string = "1" || undefined, PageSize: string = "10" || undefined,
+                           SearchNameTerm: string | null = null):
         Promise<Pagination<BloggerType[]>> {
+        const bloggers = await bloggersDbRepository.getBloggers(+PageNumber, +PageSize, SearchNameTerm)
+        return bloggers
 
-        const items = await bloggersDbRepository.getBloggers(PageNumber, PageSize, SearchNameTerm)
-        const totalCount = await bloggersDbRepository.getCount()
-
-
-        return {
-            pagesCount: Math.ceil(totalCount / PageSize),
-            page: PageNumber,
-            pageSize: PageSize,
-            totalCount: totalCount,
-            items: items
-        }
     },
 
 
@@ -40,8 +32,8 @@ export const bloggersService = {
                 bloggerId,
                 bloggerName: blogger.name
             }
-            const newPostForBlogger = await bloggersDbRepository.createBloggerByPost(newPost)
-            return newPostForBlogger
+            await bloggersDbRepository.createBloggerByPost(newPost)
+            return newPost
         }
     },
 
@@ -56,7 +48,7 @@ export const bloggersService = {
 
     },
 
-    async findBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
+    async findBlogger(id: number): Promise<boolean> {
         return await bloggersDbRepository.findBlogger(id)
     },
 
@@ -65,7 +57,8 @@ export const bloggersService = {
     },
 
     async getBlogger(id: number): Promise<BloggerType | null | undefined> {
-        return await bloggersDbRepository.getBlogger(id)
+        const blogger = await bloggersDbRepository.getBlogger(id)
+        return blogger
     },
 
     async getPostForBlogger(bloggerId: number,

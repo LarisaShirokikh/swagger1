@@ -7,8 +7,6 @@ import {runDb} from "./settings"
 import cors from "cors"
 
 
-
-
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -20,12 +18,12 @@ app.use('/bloggers', bloggersRoute)
 app.use('/posts', postsRoute)
 
 
-
 const startApp = async () => {
     await runDb()
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
+    })
 }
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+
 startApp()
 
