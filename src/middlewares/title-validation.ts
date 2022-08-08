@@ -30,7 +30,9 @@ export const nameValidationCreate = body('name').trim().isLength({
 export const urlValidation = body('youtubeUrl').trim().isLength({
     min: 1,
     max: 100
-}).matches(regexp).isString()
+}).matches(regexp).isString();
+
+export const bloggerIdValidation = body('bloggerId').isNumeric()
 
 
 

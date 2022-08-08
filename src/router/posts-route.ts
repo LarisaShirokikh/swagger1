@@ -2,6 +2,7 @@ import {Request, Response, Router} from "express"
 
 import {inputValidationMiddleware, } from "../middlewares/input-validation-middleware";
 import {
+    bloggerIdValidation,
     contentValidation,
     shortDescriptionValidation,
     titleValidationCreate
@@ -25,13 +26,14 @@ postsRouter.post('/',
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
-    //fieldsValidationMiddleware.bloggerIdValidation,
+    bloggerIdValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const newPost = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 
         if (!newPost) {
-            res.status(400).send()
+            res.status(400).send(
+                {errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]})
             return
         }
 
@@ -43,7 +45,7 @@ postsRouter.put('/:postId',
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
-   // fieldsValidationMiddleware.bloggerIdValidation,
+   bloggerIdValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
@@ -51,7 +53,8 @@ postsRouter.put('/:postId',
         const blogger = await bloggersDbRepository.isBlogger(+req.body.bloggerId);
 
         if (!blogger) {
-            res.status(400).send();
+            res.status(400).send(
+                {errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]})
             return
         }
 
