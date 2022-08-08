@@ -24,6 +24,7 @@ function omit_Id(obj:any) {
         delete result._id
     }
     return result
+
 }
 
 

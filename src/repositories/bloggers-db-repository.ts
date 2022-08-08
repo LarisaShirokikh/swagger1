@@ -68,6 +68,7 @@ export const bloggersDbRepository = {
         return result.deletedCount === 1
     },
 
+
     async getPostsByBloggerId(bloggerId: number, pageNumber: number, pageSize: number): Promise<PostType | null> {
 
         const postsCount = await postsCollection.count({bloggerId})
