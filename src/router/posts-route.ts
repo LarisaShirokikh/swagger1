@@ -52,7 +52,7 @@ postsRouter.put('/:postId',
     async (req: Request, res: Response) => {
 
 
-        const blogger = await bloggersDbRepository.itsBlogger(+req.body.bloggerId);
+        const blogger = await bloggersDbRepository.isBlogger(+req.body.bloggerId);
 
         if (!blogger) {
             res.status(400).send({errorsMessages: [{message: "Invalid", field: "bloggerId"}]});
