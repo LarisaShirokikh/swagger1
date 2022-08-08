@@ -1,25 +1,73 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {BloggerType, Pagination} from "../repositories/types";
+import {BloggerType, Pagination, PostType} from "../repositories/types";
 import {postDbRepository} from "../repositories/post-db-repository";
+
+
+const _ = require("lodash");
+
+
+// function omit(obj:any, ...props:any) {
+//     const result = { ...obj };
+//     props.forEach(function (prop:any) {
+//         delete result[prop];
+//     });
+//     return result;
+// }
+
+function omit_Id(obj:any) {
+    const result = { ...obj };
+    if(obj.items){
+        for (let i = 0; i < result.items.length; i++) {
+            delete result.items[i]._id
+        }
+    } else {
+        delete result._id
+    }
+    return result
+}
 
 
 export const bloggersService = {
 
+    async getAllBloggers(pageNumber: string = '1' || undefined, pageSize:string = '10' || undefined, searchNameTerm: string | null = null): Promise<BloggerType | undefined | null> {
 
-    async getBloggersArray(PageNumber: string = "1" || undefined, PageSize: string = "10" || undefined,
-                           SearchNameTerm: string | null = null):
-        Promise<Pagination<BloggerType[]>> {
-        const bloggers = await bloggersDbRepository.getBloggers(+PageNumber, +PageSize, SearchNameTerm)
-        return bloggers
-
+        const bloggersDb = await bloggersDbRepository.getAllBloggers(+pageNumber, +pageSize, searchNameTerm)
+        // const bloggers = omit_Id(bloggersDb)
+        return bloggersDb
     },
 
-
-    async createdBlogger(name: string, youtubeUrl: string): Promise<BloggerType | null> {
-        return await bloggersDbRepository.createBlogger(name, youtubeUrl)
+    async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType> {
+        const newBlogger = {
+            id: +(new Date()),
+            name,
+            youtubeUrl
+        }
+        const createdBloggerDb = await bloggersDbRepository.createBlogger(newBlogger)
+        // const createdBlogger = omit_Id(createdBloggerDb)
+        return createdBloggerDb;
     },
 
-    async createPostBloggerId(bloggerId: number, title: string, shortDescription: string, content: string) {
+    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
+        const bloggerDb = await bloggersDbRepository.getBloggerById(bloggerId);
+        // const blogger = omit_Id(bloggerDb)
+        return bloggerDb
+    },
+
+    async updateBlogger(bloggerId: number, name: string, youtubeUrl: string): Promise<boolean> {
+        return await bloggersDbRepository.updateBlogger(bloggerId, name, youtubeUrl)
+    },
+
+    async deleteBlogger(bloggerId: number): Promise<boolean> {
+        return bloggersDbRepository.deleteBlogger(bloggerId)
+    },
+
+    async getPostsByBloggerId(bloggerId: number, pageNumber: string = '1' || undefined || null, pageSize: string = '10' || undefined || null): Promise<PostType | null> {
+        const postsDb = await bloggersDbRepository.getPostsByBloggerId(bloggerId, +pageNumber, +pageSize);
+        // const posts = omit_Id(postsDb)
+        return postsDb
+    },
+
+    async createPostByBloggerId (bloggerId: number, title: string, shortDescription: string, content: string) {
         const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
         if (blogger) {
             const newPost = {
@@ -30,42 +78,10 @@ export const bloggersService = {
                 bloggerId,
                 bloggerName: blogger.name
             }
-            const createdPost = await postDbRepository.createPost(newPost)
-
-            return createdPost
+            const createdPostDb = await postDbRepository.createPost(newPost)
+            // const createdPost = omit_Id(createdPostDb)
+            return createdPostDb
         }
-    },
-
-    async getPostsByBloggerId(bloggerId: number, pageNumber: string = '1' || undefined || null, pageSize: string = '10' || undefined || null): Promise<BloggerType | null> {
-        const postsDb = await bloggersDbRepository.getPostsByBloggerId(bloggerId, +pageNumber, +pageSize);
-        return postsDb
-
-
-
-    },
-
-
-    async deleteBlogger(id: number): Promise<boolean> {
-        return await bloggersDbRepository.deleteBlogger(id)
-    },
-
-
-    async updateBlogger(id: number, name: string, youtubeUrl: string): Promise<boolean> {
-        return await bloggersDbRepository.updateBloggerOne(id, name, youtubeUrl)
-
-    },
-
-    async findBlogger(id: number): Promise<boolean> {
-        return await bloggersDbRepository.findBlogger(id)
-    },
-
-
-    async getBlogger(id: number): Promise<BloggerType | null | undefined> {
-        const blogger = await bloggersDbRepository.getBlogger(id)
-        return blogger
-    },
-
-
-
+    }
 }
 
