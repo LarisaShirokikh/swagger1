@@ -20,21 +20,22 @@ export const bloggersService = {
         return await bloggersDbRepository.createBlogger(name, youtubeUrl)
     },
 
-    async createPostByBlogger(bloggerId: number, title: string, shortDescription: string, content: string) {
+        async createPostBloggerId (bloggerId: number, title: string, shortDescription: string, content: string) {
+            const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
+            if (blogger) {
+                const newPost = {
+                    id: +(new Date()),
+                    title,
+                    shortDescription,
+                    content,
+                    bloggerId,
+                    bloggerName: blogger.name
+                }
+                const createdPost = await postDbRepository.createPost(newPost)
 
-        const blogger = await bloggersDbRepository.getBloggerByIdForPost(bloggerId)
-        if (blogger) {
-            const newPost = {
-                id: +(new Date()),
-                title,
-                shortDescription,
-                content,
-                bloggerId,
-                bloggerName: blogger.name
+                return createdPost
             }
-            await bloggersDbRepository.createBloggerByPost(newPost)
-            return newPost
-        }
+
     },
 
 

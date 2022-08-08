@@ -146,6 +146,18 @@ return result
         const blogger: BloggerType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
         return blogger;
     },
+
+    async itsBlogger(bloggerId: number) {
+
+        const blogger: BloggerType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
+        return blogger;
+
+        if (blogger) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 

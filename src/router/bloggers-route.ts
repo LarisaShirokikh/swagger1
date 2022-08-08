@@ -6,6 +6,7 @@ import {
 } from "../middlewares/title-validation";
 import {authRouter} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
+import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 export const bloggersRoute = Router({});
 
@@ -79,31 +80,33 @@ bloggersRoute.delete('/:id',
 
 
 bloggersRoute.post('/:bloggerId/posts',
-    /*authRouter,
+    authRouter,
     titleValidationBloggersPosts,
     shortDescriptionValidation,
     contentValidation,
-    inputValidationMiddleware,*/
+    inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        let blogger = await bloggersService.getCountBloggerId(+req.params.bloggerId)
+        const blogger = await bloggersDbRepository.itsBlogger(+req.params.bloggerId);
         if (!blogger) {
-            res.status(404)
-            return
+            res.status(404).send({errorsMessages: [{message: "Invalid", field: "bloggerId"}]});
         } else {
-
-            const newPost = await bloggersService.createPostByBlogger(+req.params.bloggerId,
-                req.body.title, req.body.shortDescription, req.body.content)
+            const newPost = await bloggersService.createPostBloggerId(+req.params.bloggerId, req.body.title, req.body.shortDescription, req.body.content)
 
             if (newPost) {
                 res.status(201).send(newPost)
-                return
+            } else {
+                res.status(400).send({
+                    errorsMessages: [{
+                        message: "Invalid",
+                        field: "bloggerId"
+                    }]
+                })
             }
-            res.status(400)
-            return
         }
 
-    })
+
+})
 
 
 bloggersRoute.get('/:bloggerId/posts',
@@ -116,7 +119,6 @@ bloggersRoute.get('/:bloggerId/posts',
         // @ts-ignore
         const posts = await bloggersService.getPostForBlogger(+req.params.bloggerId, req.query.PageNumber, req.query.PageSize);
         res.status(200).send(posts);
-
 
 
     })
