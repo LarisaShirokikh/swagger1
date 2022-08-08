@@ -7,87 +7,66 @@ import {bloggersDbRepository} from "./bloggers-db-repository";
 
 
 export const postDbRepository = {
+    async getAllPosts(pageNumber: number, pageSize: number): Promise<PostType | undefined | null> {
 
-
-    async itsPost(id: number) {
-        const post = await postsCollection.findOne({id: id}, {projection: {_id: 0}})
-        return post
-    },
-
-    async findPost(id: number) {
-        let post = await postsCollection.findOne({id: id}, {projection: {_id: 0}})
-        if (post) {
-            return true
-        } else {
-            return false
-        }
-    },
-
-
-    async getPosts(PageNumber: number, PageSize: number): Promise<{ pagesCount: number; PageSize: number; page: number; totalCount: number; items: WithId<PostType>[] }> {
-        const postCount = await postsCollection.count({})
-        const pagesCount = Math.ceil(postCount / PageSize)
-
-        const posts = await postsCollection.find({})
-            .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
+        const postsCount = await postsCollection.count({})
+        const pagesCount = Math.ceil(postsCount / pageSize)
+        const posts: PostType[] | PostType = await postsCollection.find({}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
 
         const result = {
             pagesCount: pagesCount,
-            page: PageNumber,
-            PageSize,
-            totalCount: postCount,
+            page: pageNumber,
+            pageSize,
+            totalCount: postsCount,
             items: posts
-
         }
+        // @ts-ignore
         return result
     },
 
-
-    /* let filter = {}
-     const test = await postsCollection.find(filter)
-         .skip((PageNumber - 1) * PageSize).limit(PageSize).toArray()
-     return test.map((b) => ({
-         id: b.id,
-         title: b.title,
-         shortDescription: b.shortDescription,
-         content: b.content,
-         bloggerId: b.bloggerId,
-         bloggerName: b.bloggerName
-     }))
- },*/
-
-
-    async findPostById(postId: number): Promise<PostType | null> {
-        const post = await postsCollection.findOne({postId}, {projection: {_id: 0}})
-        return post
-
-
-    },
-// don't touch!!!!
-    async createPost(newPost: PostType): Promise<PostType | undefined | null> {
-
+    async createPost(newPost: PostType): Promise<PostType | undefined> {
         const result = await postsCollection.insertOne(newPost)
         const post = await postsCollection.find({id: newPost.id}, {projection: {_id: 0}}).toArray()
         // @ts-ignore
         return post[0]
     },
 
-    async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number): Promise<boolean> {
-        const result = await postsCollection.updateOne({id: id}, {
+    async getPostById(postId: number): Promise<PostType | null> {
+        const post = await postsCollection.findOne({id: postId}, {projection: {_id: 0}})
+        return post;
+    },
+
+    async updatePost(postId: number, title: string, shortDescription: string, content: string, bloggerId: number): Promise<boolean> {
+        const result = await postsCollection.updateOne({id: postId}, {
             $set: {
                 title,
                 shortDescription,
                 content,
-                bloggerId,
+                bloggerId
             }
         })
         return result.matchedCount === 1
+
     },
 
-    async deletePosts(postId: number): Promise<boolean> {
+    async deletePost(postId: number): Promise<boolean> {
+
         const result = await postsCollection.deleteOne({id: postId})
+
         return result.deletedCount === 1
 
+
     },
 
+    async isPost(postId: number) {
+
+        const post: PostType | null = await postsCollection.findOne({id: postId}, {projection: {_id: 0}})
+        return post;
+
+        if (post) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

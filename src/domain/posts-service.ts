@@ -1,32 +1,25 @@
-import {BloggerType, Pagination, PostType} from "../repositories/types";
 import {postDbRepository} from "../repositories/post-db-repository";
-import {WithId} from "mongodb";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
+import {PostType} from "../repositories/types";
 
-// @ts-ignore
 export const postsService = {
+    async getAllPosts (pageNumber: string = "1" || undefined || null, pageSize: string = "10" || undefined || null): Promise<{}> {
 
-    async getPostsArray(PageNumber: string = "1" || undefined || null,
-                        PageSize: string = "10"): Promise<{}> {
-        const postsDb = await postDbRepository.getPosts(+PageNumber, +PageSize)
+        const postsDb = await postDbRepository.getAllPosts(+pageNumber, +pageSize)
         // @ts-ignore
         const posts = {...postsDb}
+
+        // @ts-ignore
         for (let i = 0; i < posts.items.length; i++) {
             // @ts-ignore
             delete posts.items[i]._id
         }
+
         return posts
+
     },
 
-    async findPost(id: number) {
-        return await postDbRepository.findPost(id)
-    },
-
-    async findPostById(postId: number) {
-        return await postDbRepository.findPostById(postId)
-    },
-
-    async createPost(title: string, shortDescription: string, content: string, bloggerId: number) {
+    async createPost (title: string, shortDescription: string, content: string, bloggerId: number): Promise<PostType | undefined> {
         const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
         if (blogger) {
             const newPost = {
@@ -41,17 +34,18 @@ export const postsService = {
             const createdPost = await postDbRepository.createPost(newPost)
             return createdPost
         }
-
     },
 
-    async updatePost(id: number, title: string, shortDescription: string, content: string, bloggerId: number) {
-        return await postDbRepository.updatePost(id, title, shortDescription, content, bloggerId)
+    async getPostById (postId: number): Promise<PostType | null> {
+
+        return postDbRepository.getPostById(postId)
     },
 
-    async deletePost(id: number) {
-        return await postDbRepository.deletePosts(id)
+    async updatePost (postId: number, title: string, shortDescription: string, content: string, bloggerId: number): Promise<boolean>  {
+        return postDbRepository.updatePost(postId, title, shortDescription, content, bloggerId)
     },
 
-
-
+    async deletePost (postId: number): Promise<boolean>  {
+        return postDbRepository.deletePost(postId)
+    }
 }

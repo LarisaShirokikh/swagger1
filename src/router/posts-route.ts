@@ -14,78 +14,84 @@ import {bloggersRoute} from "./bloggers-route";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 
-export const postsRoute = Router({})
+export const postsRouter = Router({})
 
 
-postsRoute.get('/', async (req: Request, res: Response) => {
-
-// @ts-ignore
-    const foundPost = await postsService.getPostsArray(req.query.PageNumber, req.query.PageSize)
-
-    res.status(200).send(foundPost)
-    return
-
+postsRouter.get('/', async (req: Request, res: Response) => {
+    // @ts-ignore
+    const posts = await postsService.getAllPosts(req.query.PageNumber, req.query.PageSize)
+    res.status(200).send(posts);
 })
 
-
-//не трогать!!!
-postsRoute.post('/',
+postsRouter.post('/',
     authRouter,
     titleValidationCreate,
     shortDescriptionValidation,
-    contentValidation, inputValidationPost, async (req: Request, res: Response) => {
-        let newPost = await postsService.createPost(req.body.title,
-            req.body.shortDescription, req.body.content, req.body.bloggerId)
+    contentValidation,
+    //fieldsValidationMiddleware.bloggerIdValidation,
+    inputValidationMiddleware,
+    async (req: Request, res: Response) => {
+        const newPost = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
+
         if (!newPost) {
-            res.status(400)
+            res.status(400).send(
+                {errorsMessages: [{message: "invalid", field: "bloggerId"}]})
             return
         }
+
         res.status(201).send(newPost)
-        return
     })
-// ************************************************************
 
-postsRoute.get('/:postId', async (req: Request, res: Response) => {
-    const post = await postsService.findPostById(+req.params.id)
-    if (post) {
-        res.status(200).send(post)
-        return
-    } else {
-        res.sendStatus(404)
-        return
-    }
-
-})
-
-postsRoute.put('/:id', authRouter,
+postsRouter.put('/:postId',
+    authRouter,
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
-    inputValidationPost, async (req: Request, res: Response) => {
+   // fieldsValidationMiddleware.bloggerIdValidation,
+    inputValidationMiddleware,
+    async (req: Request, res: Response) => {
 
-        const blogger = await bloggersDbRepository.getBlogger(req.body.id)
+
+        const blogger = await bloggersDbRepository.itsBlogger(+req.body.bloggerId);
+
         if (!blogger) {
-            res.sendStatus(404)
-        } else {
+            res.status(400).send({errorsMessages: [{message: "Invalid", field: "bloggerId"}]});
+            return
+        }
 
-            const test = await postsService.updatePost(
-                +req.params.id,
-                req.body.title,
-                req.body.shortDescription,
-                req.body.content,
-                req.body.bloggerId)
-            if (test) {
-                const bloggerPost = await postsService.findPostById(+req.params.id)
-                res.status(204).send(bloggerPost);
-            }
+        const isUpdated = await postsService.updatePost(+req.params.postId, req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
+
+        if (isUpdated) {
+            const blogPost = await postsService.getPostById(+req.params.postId)
+            res.status(204).send(blogPost);
+        } else {
             res.send(404)
         }
     })
 
-postsRoute.delete('/:id', authRouter, async (req: Request, res: Response) => {
-    const isDeleted = await postsService.deletePost(+req.params.id)
+postsRouter.get('/:postId', async (req: Request, res: Response) => {
+
+    if (typeof +req.params.postId !== "number") {
+        res.send(400);
+        return;
+    }
+
+    const post = await postsService.getPostById(+req.params.postId)
+
+    if (post) {
+        res.status(200).send(post);
+    } else {
+        res.send(404);
+    }
+})
+
+postsRouter.delete('/:postId', authRouter, async (req: Request, res: Response) => {
+
+    const isDeleted = await postsService.deletePost(+req.params.postId)
+
     if (isDeleted) {
-        res.sendStatus(204)
-        return
+        res.send(204)
+    } else {
+        res.send(404)
     }
 })

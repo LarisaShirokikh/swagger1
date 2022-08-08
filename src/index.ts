@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from "body-parser"
 
 import {bloggersRoute} from "./router/bloggers-route";
-import {postsRoute} from "./router/posts-route";
+import {postsRouter} from "./router/posts-route";
 import {runDb} from "./settings"
 import cors from "cors"
 
@@ -15,7 +15,7 @@ app.use(cors())
 app.use(parserMiddleware)
 
 app.use('/bloggers', bloggersRoute)
-app.use('/posts', postsRoute)
+app.use('/posts', postsRouter)
 
 
 const startApp = async () => {
