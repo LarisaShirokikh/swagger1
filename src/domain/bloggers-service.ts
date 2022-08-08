@@ -6,14 +6,6 @@ import {postDbRepository} from "../repositories/post-db-repository";
 const _ = require("lodash");
 
 
-// function omit(obj:any, ...props:any) {
-//     const result = { ...obj };
-//     props.forEach(function (prop:any) {
-//         delete result[prop];
-//     });
-//     return result;
-// }
-
 function omit_Id(obj:any) {
     const result = { ...obj };
     if(obj.items){

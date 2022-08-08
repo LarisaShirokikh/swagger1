@@ -34,8 +34,7 @@ postsRouter.post('/',
         const newPost = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 
         if (!newPost) {
-            res.status(400).send(
-                {errorsMessages: [{message: "invalid", field: "bloggerId"}]})
+            res.status(400).send()
             return
         }
 
@@ -55,7 +54,7 @@ postsRouter.put('/:postId',
         const blogger = await bloggersDbRepository.isBlogger(+req.body.bloggerId);
 
         if (!blogger) {
-            res.status(400).send({errorsMessages: [{message: "Invalid", field: "bloggerId"}]});
+            res.status(400).send();
             return
         }
 
