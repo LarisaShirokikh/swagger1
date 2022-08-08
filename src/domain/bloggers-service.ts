@@ -1,6 +1,5 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {BloggerType, Pagination, PostType} from "../repositories/types";
-import {postsCollection} from "../settings";
+import {BloggerType, Pagination} from "../repositories/types";
 import {postDbRepository} from "../repositories/post-db-repository";
 
 
@@ -20,21 +19,28 @@ export const bloggersService = {
         return await bloggersDbRepository.createBlogger(name, youtubeUrl)
     },
 
-        async createPostBloggerId (bloggerId: number, title: string, shortDescription: string, content: string) {
-            const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
-            if (blogger) {
-                const newPost = {
-                    id: +(new Date()),
-                    title,
-                    shortDescription,
-                    content,
-                    bloggerId,
-                    bloggerName: blogger.name
-                }
-                const createdPost = await postDbRepository.createPost(newPost)
-
-                return createdPost
+    async createPostBloggerId(bloggerId: number, title: string, shortDescription: string, content: string) {
+        const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
+        if (blogger) {
+            const newPost = {
+                id: +(new Date()),
+                title,
+                shortDescription,
+                content,
+                bloggerId,
+                bloggerName: blogger.name
             }
+            const createdPost = await postDbRepository.createPost(newPost)
+
+            return createdPost
+        }
+    },
+
+    async getPostsByBloggerId(bloggerId: number, pageNumber: string = '1' || undefined || null, pageSize: string = '10' || undefined || null): Promise<BloggerType | null> {
+        const postsDb = await bloggersDbRepository.getPostsByBloggerId(bloggerId, +pageNumber, +pageSize);
+        return postsDb
+
+
 
     },
 
@@ -53,21 +59,13 @@ export const bloggersService = {
         return await bloggersDbRepository.findBlogger(id)
     },
 
-    async getCountBloggerId(bloggerId: number) {
-        return await bloggersDbRepository.getCountBloggerId(bloggerId)
-    },
 
     async getBlogger(id: number): Promise<BloggerType | null | undefined> {
         const blogger = await bloggersDbRepository.getBlogger(id)
         return blogger
     },
 
-    async getPostForBlogger(bloggerId: number,
-                            PageNumber: string = '1' || undefined || null,
-                            PageSize: string = "10" || undefined || null): Promise<Pagination<PostType>> {
-        const postsDb = await bloggersDbRepository.getPostForBlogger(bloggerId, +PageNumber, +PageSize);
-        return postsDb
-    },
+
 
 }
 
