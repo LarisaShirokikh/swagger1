@@ -1,16 +1,13 @@
 import {Request, Response, Router} from "express"
 
-import {inputValidationMiddleware, inputValidationPost} from "../middlewares/input-validation-middleware";
+import {inputValidationMiddleware, } from "../middlewares/input-validation-middleware";
 import {
     contentValidation,
     shortDescriptionValidation,
     titleValidationCreate
 } from "../middlewares/title-validation";
-import {PostType} from "../repositories/types";
 import {authRouter} from "./auth-router";
 import {postsService} from "../domain/posts-service";
-import {bloggersService} from "../domain/bloggers-service";
-import {bloggersRoute} from "./bloggers-route";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 
