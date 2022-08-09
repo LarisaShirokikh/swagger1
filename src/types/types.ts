@@ -98,11 +98,16 @@ export type PostType = {
 }
 
 export type UserDbType = {
-    _id: ObjectId,
+    _id: string,
     userName: string,
     email: string,
     passwordHash: string,
     passwordSalt: string,
-    createdAt: Date
+    createdAt: string
+}
+
+export type UsersType = {
+    id: string,
+    login: string
 }
 

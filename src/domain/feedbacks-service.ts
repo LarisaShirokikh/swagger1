@@ -2,7 +2,7 @@ import {ObjectId} from "mongodb";
 
 export const feedbacksService = {
 
-    async sendFeedback(_id: ObjectId, comment: string) {
+    async sendFeedback(_id: number, comment: string) {
         return
     },
 

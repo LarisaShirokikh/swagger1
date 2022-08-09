@@ -11,7 +11,11 @@ export const postDbRepository = {
 
         const postsCount = await postsCollection.count({})
         const pagesCount = Math.ceil(postsCount / pageSize)
-        const posts: PostType[] | PostType = await postsCollection.find({}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
+        const posts: PostType[] | PostType = await postsCollection
+            .find({})
+            .skip((pageNumber - 1) * pageSize)
+            .limit(pageSize)
+            .toArray()
 
         const result = {
             pagesCount: pagesCount,
@@ -31,12 +35,12 @@ export const postDbRepository = {
         return post[0]
     },
 
-    async getPostById(postId: number): Promise<PostType | null> {
+    async getPostById(postId: string): Promise<PostType | null> {
         const post = await postsCollection.findOne({id: postId}, {projection: {_id: 0}})
         return post;
     },
 
-    async updatePost(postId: number, title: string, shortDescription: string, content: string, bloggerId: number): Promise<boolean> {
+    async updatePost(postId: string, title: string, shortDescription: string, content: string, bloggerId: string): Promise<boolean> {
         const result = await postsCollection.updateOne({id: postId}, {
             $set: {
                 title,
@@ -49,7 +53,7 @@ export const postDbRepository = {
 
     },
 
-    async deletePost(postId: number): Promise<boolean> {
+    async deletePost(postId: string): Promise<boolean> {
 
         const result = await postsCollection.deleteOne({id: postId})
 
@@ -58,7 +62,7 @@ export const postDbRepository = {
 
     },
 
-    async isPost(postId: number) {
+    async isPost(postId: string) {
 
         const post: PostType | null = await postsCollection.findOne({id: postId}, {projection: {_id: 0}})
         return post;

@@ -53,23 +53,23 @@ export const bloggersDbRepository = {
         return blogger[0];
     },
 
-    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
+    async getBloggerById(bloggerId: string): Promise<BloggerType | null> {
         const blogger: BloggerType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
         return blogger;
     },
 
-    async updateBlogger(bloggerId: number, name: string, youtubeUrl: string): Promise<boolean> {
+    async updateBlogger(bloggerId: string, name: string, youtubeUrl: string): Promise<boolean> {
         const result = await bloggersCollection.updateOne({id: bloggerId}, {$set: {name: name, youtubeUrl: youtubeUrl}})
         return result.matchedCount === 1
     },
 
-    async deleteBlogger(bloggerId: number): Promise<boolean> {
+    async deleteBlogger(bloggerId: string): Promise<boolean> {
         const result = await bloggersCollection.deleteOne({id: bloggerId})
         return result.deletedCount === 1
     },
 
 
-    async getPostsByBloggerId(bloggerId: number, pageNumber: number, pageSize: number): Promise<PostType | null> {
+    async getPostsByBloggerId(bloggerId: string, pageNumber: number, pageSize: number): Promise<PostType | null> {
 
         const postsCount = await postsCollection.count({bloggerId})
         const pagesCount = Math.ceil(postsCount / pageSize)
@@ -88,7 +88,7 @@ export const bloggersDbRepository = {
 
     },
 
-    async isBlogger(bloggerId: number) {
+    async isBlogger(bloggerId: string) {
 
         const blogger: BloggerType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
         return blogger;

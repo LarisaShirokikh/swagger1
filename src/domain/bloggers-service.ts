@@ -36,31 +36,31 @@ export const bloggersService = {
             youtubeUrl
         }
         const createdBloggerDb = await bloggersDbRepository.createBlogger(newBlogger)
-        // const createdBlogger = omit_Id(createdBloggerDb)
+
         return createdBloggerDb;
     },
 
-    async getBloggerById(bloggerId: number): Promise<BloggerType | null> {
+    async getBloggerById(bloggerId: string): Promise<BloggerType | null> {
         const bloggerDb = await bloggersDbRepository.getBloggerById(bloggerId);
-        // const blogger = omit_Id(bloggerDb)
+
         return bloggerDb
     },
 
-    async updateBlogger(bloggerId: number, name: string, youtubeUrl: string): Promise<boolean> {
+    async updateBlogger(bloggerId: string, name: string, youtubeUrl: string): Promise<boolean> {
         return await bloggersDbRepository.updateBlogger(bloggerId, name, youtubeUrl)
     },
 
-    async deleteBlogger(bloggerId: number): Promise<boolean> {
+    async deleteBlogger(bloggerId: string): Promise<boolean> {
         return bloggersDbRepository.deleteBlogger(bloggerId)
     },
 
-    async getPostsByBloggerId(bloggerId: number, pageNumber: string = '1' || undefined || null, pageSize: string = '10' || undefined || null): Promise<PostType | null> {
+    async getPostsByBloggerId(bloggerId: string, pageNumber: string = '1' || undefined || null, pageSize: string = '10' || undefined || null): Promise<PostType | null> {
         const postsDb = await bloggersDbRepository.getPostsByBloggerId(bloggerId, +pageNumber, +pageSize);
         // const posts = omit_Id(postsDb)
         return postsDb
     },
 
-    async createPostByBloggerId (bloggerId: number, title: string, shortDescription: string, content: string) {
+    async createPostByBloggerId (bloggerId: string, title: string, shortDescription: string, content: string) {
         const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
         if (blogger) {
             const newPost = {
@@ -72,7 +72,6 @@ export const bloggersService = {
                 bloggerName: blogger.name
             }
             const createdPostDb = await postDbRepository.createPost(newPost)
-            // const createdPost = omit_Id(createdPostDb)
             return createdPostDb
         }
     }

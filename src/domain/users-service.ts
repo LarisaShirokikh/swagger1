@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt'
 import {ObjectId} from "mongodb";
-import {UserDbType} from "../types/types";
+import {BloggerType, PostType, UserDbType, UsersType} from "../types/types";
 import {usersRepository} from "../repositories/users-repository";
+import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
 export const usersService = {
     async createUser(login: string, email: string, password: string): Promise<UserDbType> {
@@ -38,5 +39,15 @@ export const usersService = {
         const hash = await bcrypt.hash(password, salt)
         console.log('hash:  ' + hash)
         return hash
-    }
+    },
+
+    async getAllUsers(
+        pageNumber: string = '1' || undefined,
+        pageSize:string = '10' || undefined
+    ): Promise<UsersType | undefined | null> {
+
+        const users = await usersRepository.getAllUsersDb(+pageNumber, +pageSize)
+
+        return users
+    },
 }
