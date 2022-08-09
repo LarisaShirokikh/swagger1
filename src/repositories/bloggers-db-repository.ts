@@ -1,4 +1,4 @@
-import {BloggerType, Pagination, PostType} from "./types";
+import {BloggerType, Pagination, PostType} from "../types/types";
 import {bloggersCollection, postsCollection} from "../settings";
 import {postDbRepository} from "./post-db-repository";
 import {bloggersService} from "../domain/bloggers-service";

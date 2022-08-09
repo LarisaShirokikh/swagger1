@@ -1,5 +1,5 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {BloggerType, Pagination, PostType} from "../repositories/types";
+import {BloggerType, Pagination, PostType} from "../types/types";
 import {postDbRepository} from "../repositories/post-db-repository";
 
 

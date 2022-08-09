@@ -3,28 +3,28 @@ import {ObjectId} from "mongodb";
 
 export const bloggersCollection: BloggerType[] = [
     {
-        id: 1,
+        id: "1",
         name: 'Blogger - 01',
         youtubeUrl: "https://someurl.com",
     },
     {
-        id: 2,
+        id: "2",
         name: 'Blogger - 02',
         youtubeUrl: "https://someurl.com",
 
     },
     {
-        id: 3,
+        id: "3",
         name: 'Blogger - 03',
         youtubeUrl: "https://someurl.com"
     },
     {
-        id: 4,
+        id: "4",
         name: 'Blogger - 04',
         youtubeUrl: "https://someurl.com",
     },
     {
-        id: 5,
+        id: "5",
         name: 'Blogger - 05',
         youtubeUrl: "https://someurl.com",
     },
@@ -33,49 +33,49 @@ export const bloggersCollection: BloggerType[] = [
 
 export let postsCollection: PostType[] | null = [
     {
-        id: 1,
+        id: "1",
         title: 'About JS - 01',
         bloggerName: "string",
         shortDescription: 'shortDescription',
         content: "string",
-        bloggerId: 1
+        bloggerId: "1"
     },
     {
-        id: 2,
+        id: "2",
         title: 'About JS - 02',
         bloggerName: "string",
         shortDescription: 'shortDescription',
         content: "string",
-        bloggerId: 2
+        bloggerId: "2"
     },
     {
-        id: 3,
+        id: "3",
         title: 'About JS - 03',
         bloggerName: "string",
         shortDescription: 'shortDescription',
         content: "string",
-        bloggerId: 3
+        bloggerId: "3"
     },
     {
-        id: 4,
+        id: "4",
         title: 'About JS - 04',
         bloggerName: "string",
         shortDescription: 'shortDescription',
         content: "string",
-        bloggerId: 4
+        bloggerId: "4"
     },
     {
-        id: 5,
+        id: "5",
         title: 'About JS - 05',
         bloggerName: "string",
         shortDescription: 'shortDescription',
         content: "string",
-        bloggerId: 5
+        bloggerId: "5"
     },
 ]
 
 export type BloggerType = {
-    id: number,
+    id: string,
     name: string
     youtubeUrl: string,
 }
@@ -89,11 +89,11 @@ export type Pagination<T> = {
 }
 
 export type PostType = {
-    id: number,
+    id: string,
     title: string,
     shortDescription: string,
     content: string,
-    bloggerId: number,
+    bloggerId: string,
     bloggerName: string
 }
 

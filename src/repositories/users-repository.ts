@@ -1,4 +1,4 @@
-import {UserDbType} from "./types";
+import {UserDbType} from "../types/types";
 import {usersCollection} from "../settings";
 import {ObjectId} from "mongodb";
 

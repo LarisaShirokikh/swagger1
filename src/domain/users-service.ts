@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import {ObjectId} from "mongodb";
-import {UserDbType} from "../repositories/types";
+import {UserDbType} from "../types/types";
 import {usersRepository} from "../repositories/users-repository";
 
 export const usersService = {

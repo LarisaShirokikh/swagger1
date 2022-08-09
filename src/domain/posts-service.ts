@@ -1,6 +1,6 @@
 import {postDbRepository} from "../repositories/post-db-repository";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {PostType} from "../repositories/types";
+import {PostType} from "../types/types";
 
 export const postsService = {
     async getAllPosts (pageNumber: string = "1" || undefined || null, pageSize: string = "10" || undefined || null): Promise<{}> {
