@@ -1,4 +1,4 @@
-
+import {ObjectId} from "mongodb";
 
 
 export const bloggersCollection: BloggerType[] = [
@@ -97,4 +97,12 @@ export type PostType = {
     bloggerName: string
 }
 
+export type UserDbType = {
+    _id: ObjectId,
+    userName: string,
+    email: string,
+    passwordHash: string,
+    passwordSalt: string,
+    createdAt: Date
+}
 
