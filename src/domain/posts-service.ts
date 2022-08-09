@@ -22,8 +22,8 @@ export const postsService = {
     async createPost (title: string, shortDescription: string, content: string, bloggerId: string): Promise<PostType | undefined> {
         const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
         if (blogger) {
-            const newPost = {
-                id: +(new Date()),
+            const newPost: PostType = {
+                id: (new Date()).toString(),
                 title,
                 shortDescription,
                 content,

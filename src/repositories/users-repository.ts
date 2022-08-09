@@ -31,7 +31,7 @@ return result
         return usersCollection.find().sort('createdAt', -1).toArray()
     },
 
-    async createUser(user: { password: string; id: string; login: string }): Promise<UserRegType> {
+    async createUser(user: UserRegType): Promise<UserRegType> {
         const result = await usersCollection
             .insertOne(user)
         return user

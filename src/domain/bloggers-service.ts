@@ -30,8 +30,8 @@ export const bloggersService = {
     },
 
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType> {
-        const newBlogger = {
-            id: +(new Date()),
+        const newBlogger: BloggerType = {
+            id: (new Date()).toString(),
             name,
             youtubeUrl
         }
@@ -62,8 +62,8 @@ export const bloggersService = {
     async createPostByBloggerId (bloggerId: string, title: string, shortDescription: string, content: string) {
         const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
         if (blogger) {
-            const newPost = {
-                id: +(new Date()),
+            const newPost: PostType = {
+                id: (new Date()).toString(),
                 title,
                 shortDescription,
                 content,
