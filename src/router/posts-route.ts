@@ -94,7 +94,8 @@ postsRouter.get('/:postId', async (req: Request, res: Response) => {
     }
 })
 
-postsRouter.delete('/:postId', authRouter, async (req: Request, res: Response) => {
+postsRouter.delete('/:postId',
+    authRouter, async (req: Request, res: Response) => {
 
     const isDeleted = await postsService.deletePost(req.params.postId)
 

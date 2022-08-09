@@ -28,9 +28,10 @@ export const postDbRepository = {
         return result
     },
 
-    async createPost(newPost: { bloggerName: string; id: number; shortDescription: string; title: string; content: string; bloggerId: string }): Promise<PostType | undefined> {
+    async createPost(newPost: { bloggerName: string; id: string; shortDescription: string; title: string; content: string; bloggerId: string }): Promise<PostType | undefined> {
         const result = await postsCollection.insertOne(newPost)
-        const post = await postsCollection.find({id: newPost.id}, {projection: {_id: 0}}).toArray()
+        const post = await postsCollection
+            .find({id: newPost.id}, {projection: {_id: 0}}).toArray()
 
         return post[0]
     },
@@ -55,7 +56,8 @@ export const postDbRepository = {
 
     async deletePost(postId: string): Promise<boolean> {
 
-        const result = await postsCollection.deleteOne({id: postId})
+        const result = await postsCollection
+            .deleteOne({id: postId})
 
         return result.deletedCount === 1
 

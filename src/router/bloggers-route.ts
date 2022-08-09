@@ -3,7 +3,7 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {
     contentValidation, urlValidation, nameValidationCreate, shortDescriptionValidation, titleValidationCreate
 } from "../middlewares/title-validation";
-import {authRouter} from "./auth-router";
+import {authRouter, authRouterBasic} from "./auth-router";
 import {bloggersService} from "../domain/bloggers-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 
@@ -20,7 +20,7 @@ bloggersRoute.get('/',
 )
 
 bloggersRoute.post('/',
-    authRouter,
+    authRouterBasic,
     nameValidationCreate,
     urlValidation,
     inputValidationMiddleware,
