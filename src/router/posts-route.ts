@@ -86,7 +86,7 @@ postsRouter.put('/:postId',
 
 postsRouter.get('/:postId', async (req: Request, res: Response) => {
 
-    if (typeof +req.params.postId !== "number") {
+    if (typeof +req.params.postId !== "string") {
         res.send(400);
         return;
     }
