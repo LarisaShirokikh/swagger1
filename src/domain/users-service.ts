@@ -6,10 +6,10 @@ export const usersService = {
 
     async createUser(login: string, password: string): Promise<UserRegType> {
 
-        let newUser: { password: string; id: string; login: string } = {
+        let newUser: { id: string; login: string } = {
             id: (new Date()).toString(),
             login: login,
-            password: password
+
         }
 
         return usersRepository.createUser(newUser)

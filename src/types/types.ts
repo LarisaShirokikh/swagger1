@@ -78,7 +78,7 @@ export type BloggerType = {
     id: string,
     name: string
     youtubeUrl: string,
-}
+};
 
 export type Pagination<T> = {
     page: number
@@ -86,7 +86,7 @@ export type Pagination<T> = {
     totalCount: number
     pagesCount: number
     items: T
-}
+};
 
 export type PostType = {
     id: string,
@@ -95,15 +95,14 @@ export type PostType = {
     content: string,
     bloggerId: string,
     bloggerName: string
-}
+};
 
 
 export type UserRegType = {
     id: string,
-
     login: string,
-    password: string
-}
+
+};
 
 export type CommentType = {
     id: string;
@@ -111,5 +110,5 @@ export type CommentType = {
     userId: string;
     userLogin: string;
     addedAt: "2022-08-10T12:21:32.209Z"
-}
+};
 

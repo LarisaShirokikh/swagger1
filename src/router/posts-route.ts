@@ -34,7 +34,11 @@ postsRouter.post('/',
     bloggerIdValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const newPost = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
+        const newPost = await postsService.createPost(
+            req.body.title,
+            req.body.shortDescription,
+            req.body.content,
+            req.body.bloggerId)
 
         if (!newPost) {
             res.status(400).send(

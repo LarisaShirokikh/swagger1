@@ -23,7 +23,8 @@ export const postsService = {
         const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
         if (blogger) {
             const newPost: PostType = {
-                id: (new Date()).toString(),
+                // @ts-ignore
+                id: new Date(),
                 title,
                 shortDescription,
                 content,
