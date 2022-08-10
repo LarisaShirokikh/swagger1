@@ -106,6 +106,10 @@ export type UserRegType = {
 }
 
 export type CommentType = {
-    comment: string
+    id: string;
+    content: string;
+    userId: string;
+    userLogin: string;
+    addedAt: "2022-08-10T12:21:32.209Z"
 }
 

@@ -1,5 +1,5 @@
-import {UserRegType} from "../types/types";
-import {usersCollection} from "../settings";
+import {BloggerType, UserRegType} from "../types/types";
+import {bloggersCollection, usersCollection} from "../settings";
 import {ObjectId, WithId} from "mongodb";
 
 export const usersRepository = {
@@ -57,6 +57,11 @@ return result
         const result = await usersCollection
             .deleteOne({id: id})
         return result.deletedCount === 1
-    }
+    },
+
+    async getUserById(userId: string): Promise<UserRegType | null> {
+        const user: UserRegType | null = await usersCollection.findOne({id: userId}, {projection: {_id: 0}})
+        return user;
+    },
 }
 

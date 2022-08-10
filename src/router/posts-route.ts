@@ -12,6 +12,7 @@ import {postsService} from "../domain/posts-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {bloggersService} from "../domain/bloggers-service";
 import {postDbRepository} from "../repositories/post-db-repository";
+import {commentsService} from "../domain/commets-service";
 
 
 export const postsRouter = Router({})
@@ -97,7 +98,8 @@ postsRouter.get('/:postId', async (req: Request, res: Response) => {
 })
 
 postsRouter.delete('/:postId',
-    authRouter, async (req: Request, res: Response) => {
+    authRouterBasic,
+    async (req: Request, res: Response) => {
 
     const isDeleted = await postsService.deletePost(req.params.postId)
 
@@ -115,10 +117,45 @@ postsRouter.get('/:postsId/comments',
         if (!post) {
             res.status(404).send({errorsMessages: [{message: "Problem with a postId field", field: "postId"}]});
         } else {
-            // @ts-ignore
+
             const comments = await postsService
+                // @ts-ignore
                 .getCommentsByPostId(req.params.postId, req.query.pageNumber, req.query.pageSize);
             res.status(200).send(comments);
         }
+    })
+
+postsRouter.post('/:postsId/comments',
+    authRouterBasic,
+    contentValidation,
+    inputValidationMiddleware,
+    async (req: Request, res: Response) => {
+
+    const post = await postDbRepository
+        .isPost(req.params.postId);
+    if (!post) {
+        res.status(404)
+            .send({errorsMessages:
+                    [{
+                message: "Problem with a postId field",
+                    field: "postId"}]});
+    } else {
+        const newComment = await commentsService
+            .creatCommentsByPostId(
+                req.body.content,
+                req.params.postId,
+                req.params.userId,
+                req.params.userLogin,
+                req.body.addedAt
+            )
+
+        if (newComment) {
+            res.status(201).send(newComment)
+        } else {
+            res.status(400).send({errorsMessages:
+                    [{
+                        message: "Problem with a postId field",
+                        field: "postId"}]})
+        }
     }
-)
+    })

@@ -65,8 +65,12 @@ export const bloggersService = {
         return postsDb
     },
 
-    async createPostByBloggerId (bloggerId: string, title: string, shortDescription: string, content: string) {
-        const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
+    async createPostByBloggerId (bloggerId: string,
+                                 title: string,
+                                 shortDescription: string,
+                                 content: string) {
+        const blogger = await bloggersDbRepository
+            .getBloggerById(bloggerId)
         if (blogger) {
             const newPost: PostType = {
                 id: (new Date()).toString(),
@@ -76,7 +80,8 @@ export const bloggersService = {
                 bloggerId,
                 bloggerName: blogger.name
             }
-            const createdPostDb = await postDbRepository.createPost(newPost)
+            const createdPostDb = await postDbRepository
+                .createPost(newPost)
             return createdPostDb
         }
     }

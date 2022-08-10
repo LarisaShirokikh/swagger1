@@ -85,7 +85,7 @@ bloggersRoute.get('/:bloggerId/posts',
 )
 
 bloggersRoute.post('/:bloggerId/posts',
-    authRouter,
+    authRouterBasic,
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
@@ -93,11 +93,21 @@ bloggersRoute.post('/:bloggerId/posts',
 
     async (req: Request, res: Response) => {
 
-        const blogger = await bloggersDbRepository.isBlogger(req.params.bloggerId);
+        const blogger = await bloggersDbRepository
+            .isBlogger(req.params.bloggerId);
         if (!blogger) {
-            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
+            res.status(404)
+                .send({errorsMessages:
+                        [{
+                    message: "Problem with a bloggerId field",
+                            field: "bloggerId"}]});
         } else {
-            const newPost = await bloggersService.createPostByBloggerId(req.params.bloggerId, req.body.title, req.body.shortDescription, req.body.content)
+            const newPost = await bloggersService
+                .createPostByBloggerId(
+                    req.params.bloggerId,
+                    req.body.title,
+                    req.body.shortDescription,
+                    req.body.content)
 
             if (newPost) {
                 res.status(201).send(newPost)

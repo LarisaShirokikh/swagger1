@@ -53,7 +53,7 @@ export const postsService = {
         postId: string,
         pageNumber: string = '1' || undefined || null,
         pageSize: string = '10' || undefined || null
-    ): Promise<CommentType | null> {
+    ): Promise<CommentType | null > {
         const commentsDb = await postDbRepository
             .getCommentsByPostId
             (
