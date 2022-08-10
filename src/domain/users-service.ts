@@ -1,18 +1,17 @@
-import bcrypt from 'bcrypt'
 import {ObjectId} from "mongodb";
 import {UserRegType} from "../types/types";
 import {usersRepository} from "../repositories/users-repository";
 
 export const usersService = {
+
     async createUser(login: string, password: string): Promise<UserRegType> {
 
         let newUser: { password: string; id: string; login: string } = {
             id: (new Date()).toString(),
-
             login: login,
             password: password
         }
-        // @ts-ignore
+
         return usersRepository.createUser(newUser)
     },
 

@@ -28,10 +28,20 @@ export const postDbRepository = {
         return result
     },
 
-    async createPost(newPost: { bloggerName: string; id: string; shortDescription: string; title: string; content: string; bloggerId: string }): Promise<PostType | undefined> {
-        const result = await postsCollection.insertOne(newPost)
+    async createPost(newPost: {
+        bloggerName: string;
+        id: string;
+        shortDescription: string;
+        title: string;
+        content: string;
+        bloggerId: string
+    }): Promise<PostType | undefined> {
+        const result = await postsCollection
+            .insertOne(newPost)
         const post = await postsCollection
-            .find({id: newPost.id}, {projection: {_id: 0}}).toArray()
+            .find({id: newPost.id},
+                {projection: {_id: 0}})
+            .toArray()
 
         return post[0]
     },

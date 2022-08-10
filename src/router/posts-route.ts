@@ -7,10 +7,9 @@ import {
     shortDescriptionValidation,
     titleValidationCreate
 } from "../middlewares/title-validation";
-import {authRouter, authRouterBasic} from "./auth-router";
+import {authRouterBasic} from "./auth-router";
 import {postsService} from "../domain/posts-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {bloggersService} from "../domain/bloggers-service";
 import {postDbRepository} from "../repositories/post-db-repository";
 import {commentsService} from "../domain/commets-service";
 

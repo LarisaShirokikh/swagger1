@@ -100,7 +100,7 @@ export type PostType = {
 
 export type UserRegType = {
     id: string,
-    userName: string,
+
     login: string,
     password: string
 }

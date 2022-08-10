@@ -3,7 +3,7 @@ import {usersService} from "./../domain/users-service"
 import {authRouter, authRouterBasic} from "./auth-router";
 import {
     bloggerIdValidation,
-    contentValidation,
+    contentValidation, loginValidator, passwordValidator,
     shortDescriptionValidation,
     titleValidationCreate
 } from "../middlewares/title-validation";
@@ -25,6 +25,8 @@ async (req: Request, res: Response) => {
 
 usersRouter.post('/',
     authRouterBasic,
+    loginValidator,
+    passwordValidator,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const newUser = await usersService.createUser(req.body.login, req.body.password)

@@ -31,10 +31,15 @@ return result
         return usersCollection.find().sort('createdAt', -1).toArray()
     },
 
-    async createUser(user: UserRegType): Promise<UserRegType> {
+    async createUser(newUser: UserRegType): Promise<UserRegType> {
         const result = await usersCollection
-            .insertOne(user)
-        return user
+            .insertOne(newUser)
+
+        const user = await usersCollection
+            .find({login: newUser.login},
+                {projection: {_id: 0}})
+            .toArray()
+        return user[0]
     },
 
     async findUserById(_id: ObjectId): Promise<UserRegType | null> {
