@@ -24,7 +24,7 @@ async (req: Request, res: Response) => {
 })
 
 usersRouter.post('/',
-    authRouterBasic,
+    authRouter,
     loginValidator,
     passwordValidator,
     inputValidationMiddleware,
