@@ -1,6 +1,6 @@
 import {postDbRepository} from "../repositories/post-db-repository";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import {PostType} from "../types/types";
+import {CommentType, PostType} from "../types/types";
 
 export const postsService = {
     async getAllPosts (pageNumber: string = "1" || undefined || null, pageSize: string = "10" || undefined || null): Promise<{}> {
@@ -47,5 +47,21 @@ export const postsService = {
 
     async deletePost (postId: string): Promise<boolean>  {
         return postDbRepository.deletePost(postId)
+    },
+
+    async getCommentsByPostId(
+        postId: string,
+        pageNumber: string = '1' || undefined || null,
+        pageSize: string = '10' || undefined || null
+    ): Promise<CommentType | null> {
+        const commentsDb = await postDbRepository
+            .getCommentsByPostId
+            (
+                postId,
+                +pageSize,
+                +pageNumber
+            );
+        return commentsDb
     }
+
 }

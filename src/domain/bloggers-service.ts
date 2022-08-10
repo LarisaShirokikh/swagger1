@@ -54,8 +54,14 @@ export const bloggersService = {
         return bloggersDbRepository.deleteBlogger(bloggerId)
     },
 
-    async getPostsByBloggerId(bloggerId: string, pageNumber: string = '1' || undefined || null, pageSize: string = '10' || undefined || null): Promise<PostType | null> {
-        const postsDb = await bloggersDbRepository.getPostsByBloggerId(bloggerId, +pageNumber, +pageSize);
+    async getPostsByBloggerId(
+        bloggerId: string,
+        pageNumber: string = '1' || undefined || null,
+        pageSize: string = '10' || undefined || null
+    ): Promise<PostType | null> {
+        const postsDb = await bloggersDbRepository
+            .getPostsByBloggerId
+            (bloggerId, +pageNumber, +pageSize);
         return postsDb
     },
 

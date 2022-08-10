@@ -105,3 +105,7 @@ export type UserRegType = {
     password: string
 }
 
+export type CommentType = {
+    comment: string
+}
+

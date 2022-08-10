@@ -70,7 +70,8 @@ bloggersRoute.delete('/:bloggerId',
     }
 )
 
-bloggersRoute.get('/:bloggerId/posts', async (req: Request, res: Response) => {
+bloggersRoute.get('/:bloggerId/posts',
+    async (req: Request, res: Response) => {
 
         const blogger = await bloggersDbRepository.isBlogger(req.params.bloggerId);
         if (!blogger) {

@@ -7,9 +7,11 @@ import {
     shortDescriptionValidation,
     titleValidationCreate
 } from "../middlewares/title-validation";
-import {authRouter} from "./auth-router";
+import {authRouter, authRouterBasic} from "./auth-router";
 import {postsService} from "../domain/posts-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
+import {bloggersService} from "../domain/bloggers-service";
+import {postDbRepository} from "../repositories/post-db-repository";
 
 
 export const postsRouter = Router({})
@@ -25,7 +27,7 @@ postsRouter.get('/', async (req: Request, res: Response) => {
 })
 
 postsRouter.post('/',
-    authRouter,
+    authRouterBasic,
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
@@ -44,7 +46,7 @@ postsRouter.post('/',
     })
 
 postsRouter.put('/:postId',
-    authRouter,
+    authRouterBasic,
     titleValidationCreate,
     shortDescriptionValidation,
     contentValidation,
@@ -105,3 +107,18 @@ postsRouter.delete('/:postId',
         res.send(404)
     }
 })
+
+postsRouter.get('/:postsId/comments',
+    async (req: Request, res: Response) => {
+
+        const post = await postDbRepository.isPost(req.params.postId);
+        if (!post) {
+            res.status(404).send({errorsMessages: [{message: "Problem with a postId field", field: "postId"}]});
+        } else {
+            // @ts-ignore
+            const comments = await postsService
+                .getCommentsByPostId(req.params.postId, req.query.pageNumber, req.query.pageSize);
+            res.status(200).send(comments);
+        }
+    }
+)

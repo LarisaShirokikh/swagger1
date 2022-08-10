@@ -1,5 +1,5 @@
-import {BloggerType, Pagination, PostType} from "../types/types";
-import {bloggersCollection, postsCollection} from "../settings";
+import {BloggerType, CommentType, Pagination, PostType} from "../types/types";
+import {bloggersCollection, commentCollection, postsCollection} from "../settings";
 import {bloggersService} from "../domain/bloggers-service";
 import {Filter, WithId} from "mongodb";
 import {postsService} from "../domain/posts-service";
@@ -74,5 +74,33 @@ export const postDbRepository = {
         } else {
             return false;
         }
-    }
+    },
+
+    async getCommentsByPostId(postId: string,
+                              pageNumber: number,
+                              pageSize: number
+    ): Promise<CommentType | null> {
+
+        const commentsCount = await commentCollection.count({postId})
+        const pagesCount = Math.ceil(commentsCount / pageSize)
+        const comments: CommentType[] | CommentType = await commentCollection
+            .find({postId}, {projection: {_id: 0}})
+            .skip((pageNumber - 1) * pageSize)
+            .limit(pageSize)
+            .toArray()
+
+        const result = {
+            pagesCount: pagesCount,
+            page: pageNumber,
+            pageSize,
+            totalCount: commentsCount,
+            items: comments
+        }
+
+        // @ts-ignore
+        return result
+
+    },
+
+
 }
