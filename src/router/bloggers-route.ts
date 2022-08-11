@@ -29,7 +29,11 @@ bloggersRoute.post('/',
     urlValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const newBlogger = await bloggersService.createBlogger(req.body.name, req.body.youtubeUrl)
+        const newBlogger = await bloggersService
+        .createBlogger(
+            req.body.name, 
+            req.body.youtubeUrl
+            )
         res.status(201).send(newBlogger)
     }
 )
