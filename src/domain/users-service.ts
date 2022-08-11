@@ -24,6 +24,7 @@ export const usersService = {
         return usersRepository.findUserById(id)
     },
 
+
     async checkCredentials(login: string, password: string) {
         const user = await usersRepository.findByLogin(login, password)
         if (!user) {
