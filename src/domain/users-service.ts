@@ -1,7 +1,7 @@
 import {ObjectId} from "mongodb";
 import {UsersType} from "../types/types";
 import {usersRepository} from "../repositories/users-repository";
-import { v4 as uuidv4 } from 'uuid';
+
 
 export const usersService = {
 
@@ -48,5 +48,5 @@ export const usersService = {
     ): Promise<boolean> {
         return usersRepository.deleteUser(id)
     }
-    
+
 }

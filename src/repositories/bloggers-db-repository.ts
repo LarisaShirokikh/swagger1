@@ -3,7 +3,7 @@ import {bloggersCollection, postsCollection} from "../settings";
 import {postDbRepository} from "./post-db-repository";
 import {bloggersService} from "../domain/bloggers-service";
 import {WithId} from "mongodb";
-import { v4 as uuidv4 } from 'uuid';
+
 
 
 export const bloggersDbRepository = {

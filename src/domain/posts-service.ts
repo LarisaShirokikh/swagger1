@@ -1,7 +1,7 @@
 import {postDbRepository} from "../repositories/post-db-repository";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {CommentType, PostType} from "../types/types";
-import { v4 as uuidv4 } from 'uuid';
+
 
 export const postsService = {
     async getAllPosts (
