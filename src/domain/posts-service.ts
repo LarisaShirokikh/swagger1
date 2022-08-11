@@ -6,20 +6,12 @@ export const postsService = {
     async getAllPosts (
         pageNumber: string = "1" || undefined || null,
         pageSize: string = "10" || undefined || null
-    ): Promise<{}> {
+    ): Promise<PostType | undefined | null> {
 
         const postsDb = await postDbRepository
             .getAllPosts(+pageNumber, +pageSize)
-        // @ts-ignore
-        const posts = {...postsDb}
+       return postsDb
 
-        // @ts-ignore
-        for (let i = 0; i < posts.items.length; i++) {
-            // @ts-ignore
-            delete posts.items[i]._id
-        }
-
-        return posts
 
     },
 

@@ -6,15 +6,13 @@ import {
 
 import {bloggersService} from "../domain/bloggers-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
-import { authRouterBasic } from "../middlewares/auth-basic";
+import {authRouterBasic} from "../middlewares/auth-basic";
 
 export const bloggersRoute = Router({});
 
 
 bloggersRoute.get('/',
     async (req: Request, res: Response) => {
-
-
         const bloggers = await bloggersService
             .getAllBloggers(
                 // @ts-ignore
@@ -104,10 +102,13 @@ bloggersRoute.post('/:bloggerId/posts',
             .isBlogger(req.params.bloggerId);
         if (!blogger) {
             res.status(404)
-                .send({errorsMessages:
+                .send({
+                    errorsMessages:
                         [{
-                    message: "Problem with a bloggerId field",
-                            field: "bloggerId"}]});
+                            message: "Problem with a bloggerId field",
+                            field: "bloggerId"
+                        }]
+                });
         } else {
             const newPost = await bloggersService
                 .createPostByBloggerId(
@@ -119,7 +120,12 @@ bloggersRoute.post('/:bloggerId/posts',
             if (newPost) {
                 res.status(201).send(newPost)
             } else {
-                res.status(400).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
+                res.status(400).send({
+                    errorsMessages: [{
+                        message: "Problem with a bloggerId field",
+                        field: "bloggerId"
+                    }]
+                });
             }
         }
 
