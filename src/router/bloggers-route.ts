@@ -85,10 +85,17 @@ bloggersRoute.get('/:bloggerId/posts',
 
         const blogger = await bloggersDbRepository.isBlogger(req.params.bloggerId);
         if (!blogger) {
-            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
+            res.status(404)
+            .send({errorsMessages: [{
+                message: "Problem with a bloggerId field", field: "bloggerId"}]});
         } else {
-            // @ts-ignore
-            const posts = await bloggersService.getPostsByBloggerId(req.params.bloggerId, req.query.PageNumber, req.query.PageSize);
+            const posts = await bloggersService
+            .getPostsByBloggerId(
+                req.params.bloggerId, 
+                // @ts-ignore
+                req.query.PageNumber, 
+                req.query.PageSize
+                );
             res.status(200).send(posts);
         }
     }
@@ -117,6 +124,7 @@ bloggersRoute.post('/:bloggerId/posts',
         } else {
             const newPost = await bloggersService
                 .createPostByBloggerId(
+            
                     req.params.bloggerId,
                     req.body.title,
                     req.body.shortDescription,

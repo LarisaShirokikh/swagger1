@@ -7,7 +7,10 @@ import {WithId} from "mongodb";
 
 export const bloggersDbRepository = {
 
-    async getAllBloggers(pageNumber: number, pageSize: number, searchNameTerm: string | null): Promise<BloggerType | undefined | null> {
+    async getAllBloggers(
+        pageNumber: number,
+         pageSize: number, 
+         searchNameTerm: string | null): Promise<BloggerType | undefined | null> {
 
 
         if (searchNameTerm) {
@@ -30,7 +33,10 @@ export const bloggersDbRepository = {
         } else {
 
             // @ts-ignore
-            const bloggers = await bloggersCollection.find({}, {projection: {_id: 0}}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
+            const bloggers = await bloggersCollection
+            .find({}, {projection: {_id: 0}}).skip((pageNumber - 1) * pageSize)
+            .limit(pageSize)
+            .toArray()
 
             const bloggersCount = await bloggersCollection.count({})
             const pagesCount = Math.ceil(bloggersCount / pageSize)

@@ -13,7 +13,8 @@ commentRouter.put('/:commentId',
     contentValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const comment = await commentRepository.isComment(req.body.commentId);
+        const comment = await commentRepository
+        .isComment(req.body.commentId);
         if (!comment) {
             res.status(400).send({
                 errorsMessages: [{

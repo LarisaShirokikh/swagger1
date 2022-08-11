@@ -2,22 +2,8 @@ import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType, Pagination, PostType} from "../types/types";
 import {postDbRepository} from "../repositories/post-db-repository";
 
+const crypto = require ("crypto")
 
-const _ = require("lodash");
-
-
-function omit_Id(obj:any) {
-    const result = { ...obj };
-    if(obj.items){
-        for (let i = 0; i < result.items.length; i++) {
-            delete result.items[i]._id
-        }
-    } else {
-        delete result._id
-    }
-    return result
-
-}
 
 
 export const bloggersService = {
@@ -89,7 +75,7 @@ export const bloggersService = {
             .getBloggerById(bloggerId)
         if (blogger) {
             const newPost: PostType = {
-                id: (new Date()).toString(),
+                id: crypto.randomBytes(16),
                 title,
                 shortDescription,
                 content,
