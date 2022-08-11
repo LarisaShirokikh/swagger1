@@ -30,8 +30,10 @@ return result
         return usersCollection.find().sort('createdAt', -1).toArray()
     },
 
-    async createUser(newUser: UsersType): Promise<UsersType> {
+    async createUser(newUser: { id: string, login: string }
+    ): Promise<UsersType> {
         const result = await usersCollection
+            // @ts-ignore
             .insertOne(newUser)
 
         const user = await usersCollection

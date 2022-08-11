@@ -9,11 +9,9 @@ export const usersService = {
         password: string
     ): Promise<UsersType> {
 
-        let newUser: UsersType = {
+        let newUser: { id: string, login: string } = {
             id: (new Date()).toString(),
             login: login,
-            password: password
-
         }
 
         const createdUser = usersRepository
