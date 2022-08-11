@@ -96,7 +96,7 @@ export const bloggersDbRepository = {
             .skip((pageNumber - 1) * pageSize)
             .limit(pageSize)
             .toArray()
-
+            
         const result = {
             pagesCount: pagesCount,
             page: pageNumber,

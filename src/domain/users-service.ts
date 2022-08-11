@@ -48,4 +48,5 @@ export const usersService = {
     ): Promise<boolean> {
         return usersRepository.deleteUser(id)
     }
+    
 }
