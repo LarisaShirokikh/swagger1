@@ -1,8 +1,9 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType, Pagination, PostType} from "../types/types";
 import {postDbRepository} from "../repositories/post-db-repository";
+import { v4 as uuidv4 } from 'uuid';
 
-const crypto = require ("crypto")
+
 
 
 
@@ -29,7 +30,7 @@ export const bloggersService = {
         youtubeUrl: string
     ): Promise<BloggerType> {
         const newBlogger: BloggerType = {
-            id: (new Date()).toString(),
+            id: uuidv4(),
             name,
             youtubeUrl
         }
@@ -75,7 +76,7 @@ export const bloggersService = {
             .getBloggerById(bloggerId)
         if (blogger) {
             const newPost: PostType = {
-                id: crypto.randomBytes(16),
+                id: uuidv4(),
                 title,
                 shortDescription,
                 content,
