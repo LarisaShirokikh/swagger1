@@ -4,10 +4,12 @@ import {postDbRepository} from "../repositories/post-db-repository";
 import {usersRepository} from "../repositories/users-repository";
 
 
+
 export const commentsService = {
     async updateComment(commentId: string, content: string): Promise<CommentType | undefined> {
         return commentRepository.updateComment(commentId, content)
     },
+
 
     async getCommentById (
         commentId: string
