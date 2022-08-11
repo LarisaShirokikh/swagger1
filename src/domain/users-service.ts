@@ -1,22 +1,28 @@
 import {ObjectId} from "mongodb";
-import {UserRegType} from "../types/types";
+import {UsersType} from "../types/types";
 import {usersRepository} from "../repositories/users-repository";
 
 export const usersService = {
 
-    async createUser(login: string, password: string): Promise<UserRegType> {
+    async createUser(
+        login: string,
+        password: string
+    ): Promise<UsersType> {
 
-        let newUser: { id: string; login: string } = {
+        let newUser: UsersType = {
             id: (new Date()).toString(),
             login: login,
+            password: password
 
         }
 
-        return usersRepository.createUser(newUser)
+        const createdUser = usersRepository
+            .createUser(newUser)
+        return createdUser
     },
 
-    async findUserById(_id: ObjectId): Promise<UserRegType | null> {
-        return usersRepository.findUserById(_id)
+    async findUserById(id: string): Promise<UsersType | null> {
+        return usersRepository.findUserById(id)
     },
 
     async checkCredentials(login: string, password: string) {
@@ -32,14 +38,15 @@ export const usersService = {
     async getAllUsers(
         pageNumber: string = '1' || undefined,
         pageSize:string = '10' || undefined
-    ): Promise<UserRegType | undefined | null> {
+    ): Promise<UsersType | undefined | null> {
 
         const users = await usersRepository.getAllUsersDb(+pageNumber, +pageSize)
 
         return users
     },
 
-    async deleteUser (id: string): Promise<boolean> {
+    async deleteUser (id: string
+    ): Promise<boolean> {
         return usersRepository.deleteUser(id)
     }
 }

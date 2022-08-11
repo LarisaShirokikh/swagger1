@@ -29,19 +29,26 @@ export const bloggersService = {
         return bloggersDb
     },
 
-    async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType> {
+    async createBlogger(
+        name: string,
+        youtubeUrl: string
+    ): Promise<BloggerType> {
         const newBlogger: BloggerType = {
             id: (new Date()).toString(),
             name,
             youtubeUrl
         }
-        const createdBloggerDb = await bloggersDbRepository.createBlogger(newBlogger)
+        const createdBloggerDb = await bloggersDbRepository
+            .createBlogger(newBlogger)
 
         return createdBloggerDb;
     },
 
-    async getBloggerById(bloggerId: string): Promise<BloggerType | null> {
-        const bloggerDb = await bloggersDbRepository.getBloggerById(bloggerId);
+    async getBloggerById(
+        bloggerId: string
+    ): Promise<BloggerType | null> {
+        const bloggerDb = await bloggersDbRepository
+            .getBloggerById(bloggerId);
 
         return bloggerDb
     },

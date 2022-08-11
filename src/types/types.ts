@@ -109,7 +109,7 @@ export type PostsOfBloggerType = {
 export type UsersType = {
     id: string
     login: string
-    isConfirmed: boolean
+    password: string
 }
 
 export type UsersWithPassType = {

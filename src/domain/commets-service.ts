@@ -9,9 +9,13 @@ export const commentsService = {
         return commentRepository.updateComment(commentId, content)
     },
 
-    async getCommentById (commentId: string): Promise<CommentType | null> {
+    async getCommentById (
+        commentId: string
+    ): Promise<CommentType | null> {
 
-        return commentRepository.getCommentById(commentId)
+        const comment =  commentRepository
+            .getCommentById(commentId);
+        return comment
     },
 
     async deleteComment(commentId: string): Promise<boolean> {
@@ -27,6 +31,7 @@ export const commentsService = {
         if (user) {
             const newComment: CommentType = {
                 id: (new Date()).toString(),
+                postId,
                 content: content,
                 userId: userId,
                 userLogin: user.login,

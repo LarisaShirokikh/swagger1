@@ -45,16 +45,21 @@ export const bloggersDbRepository = {
         }
     },
 
-    async createBlogger(newBlogger: { youtubeUrl: string; name: string; id: string }): Promise<BloggerType> {
-        const result = await bloggersCollection.insertOne(newBlogger)
-        const blogger = await bloggersCollection.find({id: newBlogger.id}, {projection: {_id: 0}}).toArray()
-
-        // @ts-ignore
+    async createBlogger(
+        newBlogger: BloggerType): Promise<BloggerType> {
+        const result = await bloggersCollection
+            .insertOne(newBlogger)
+        const blogger = await bloggersCollection
+            .find({id: newBlogger.id},
+                {projection: {_id: 0}})
+            .toArray()
         return blogger[0];
     },
 
-    async getBloggerById(bloggerId: string): Promise<BloggerType | null> {
-        const blogger: BloggerType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
+    async getBloggerById(bloggerId: string
+    ): Promise<BloggerType | null> {
+        const blogger: BloggerType | null = await bloggersCollection
+            .findOne({id: bloggerId}, {projection: {_id: 0}})
         return blogger;
     },
 

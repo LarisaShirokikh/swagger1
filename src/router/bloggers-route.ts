@@ -32,7 +32,8 @@ bloggersRoute.post('/',
 )
 
 bloggersRoute.get('/:bloggerId', async (req: Request, res: Response) => {
-        const blogger = await bloggersService.getBloggerById(req.params.bloggerId);
+        const blogger = await bloggersService
+            .getBloggerById(req.params.bloggerId);
         if (blogger) {
             res.status(200).send(blogger);
         } else {

@@ -44,7 +44,8 @@ usersRouter.post('/',
 usersRouter.delete('/:id',
     authRouterBasic, async (req: Request, res: Response) => {
 
-    const isDeleted = await usersService.deleteUser(req.params.id)
+    const isDeleted = await usersService
+        .deleteUser(req.params.id)
 
     if (isDeleted) {
         res.send(204)

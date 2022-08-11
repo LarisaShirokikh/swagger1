@@ -25,8 +25,11 @@ export const commentRepository = {
 
     },
 
-    async getCommentById(commentId: string): Promise<CommentType | null> {
-        const comment = await commentCollection.findOne({id: commentId}, {projection: {_id: 0}})
+    async getCommentById(commentId: string
+    ): Promise<CommentType | null> {
+        const comment: CommentType | null = await commentCollection
+            .findOne({id: commentId},
+                {projection: {_id: 0}})
         return comment;
     },
 
@@ -36,13 +39,10 @@ export const commentRepository = {
         return result.deletedCount === 1;
     },
 
-    async createComment(newComment: {
-        id: string;
-        content: string;
-        userId: string;
-        userLogin: string;
-    addedAt: object}): Promise<CommentType | undefined> {
-        const result = await commentCollection.insertOne(newComment)
+    async createComment(newComment: CommentType
+    ): Promise<CommentType | undefined> {
+        const result = await commentCollection
+            .insertOne(newComment)
         const comment = await commentCollection
             .find({id: newComment.id}, {projection: {_id: 0}}).toArray()
 

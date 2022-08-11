@@ -4,7 +4,7 @@ import {contentValidation} from "../middlewares/title-validation";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {commentRepository} from "../repositories/comment-repository";
 import {commentsService} from "../domain/commets-service";
-import { authRouterBasic } from "../middlewares/auth-basic";
+import {authRouterBasic} from "../middlewares/auth-basic";
 
 export const commentRouter = Router({})
 
@@ -47,3 +47,14 @@ commentRouter.delete('/:commentId',
             res.send(404)
         }
     })
+
+commentRouter.get('/:id',
+    async (req: Request, res: Response) => {
+        const comment = await commentsService.getCommentById(req.params.id);
+        if (comment) {
+            res.status(200).send(comment);
+        } else {
+            res.send(404);
+        }
+    }
+)
