@@ -1,7 +1,7 @@
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {BloggerType, Pagination, PostType} from "../types/types";
 import {postDbRepository} from "../repositories/post-db-repository";
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -76,7 +76,7 @@ export const bloggersService = {
             .getBloggerById(bloggerId)
         if (blogger) {
             const newPost: PostType = {
-               // id: uuidv4(),
+                id: uuidv4(),
                 title,
                 shortDescription,
                 content,
