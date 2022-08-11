@@ -24,7 +24,7 @@ export const commentCollection = db.collection<CommentType>("comment")
 export async function runDb() {
     try {
         await client.connect();
-        await client.db('bloggers').command({ping: 1});
+        await client.db('blog').command({ping: 1});
         console.log("Connected to mongo server");
     } catch {
         console.log("Can't connect to db")
