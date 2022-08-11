@@ -22,9 +22,18 @@ function omit_Id(obj:any) {
 
 export const bloggersService = {
 
-    async getAllBloggers(pageNumber: string = '1' || undefined, pageSize:string = '10' || undefined, searchNameTerm: string | null = null): Promise<BloggerType | undefined | null> {
+    async getAllBloggers(
+        pageNumber: string = '1' || undefined,
+        pageSize:string = '10' || undefined,
+        searchNameTerm: string | null = null
+    ): Promise<BloggerType | undefined | null> {
 
-        const bloggersDb = await bloggersDbRepository.getAllBloggers(+pageNumber, +pageSize, searchNameTerm)
+        const bloggersDb = await bloggersDbRepository
+            .getAllBloggers(
+                +pageNumber,
+                +pageSize,
+                searchNameTerm
+            )
 
         return bloggersDb
     },

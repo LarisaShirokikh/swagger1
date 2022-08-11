@@ -18,7 +18,8 @@ import {authRouterBasic} from "../middlewares/auth-basic";
 export const postsRouter = Router({})
 
 
-postsRouter.get('/', async (req: Request, res: Response) => {
+postsRouter.get('/',
+    async (req: Request, res: Response) => {
 
     const posts = await postsService.getAllPosts(
         // @ts-ignore

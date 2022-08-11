@@ -3,9 +3,13 @@ import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {CommentType, PostType} from "../types/types";
 
 export const postsService = {
-    async getAllPosts (pageNumber: string = "1" || undefined || null, pageSize: string = "10" || undefined || null): Promise<{}> {
+    async getAllPosts (
+        pageNumber: string = "1" || undefined || null,
+        pageSize: string = "10" || undefined || null
+    ): Promise<{}> {
 
-        const postsDb = await postDbRepository.getAllPosts(+pageNumber, +pageSize)
+        const postsDb = await postDbRepository
+            .getAllPosts(+pageNumber, +pageSize)
         // @ts-ignore
         const posts = {...postsDb}
 
