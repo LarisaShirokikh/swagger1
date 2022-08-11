@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 
+
 export const bloggersService = {
 
     async getAllBloggers(
@@ -21,7 +22,6 @@ export const bloggersService = {
                 +pageSize,
                 searchNameTerm
             )
-
         return bloggersDb
     },
 
@@ -89,4 +89,6 @@ export const bloggersService = {
         }
     }
 }
+
+
 

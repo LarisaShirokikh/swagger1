@@ -20,7 +20,7 @@ export const postsService = {
         const blogger = await bloggersDbRepository.getBloggerById(bloggerId)
         if (blogger) {
             const newPost: PostType = {
-                
+
                 id: uuidv4(),
                 title,
                 shortDescription,
