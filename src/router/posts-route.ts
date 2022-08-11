@@ -86,14 +86,11 @@ postsRouter.put('/:postId',
         }
     })
 
-postsRouter.get('/:postId', async (req: Request, res: Response) => {
+postsRouter.get('/:postId', 
+async (req: Request, res: Response) => {
 
-    if (typeof +req.params.postId !== "string") {
-        res.send(400);
-        return;
-    }
-
-    const post = await postsService.getPostById(req.params.postId)
+    const post = await postsService.getPostById(
+        req.params.postId)
 
     if (post) {
         res.status(200).send(post);
