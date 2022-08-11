@@ -22,24 +22,14 @@ export const commentsService = {
         return commentRepository.deleteComment(commentId)
     },
 
-    async creatCommentsByPostId(postId: string,
-                              content: string,
-                              userId: string,
-                              userLogin: string,
-                              addedAt: object) {
-        const user = await usersRepository.getUserById(userId)
-        if (user) {
-            const newComment: CommentType = {
-                id: (new Date()).toString(),
-                postId,
-                content: content,
-                userId: userId,
-                userLogin: user.login,
-                addedAt: addedAt
-            }
+    async creatComments(content: string): Promise<CommentType | undefined> {
+        //@ts-ignore
+        const newComment: CommentType = {
+            content
+        }
             const createdCommentDb = await commentRepository
                 .createComment(newComment)
             return createdCommentDb
         }
-    }
+
 }

@@ -12,7 +12,7 @@ import {postsService} from "../domain/posts-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {postDbRepository} from "../repositories/post-db-repository";
 import {commentsService} from "../domain/commets-service";
-import {authRouterBasic} from "../middlewares/auth-basic";
+import {authBarer, authRouterBasic} from "../middlewares/auth-basic";
 
 
 export const postsRouter = Router({})
@@ -132,7 +132,7 @@ postsRouter.get('/:postsId/comments',
     })
 
 postsRouter.post('/:postsId/comments',
-    authRouterBasic,
+    authBarer,
     contentValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
@@ -147,12 +147,8 @@ postsRouter.post('/:postsId/comments',
                     field: "postId"}]});
     } else {
         const newComment = await commentsService
-            .creatCommentsByPostId(
+            .creatComments(
                 req.body.content,
-                req.params.postId,
-                req.params.userId,
-                req.params.userLogin,
-                req.body.addedAt
             )
 
         if (newComment) {

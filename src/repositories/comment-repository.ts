@@ -1,4 +1,4 @@
-import {CommentType, PostType} from "../types/types";
+import {CommentContentType, CommentType, PostType} from "../types/types";
 import {commentCollection, postsCollection} from "../settings";
 
 export const commentRepository = {

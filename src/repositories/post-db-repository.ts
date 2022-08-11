@@ -76,7 +76,8 @@ export const postDbRepository = {
 
     async isPost(postId: string) {
 
-        const post: PostType | null = await postsCollection.findOne({id: postId}, {projection: {_id: 0}})
+        const post: PostType | null = await postsCollection
+            .findOne({id: postId}, {projection: {_id: 0}})
         return post;
 
         if (post) {

@@ -65,8 +65,9 @@ return result
         return result.deletedCount === 1
     },
 
-    async getUserById(userId: string): Promise<UsersType | null> {
-        const user: UsersType | null = await usersCollection.findOne({id: userId}, {projection: {_id: 0}})
+    async getUserById(login: string): Promise<UsersType | null> {
+        const user: UsersType | null = await usersCollection
+            .findOne({login: login}, {projection: {_id: 0}})
         return user;
     },
 }
