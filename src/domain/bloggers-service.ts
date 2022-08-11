@@ -35,6 +35,7 @@ export const bloggersService = {
             name,
             youtubeUrl
         }
+
         const createdBloggerDb = await bloggersDbRepository
             .createBlogger(newBlogger)
 
