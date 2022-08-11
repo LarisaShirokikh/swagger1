@@ -3,9 +3,10 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {
     contentValidation, urlValidation, nameValidationCreate, shortDescriptionValidation, titleValidationCreate
 } from "../middlewares/title-validation";
-import {authRouter, authRouterBasic} from "./auth-router";
+
 import {bloggersService} from "../domain/bloggers-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
+import { authRouterBasic } from "../middlewares/auth-basic";
 
 export const bloggersRoute = Router({});
 
@@ -41,7 +42,7 @@ bloggersRoute.get('/:bloggerId', async (req: Request, res: Response) => {
 )
 
 bloggersRoute.put('/:bloggerId',
-    authRouter,
+    authRouterBasic,
     nameValidationCreate,
     urlValidation,
     inputValidationMiddleware,
@@ -59,7 +60,7 @@ bloggersRoute.put('/:bloggerId',
 )
 
 bloggersRoute.delete('/:bloggerId',
-    authRouter,
+    authRouterBasic,
     async (req: Request, res: Response) => {
         const isDeleted = await bloggersService.deleteBlogger(req.params.bloggerId)
         if (isDeleted) {

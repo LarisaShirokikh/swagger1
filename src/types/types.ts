@@ -98,17 +98,37 @@ export type PostType = {
 };
 
 
-export type UserRegType = {
-    id: string,
-    login: string,
+export type PostsOfBloggerType = {
+    pagesCount: number
+    page: number
+    pageSize: number
+    totalCount: number
+    items: [ PostType | PostType[] ]
+}
 
-};
+export type UsersType = {
+    id: string
+    login: string
+    isConfirmed: boolean
+}
+
+export type UsersWithPassType = {
+    id: string
+    login: string
+    password: string
+    isConfirmed: boolean
+}
 
 export type CommentType = {
-    id: string;
-    content: string;
-    userId: string;
-    userLogin: string;
-    addedAt: "2022-08-10T12:21:32.209Z"
-};
+    postId: string,
+    id: string,
+    content: string,
+    userId: string,
+    userLogin: string,
+    addedAt: object
+}
+
+export type CommentContentType = {
+    content: string
+}
 

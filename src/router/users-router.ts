@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import {usersService} from "./../domain/users-service"
-import {authRouter, authRouterBasic} from "./auth-router";
+
 import {
     bloggerIdValidation,
     contentValidation, loginValidator, passwordValidator,
@@ -8,6 +8,7 @@ import {
     titleValidationCreate
 } from "../middlewares/title-validation";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
+import {authRouterBasic} from "../middlewares/auth-basic";
 
 export const usersRouter = Router({})
 
@@ -24,7 +25,7 @@ async (req: Request, res: Response) => {
 })
 
 usersRouter.post('/',
-    authRouter,
+    authRouterBasic,
     loginValidator,
     passwordValidator,
     inputValidationMiddleware,
@@ -41,7 +42,7 @@ usersRouter.post('/',
     })
 
 usersRouter.delete('/:id',
-    authRouter, async (req: Request, res: Response) => {
+    authRouterBasic, async (req: Request, res: Response) => {
 
     const isDeleted = await usersService.deleteUser(req.params.id)
 

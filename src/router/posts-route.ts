@@ -7,11 +7,12 @@ import {
     shortDescriptionValidation,
     titleValidationCreate
 } from "../middlewares/title-validation";
-import {authRouterBasic} from "./auth-router";
+
 import {postsService} from "../domain/posts-service";
 import {bloggersDbRepository} from "../repositories/bloggers-db-repository";
 import {postDbRepository} from "../repositories/post-db-repository";
 import {commentsService} from "../domain/commets-service";
+import {authRouterBasic} from "../middlewares/auth-basic";
 
 
 export const postsRouter = Router({})
@@ -118,7 +119,8 @@ postsRouter.get('/:postsId/comments',
 
         const post = await postDbRepository.isPost(req.params.postId);
         if (!post) {
-            res.status(404).send({errorsMessages: [{message: "Problem with a postId field", field: "postId"}]});
+            res.status(404)
+                .send({errorsMessages: [{message: "Problem with a postId field", field: "postId"}]});
         } else {
 
             const comments = await postsService

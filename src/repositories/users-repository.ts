@@ -1,16 +1,15 @@
-import {BloggerType, UserRegType} from "../types/types";
-import {bloggersCollection, usersCollection} from "../settings";
-import {ObjectId, WithId} from "mongodb";
+import { UsersType} from "../types/types";
+import {usersCollection} from "../settings";
 
 export const usersRepository = {
 
     async getAllUsersDb(
         pageNumber: number,
-        pageSize: number): Promise<UserRegType | undefined | null> {
+        pageSize: number): Promise<UsersType | undefined | null> {
 
     const usersCount = await usersCollection.count({})
     const pagesCount = Math.ceil(usersCount / pageSize)
-    const users: UserRegType[] = await usersCollection
+    const users: UsersType[] = await usersCollection
         .find({})
         .skip((pageNumber - 1) * pageSize)
         .limit(pageSize)
@@ -27,11 +26,11 @@ const result = {
 return result
 },
 
-    async getAllUsers(): Promise<UserRegType[]> {
+    async getAllUsers(): Promise<UsersType[]> {
         return usersCollection.find().sort('createdAt', -1).toArray()
     },
 
-    async createUser(newUser: UserRegType): Promise<UserRegType> {
+    async createUser(newUser: UsersType): Promise<UsersType> {
         const result = await usersCollection
             .insertOne(newUser)
 
@@ -42,9 +41,9 @@ return result
         return user[0]
     },
 
-    async findUserById(_id: ObjectId): Promise<UserRegType | null> {
+    async findUserById(id: string): Promise<UsersType | null> {
         let product = await usersCollection
-            .findOne({_id: _id})
+            .findOne({id: id})
         if (product) {
             return product
         } else {
@@ -64,8 +63,8 @@ return result
         return result.deletedCount === 1
     },
 
-    async getUserById(userId: string): Promise<UserRegType | null> {
-        const user: UserRegType | null = await usersCollection.findOne({id: userId}, {projection: {_id: 0}})
+    async getUserById(userId: string): Promise<UsersType | null> {
+        const user: UsersType | null = await usersCollection.findOne({id: userId}, {projection: {_id: 0}})
         return user;
     },
 }

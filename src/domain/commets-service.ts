@@ -1,5 +1,5 @@
 import {commentRepository} from "../repositories/comment-repository";
-import {CommentType, PostType} from "../types/types";
+import {CommentContentType, CommentType, PostType, UsersType} from "../types/types";
 import {postDbRepository} from "../repositories/post-db-repository";
 import {usersRepository} from "../repositories/users-repository";
 
@@ -22,7 +22,7 @@ export const commentsService = {
                               content: string,
                               userId: string,
                               userLogin: string,
-                              addedAt: "2022-08-10T12:21:32.209Z") {
+                              addedAt: object) {
         const user = await usersRepository.getUserById(userId)
         if (user) {
             const newComment: CommentType = {

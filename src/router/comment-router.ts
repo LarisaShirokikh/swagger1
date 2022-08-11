@@ -1,9 +1,10 @@
 import {Request, Response, Router} from "express";
-import {authRouterBasic} from "./auth-router";
+
 import {contentValidation} from "../middlewares/title-validation";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {commentRepository} from "../repositories/comment-repository";
 import {commentsService} from "../domain/commets-service";
+import { authRouterBasic } from "../middlewares/auth-basic";
 
 export const commentRouter = Router({})
 

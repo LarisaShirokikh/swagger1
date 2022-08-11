@@ -41,7 +41,7 @@ export const commentRepository = {
         content: string;
         userId: string;
         userLogin: string;
-    addedAt: "2022-08-10T12:21:32.209Z"}): Promise<CommentType | undefined> {
+    addedAt: object}): Promise<CommentType | undefined> {
         const result = await commentCollection.insertOne(newComment)
         const comment = await commentCollection
             .find({id: newComment.id}, {projection: {_id: 0}}).toArray()
