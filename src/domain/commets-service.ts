@@ -1,7 +1,6 @@
 import {commentRepository} from "../repositories/comment-repository";
 import {CommentContentType, CommentType, PostType, UsersType} from "../types/types";
-import {postDbRepository} from "../repositories/post-db-repository";
-import {usersRepository} from "../repositories/users-repository";
+
 
 
 
